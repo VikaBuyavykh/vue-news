@@ -1,0 +1,21 @@
+@import 'variables';
+
+@mixin flex($fd-value, $jc-value, $ai-value, $gap) {
+  display: flex;
+  flex-direction: $fd-value;
+  justify-content: $jc-value;
+  align-items: $ai-value;
+  gap: $gap;
+}
+
+@mixin size($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin text($size, $line-heigth, $color: $color-dark, $text-align) {
+  font-size: $size;
+  line-height: $line-heigth;
+  color: $color;
+  text-align: $text-align;
+}

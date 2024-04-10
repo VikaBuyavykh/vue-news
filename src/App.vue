@@ -1,20 +1,31 @@
-<script setup></script>
+<script>
+import AppHeader from '@/components/Header.vue'
+export default {
+  components: {
+    AppHeader
+  }
+}
+</script>
 
 <template>
-  <h1 class="title">Вика</h1>
+  <div class="page">
+    <AppHeader />
+  </div>
 </template>
 
 <style lang="scss">
-@import './assets/fonts/font.scss';
-@import './assets/styles/variables.scss';
+@import '@/assets/fonts/font.scss';
+@import '@/assets/styles/variables.scss';
+@import '@/assets/styles/mixins.scss';
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-size: 16px;
 }
 
-.title {
-  color: $accent-yellow;
+.page {
+  @include flex(column, start, center, 0px);
 }
 </style>
