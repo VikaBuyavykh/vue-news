@@ -9,12 +9,11 @@ export default {
 
 <template>
   <div class="page">
-    <AppHeader />
+    <app-header></app-header>
   </div>
 </template>
 
 <style lang="scss">
-@import '@/assets/fonts/font.scss';
 @import '@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
 

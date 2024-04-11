@@ -1,9 +1,29 @@
 <script>
+import NavBar from './NavBar.vue'
 export default {
+  components: {
+    NavBar
+  },
   data() {
     return {
-      searchQuery: ''
+      searchQuery: '',
+      date: '',
+      isLoginFocused: false
     }
+  },
+  methods: {
+    focusLogin() {
+      !this.isLoginFocused ? (this.isLoginFocused = true) : (this.isLoginFocused = false)
+    }
+  },
+  mounted() {
+    const newDate = new Date()
+    this.date = newDate.toLocaleString('en-US', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })
   }
 }
 </script>
@@ -34,12 +54,31 @@ export default {
         </div>
       </div>
       <div class="header__login-group">
-        <img src="/login.svg" alt="Icon of login page" class="header__login-btn" />
+        <img
+          :src="isLoginFocused ? '/login-focus.svg' : '/login.svg'"
+          alt="Icon of login page"
+          class="header__login-btn"
+          v-on:mouseenter="focusLogin"
+          v-on:mouseleave="focusLogin"
+        />
         <p class="header__login-text">Sign In</p>
       </div>
     </div>
-    <div class="header__main-section"></div>
-    <div class="header__navbar"></div>
+    <div class="header__main-section">
+      <div class="header__about-group">
+        <img src="/statue.png" alt="The Statue of Liberty" class="header__main-img" />
+        <p class="header__about-text">Boston and New York Bear Brunt</p>
+      </div>
+      <img src="/title.svg" alt="Name of the Media" class="header__title" />
+      <div class="header__info-group">
+        <p class="header__date">{{ date }}</p>
+        <div class="header__weather-group">
+          <img src="/sun.svg" alt="Thw weather icon" class="header__weather-icon" />
+          <p class="header__weather-text">- 23 °C</p>
+        </div>
+      </div>
+    </div>
+    <nav-bar></nav-bar>
   </header>
 </template>
 
@@ -50,11 +89,12 @@ export default {
 
 .header {
   @include size(100%, auto);
-  max-width: $big-screen-max-width;
   @include flex(column, start, stretch, 0px);
 
   &__search-section {
     @include size(100%, 3.125rem);
+    max-width: $big-screen-max-width;
+    margin: 0 auto;
     @include flex(row, space-between, center, 25px);
     border-bottom: $border;
 
@@ -129,11 +169,59 @@ export default {
 
       .header__login-btn {
         @include size(1.25rem, 1.25rem);
+        cursor: pointer;
       }
 
       .header__login-text {
         @extend %lato-regular;
         @include text(0.875rem, 1.25rem, $font-color-medium, left);
+      }
+    }
+  }
+
+  &__main-section {
+    @include size(100%, auto);
+    max-width: $big-screen-max-width;
+    margin: 0 auto;
+    @include flex(row, space-between, center, 10px);
+
+    .header__about-group {
+      @include flex(row, start, center, 15px);
+      margin-left: 2rem;
+
+      .header__main-img {
+        @include size(6.25rem, 5.25rem);
+      }
+
+      .header__about-text {
+        @extend %lato-regular;
+        @include text(0.875rem, 1.25rem, $font-color-medium, left);
+      }
+    }
+
+    .header__title {
+      @include size(11.5rem, 2.5rem);
+      margin-right: 3.75rem;
+    }
+
+    .header__info-group {
+      @include flex(row, start, center, 68px);
+
+      .header__date {
+        @extend %lato-regular;
+        @include text(0.875rem, 1.25rem, $font-color-medium, left);
+      }
+
+      .header__weather-group {
+        @include flex(row, start, center, 10px);
+
+        .header__weather-icon {
+          @include size(1.25rem, 1.25rem);
+        }
+
+        .header__weather-text {
+          @include text(0.875rem, 1.25rem, $font-color-medium, left);
+        }
       }
     }
   }
