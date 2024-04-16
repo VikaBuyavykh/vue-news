@@ -1,11 +1,13 @@
 <script>
 import NavBar from './NavBar.vue'
+import links from '@/utils/links'
 export default {
   components: {
     NavBar
   },
   data() {
     return {
+      links,
       searchQuery: '',
       date: '',
       isLoginFocused: false
@@ -78,7 +80,7 @@ export default {
         </div>
       </div>
     </div>
-    <nav-bar></nav-bar>
+    <nav-bar :links="links" place="header"></nav-bar>
   </header>
 </template>
 

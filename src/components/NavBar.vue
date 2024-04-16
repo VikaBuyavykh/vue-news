@@ -1,19 +1,28 @@
 <script>
-import links from '@/utils/links'
 export default {
-  data() {
-    return {
-      links
-    }
+  props: {
+    links: Array,
+    place: String
   }
 }
 </script>
 
 <template>
-  <nav class="navigation">
-    <ul class="navigation__list">
+  <nav
+    :style="{ backgroundColor: `${place === 'header' ? '#262d33' : 'white'}` }"
+    class="navigation"
+  >
+    <ul
+      :style="{ justifyContent: `${place === 'header' ? 'space-between' : 'start'}` }"
+      class="navigation__list"
+    >
       <li v-for="link in links" :key="link.name">
-        <a :href="link.href" class="navigation__item">{{ link.name }}</a>
+        <a
+          :href="link.href"
+          :style="{ color: `${place === 'header' ? 'white' : '#262d33'}` }"
+          class="navigation__item"
+          >{{ link.name }}</a
+        >
       </li>
     </ul>
   </nav>
@@ -27,19 +36,22 @@ export default {
 .navigation {
   @include size(100%, auto);
   padding-block: 17px 18px;
-  background-color: $color-dark;
 
   &__list {
     @include size(100%, auto);
     max-width: $big-screen-max-width;
     margin: 0 auto;
-    @include flex(row, space-between, center, 5px);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 30px;
     list-style-type: none;
   }
 
   &__item {
     @extend %lato-bold;
-    @include text(0.875rem, 1.25rem, white, left);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
     letter-spacing: 0.5px;
     text-decoration: none;
     text-transform: uppercase;
