@@ -3,15 +3,24 @@ import AppButton from '@/components/UI/Button.vue'
 import sections from '@/utils/sections.js'
 import NavBar from '@/components/NavBar.vue'
 import contacts from '@/utils/contacts.js'
+import SliderButtons from '@/components/UI/SliderButtons.vue'
 export default {
   components: {
     AppButton,
-    NavBar
+    NavBar,
+    SliderButtons
   },
   data() {
     return {
       sections,
-      contacts
+      contacts,
+      buttons: [
+        { id: 1, isSelected: false },
+        { id: 2, isSelected: false },
+        { id: 3, isSelected: true },
+        { id: 4, isSelected: false },
+        { id: 5, isSelected: false }
+      ]
     }
   }
 }
@@ -63,9 +72,7 @@ export default {
         </p>
         <p class="footer__additional-info">© 2019 Universal UI Kit</p>
       </div>
-      <div class="rounded-gradient-borders">
-        <div class="tttt"></div>
-      </div>
+      <slider-buttons :buttons="buttons"></slider-buttons>
     </div>
   </footer>
 </template>
@@ -74,32 +81,6 @@ export default {
 @import '@/assets/fonts/font.scss';
 @import '@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
-
-.rounded-gradient-borders {
-  //text-align: center;
-  //color: #fff;
-  //font-size: 8em;
-  width: 150px;
-  height: 150px;
-  position: relative;
-  @include flex(row, center, center, 0px);
-}
-
-.rounded-gradient-borders::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: conic-gradient(red 230deg, rgba(red, 0.5) 230deg);
-  mask: radial-gradient(farthest-side, transparent calc(100% - 12px), #fff 0);
-}
-
-.tttt {
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  background-color: red;
-}
 
 .footer {
   @include size(100%, auto);

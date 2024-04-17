@@ -3,11 +3,13 @@ import articles from '@/utils/articles'
 import OrdinaryArticle from '@/components/OrdinaryArticle.vue'
 import AppButton from '@/components/UI/Button.vue'
 import SliderItem from '@/components/SliderItem.vue'
+import SliderButtons from '@/components/UI/SliderButtons.vue'
 export default {
   components: {
     OrdinaryArticle,
     AppButton,
-    SliderItem
+    SliderItem,
+    SliderButtons
   },
   data() {
     const galleryArticles = articles.filter((item) => item.section === 'gallery')
@@ -17,7 +19,21 @@ export default {
         .filter((i, index) => index < 5),
       main: galleryArticles.find((item) => item.tag === 'main'),
       rest: galleryArticles.filter((item) => !item.tag).filter((i, index) => index < 2),
-      currentSlideIndex: 0
+      currentSlideIndex: 0,
+      buttons: [
+        { id: 1, isSelected: true },
+        { id: 2, isSelected: false },
+        { id: 3, isSelected: false },
+        { id: 4, isSelected: false },
+        { id: 5, isSelected: false }
+      ]
+    }
+  },
+  watch: {
+    currentSlideIndex(value) {
+      this.buttons = this.buttons.map((item) =>
+        value !== item.id - 1 ? { ...item, isSelected: false } : { ...item, isSelected: true }
+      )
     }
   },
   methods: {
@@ -34,6 +50,9 @@ export default {
       } else {
         this.currentSlideIndex = this.sliderItems.length - 1
       }
+    },
+    changeSlide(e) {
+      this.currentSlideIndex = e.currentTarget.id - 1
     }
   },
   mounted() {
@@ -66,6 +85,7 @@ export default {
             :authorAvatar="item.author.avatar"
             :photos="item.photos"
           ></slider-item>
+          <slider-buttons :buttons="buttons" :changeSlide="changeSlide"></slider-buttons>
         </ul>
       </article>
       <article class="gallery__article gallery__main">
@@ -119,6 +139,7 @@ export default {
     .gallery__slider {
       grid-area: 1 / 1 / 4 / 3;
       overflow: hidden;
+      position: relative;
 
       &-content {
         list-style-type: none;
