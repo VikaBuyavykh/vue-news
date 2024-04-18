@@ -27,7 +27,12 @@ export default {
         { id: 4, isSelected: false },
         { id: 5, isSelected: false }
       ],
-      intervalId: ''
+      intervalId: '',
+      posInit: 0,
+      posFinal: 0,
+      slideWidth: 0,
+      posX1: 0,
+      posX2: 0
     }
   },
   watch: {
@@ -62,10 +67,46 @@ export default {
       this.intervalId = setInterval(() => {
         self.nextSlide()
       }, 5000)
+    },
+    start(e) {
+      if (e.type === 'touchstart') {
+        this.posInit = this.posX1 = e.touches[0].clientX
+      } else {
+        this.posInit = this.posX1 = e.clientX
+      }
+    },
+    end(e) {
+      if (e.type === 'touchend') {
+        this.posFinal = e.changedTouches[0].clientX
+      } else {
+        this.posFinal = e.clientX
+      }
+      if (Math.abs(this.posInit - this.posFinal) > this.slideWidth * 0.35) {
+        if (this.posInit - this.posFinal > 0) {
+          this.nextSlide()
+        } else {
+          this.prevSlide()
+        }
+        clearInterval(this.intervalId)
+        this.intervalStart()
+      }
+    },
+    move(e) {
+      // this.$refs.slider.style.transition = ''
+      // if (e.type === 'touchmove') {
+      //   this.posX2 = this.posX1 - e.touches[0].clientX
+      //   this.posX1 = e.touches[0].clientX
+      // } else {
+      //   this.posX2 = this.posX1 - e.clientX
+      //   this.posX1 = e.clientX
+      // }
+      // this.$refs.slider.style.marginLeft = `${this.posX2 * -100}px`
+      // console.log(this.$refs.slider.style.marginLeft)
     }
   },
   mounted() {
     this.intervalStart()
+    this.slideWidth = document.querySelector('.slide').offsetWidth
   },
   unmounted() {
     clearInterval(this.intervalStart)
@@ -78,6 +119,7 @@ export default {
     <div class="gallery__content">
       <article class="gallery__article gallery__slider">
         <ul
+          ref="slider"
           :style="{
             marginLeft: '-' + 100 * currentSlideIndex + '%',
             width: sliderItems.length * 100 + '%'
@@ -85,6 +127,12 @@ export default {
           class="gallery__slider-content"
         >
           <slider-item
+            @mousemove="move"
+            @touchmove="move"
+            @mousedown="start"
+            @mouseup="end"
+            @touchstart="start"
+            @touchend="end"
             v-for="item in sliderItems"
             :key="item.id"
             :id="item.id"
