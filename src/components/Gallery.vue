@@ -26,7 +26,8 @@ export default {
         { id: 3, isSelected: false },
         { id: 4, isSelected: false },
         { id: 5, isSelected: false }
-      ]
+      ],
+      intervalId: ''
     }
   },
   watch: {
@@ -53,11 +54,21 @@ export default {
     },
     changeSlide(e) {
       this.currentSlideIndex = e.currentTarget.id - 1
+      clearInterval(this.intervalId)
+      this.intervalStart()
+    },
+    intervalStart: function () {
+      const self = this
+      this.intervalId = setInterval(() => {
+        self.nextSlide()
+      }, 5000)
     }
   },
   mounted() {
-    const vm = this
-    setInterval(vm.nextSlide, 5000)
+    this.intervalStart()
+  },
+  unmounted() {
+    clearInterval(this.intervalStart)
   }
 }
 </script>
@@ -67,7 +78,6 @@ export default {
     <div class="gallery__content">
       <article class="gallery__article gallery__slider">
         <ul
-          @click="nextSlide"
           :style="{
             marginLeft: '-' + 100 * currentSlideIndex + '%',
             width: sliderItems.length * 100 + '%'
