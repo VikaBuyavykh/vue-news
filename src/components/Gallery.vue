@@ -31,8 +31,8 @@ export default {
       posInit: 0,
       posFinal: 0,
       slideWidth: 0,
-      posX1: 0,
-      posX2: 0
+      posX: 0,
+      isMousedown: false
     }
   },
   watch: {
@@ -70,38 +70,54 @@ export default {
     },
     start(e) {
       if (e.type === 'touchstart') {
-        this.posInit = this.posX1 = e.touches[0].clientX
+        this.posInit = e.touches[0].clientX
       } else {
-        this.posInit = this.posX1 = e.clientX
+        this.posInit = e.clientX
       }
+      this.isMousedown = true
+      this.$refs.slider.style.cursor = 'grab'
+      this.$refs.slider.style.transition = 'none'
     },
     end(e) {
-      if (e.type === 'touchend') {
-        this.posFinal = e.changedTouches[0].clientX
-      } else {
-        this.posFinal = e.clientX
-      }
-      if (Math.abs(this.posInit - this.posFinal) > this.slideWidth * 0.35) {
-        if (this.posInit - this.posFinal > 0) {
-          this.nextSlide()
+      if (this.isMousedown) {
+        if (e.type === 'touchend') {
+          this.posFinal = e.changedTouches[0].clientX
         } else {
-          this.prevSlide()
+          this.posFinal = e.clientX
         }
-        clearInterval(this.intervalId)
-        this.intervalStart()
+        if (Math.abs(this.posInit - this.posFinal) > this.slideWidth * 0.35) {
+          if (this.posInit - this.posFinal > 0) {
+            this.nextSlide()
+          } else {
+            this.prevSlide()
+          }
+          clearInterval(this.intervalId)
+          this.intervalStart()
+        } else {
+          this.$refs.slider.style.marginLeft = `${this.currentSlideIndex * this.slideWidth * -1}px`
+        }
       }
+      this.isMousedown = false
+      this.$refs.slider.style.cursor = 'pointer'
+      this.$refs.slider.style.transition = 'all 1s ease'
     },
     move(e) {
-      // this.$refs.slider.style.transition = ''
-      // if (e.type === 'touchmove') {
-      //   this.posX2 = this.posX1 - e.touches[0].clientX
-      //   this.posX1 = e.touches[0].clientX
-      // } else {
-      //   this.posX2 = this.posX1 - e.clientX
-      //   this.posX1 = e.clientX
-      // }
-      // this.$refs.slider.style.marginLeft = `${this.posX2 * -100}px`
-      // console.log(this.$refs.slider.style.marginLeft)
+      if (this.isMousedown) {
+        this.$refs.slider.style.transition = 'none'
+        if (e.type === 'touchmove') {
+          this.posX = this.posInit - e.touches[0].clientX
+        } else {
+          this.posX = this.posInit - e.clientX
+        }
+        if (
+          (this.currentSlideIndex === 0 && this.posX < 0) ||
+          (this.currentSlideIndex === this.sliderItems.length - 1 && this.posX > 0)
+        ) {
+          return
+        } else {
+          this.$refs.slider.style.marginLeft = `${this.posX * -1 + this.currentSlideIndex * this.slideWidth * -1}px`
+        }
+      }
     }
   },
   mounted() {
@@ -130,9 +146,11 @@ export default {
             @mousemove="move"
             @touchmove="move"
             @mousedown="start"
-            @mouseup="end"
             @touchstart="start"
+            @mouseup="end"
             @touchend="end"
+            @mouseleave="end"
+            @touchleave="end"
             v-for="item in sliderItems"
             :key="item.id"
             :id="item.id"
@@ -204,6 +222,8 @@ export default {
         @include size(100%, 100%);
         display: flex;
         transition: all 1s ease;
+        user-select: none;
+        cursor: pointer;
       }
     }
 
