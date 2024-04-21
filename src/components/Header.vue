@@ -10,12 +10,20 @@ export default {
       links,
       searchQuery: '',
       date: '',
-      isLoginFocused: false
+      isLoginHovered: false,
+      isSearchHovered: false,
+      isMenuHovered: false
     }
   },
   methods: {
-    focusLogin() {
-      !this.isLoginFocused ? (this.isLoginFocused = true) : (this.isLoginFocused = false)
+    hoverLogin() {
+      !this.isLoginHovered ? (this.isLoginHovered = true) : (this.isLoginHovered = false)
+    },
+    hoverSearch() {
+      !this.isSearchHovered ? (this.isSearchHovered = true) : (this.isSearchHovered = false)
+    },
+    hoverMenu() {
+      !this.isMenuHovered ? (this.isMenuHovered = true) : (this.isMenuHovered = false)
     }
   },
   mounted() {
@@ -33,12 +41,22 @@ export default {
 <template>
   <header class="header">
     <div class="header__search-section">
-      <div class="header__menu-group">
-        <img src="/menu.svg" alt="Icon of menu" class="header__menu-btn" />
+      <div @mouseenter="hoverMenu" @mouseleave="hoverMenu" class="header__menu-group">
+        <img
+          :src="isMenuHovered ? '/menu-active.svg' : '/menu.svg'"
+          alt="Icon of menu"
+          class="header__menu-btn"
+        />
         <p class="header__menu-text">Sections</p>
       </div>
       <form class="header__search-form">
-        <img src="/loupe.svg" alt="Icon of search" class="header__search-btn" />
+        <img
+          @mouseenter="hoverSearch"
+          @mouseleave="hoverSearch"
+          :src="isSearchHovered ? '/loupe-active.svg' : '/loupe.svg'"
+          alt="Icon of search"
+          class="header__search-btn"
+        />
         <input
           type="search"
           name="search"
@@ -55,13 +73,11 @@ export default {
           <p class="header__subscribe-price">3 month for $19</p>
         </div>
       </div>
-      <div class="header__login-group">
+      <div @mouseenter="hoverLogin" @mouseleave="hoverLogin" class="header__login-group">
         <img
-          :src="isLoginFocused ? '/login-focus.svg' : '/login.svg'"
+          :src="isLoginHovered ? '/login-active.svg' : '/login.svg'"
           alt="Icon of login page"
           class="header__login-btn"
-          v-on:mouseenter="focusLogin"
-          v-on:mouseleave="focusLogin"
         />
         <p class="header__login-text">Sign In</p>
       </div>
@@ -105,6 +121,7 @@ export default {
       padding-right: 25px;
       border-right: $border;
       @include flex(row, space-between, center, 15px);
+      cursor: pointer;
 
       .header__menu-btn {
         @include size(1.25rem, 1.25rem);
@@ -122,6 +139,7 @@ export default {
 
       .header__search-btn {
         @include size(1.25rem, 1.25rem);
+        cursor: pointer;
       }
 
       .header__search-field {
@@ -144,6 +162,7 @@ export default {
     .header__subscribe-group {
       @include size(auto, 100%);
       @include flex(row, start, center, 10px);
+      cursor: pointer;
 
       .header__subscribe-img {
         @include size(4.125rem, 2.75rem);
@@ -168,6 +187,7 @@ export default {
 
     .header__login-group {
       @include flex(row, start, center, 10px);
+      cursor: pointer;
 
       .header__login-btn {
         @include size(1.25rem, 1.25rem);

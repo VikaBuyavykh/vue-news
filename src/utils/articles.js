@@ -4,7 +4,11 @@ const articles = [
     theme: 'Destinations',
     themeColor: '#3BBDC4',
     title: 'In Southeast England, White Cliffs and Fish',
-    hasVideo: true,
+    video: {
+      link: 'https://www.youtube.com/watch?v=a78lWX2KUu4&feature=youtu.be',
+      title: 'The chalk cliff of Beachy Head',
+      duration: '18:05'
+    },
     img: '/recommendations/cliffs.jpg',
     isSelected: true,
     author: {
@@ -12,6 +16,7 @@ const articles = [
       name: 'Benjamin Turner',
       profession: 'Traveler'
     },
+    link: 'article',
     section: 'recommendations'
   },
   {
@@ -19,7 +24,6 @@ const articles = [
     theme: 'Cars',
     themeColor: '#6E99AE',
     title: 'Storm Has Car Dealers Doing Swift Business',
-    hasVideo: false,
     img: '/recommendations/cars.jpg',
     isSelected: false,
     author: {
@@ -27,6 +31,7 @@ const articles = [
       name: 'Sir Elton John',
       profession: 'Singer'
     },
+    link: 'article',
     section: 'recommendations'
   },
   {
@@ -34,7 +39,6 @@ const articles = [
     theme: 'Movies',
     themeColor: '#AC8EE3',
     title: 'War Is Hell? In New Military Dramas, It’s One-Dimensional',
-    hasVideo: false,
     img: '/recommendations/movie.jpg',
     isSelected: false,
     author: {
@@ -42,6 +46,7 @@ const articles = [
       name: 'Bella Hadid',
       profession: 'Supermodel'
     },
+    link: 'article',
     section: 'recommendations'
   },
   {
@@ -49,7 +54,11 @@ const articles = [
     theme: 'NFL',
     themeColor: '#FFA34D',
     title: '11 surprising stat rankings for active NFL players',
-    hasVideo: true,
+    video: {
+      link: 'https://www.youtube.com/watch?v=tJFHlzw8vVE',
+      title: 'Top 100 Plays of the 2023 Season',
+      duration: '27:12'
+    },
     img: '/recommendations/sport.jpg',
     isSelected: false,
     author: {
@@ -57,6 +66,7 @@ const articles = [
       name: 'Metthew McConaughey',
       profession: 'Actor'
     },
+    link: 'article',
     section: 'recommendations'
   },
   {
@@ -64,7 +74,6 @@ const articles = [
     theme: 'Tech Reviews',
     themeColor: '#3DC47E',
     title: 'The bookcases you can buy online and assemble yourself',
-    hasVideo: false,
     img: '/recommendations/book.jpg',
     isSelected: false,
     author: {
@@ -72,6 +81,7 @@ const articles = [
       name: 'Vladimir Pozner',
       profession: 'Journalist'
     },
+    link: 'article',
     section: 'recommendations'
   },
   {
@@ -416,6 +426,46 @@ const articles = [
     img: '/authors/photographer.jpg',
     section: 'gallery',
     tag: 'main'
+  },
+  {
+    id: 38,
+    title: '25 Songs That Tell Us Where Music Is Going',
+    link: '/article',
+    img: {
+      src: '/articles/guitar.png',
+      alt: 'Illustration of a guitar'
+    },
+    section: 'articles'
+  },
+  {
+    id: 39,
+    title: 'These Ancient Assassins Eat Their Own Kind',
+    link: '/article',
+    img: {
+      src: '/articles/butterfly.png',
+      alt: 'Illustration of a butterfly'
+    },
+    section: 'articles'
+  },
+  {
+    id: 40,
+    title: 'How Do You Teach People to Love Difficult Music?',
+    link: '/article',
+    img: {
+      src: '/articles/man.png',
+      alt: 'Illustration of a man'
+    },
+    section: 'articles'
+  },
+  {
+    id: 41,
+    title: 'International Soccer’s Man of Mystery',
+    link: '/article',
+    img: {
+      src: '/articles/stadium.png',
+      alt: 'Illustration of a stadium'
+    },
+    section: 'articles'
   }
 ]
 

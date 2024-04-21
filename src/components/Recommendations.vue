@@ -1,6 +1,7 @@
 <script>
 import articles from '@/utils/articles'
 import AppButton from '@/components/UI/Button.vue'
+import router from '@/router'
 export default {
   components: {
     AppButton
@@ -9,7 +10,8 @@ export default {
     const recommendations = articles.filter((item) => item.section === 'recommendations')
     return {
       recommendations: recommendations,
-      selectedRecommendation: recommendations[0]
+      selectedRecommendation: recommendations[0],
+      router
     }
   },
   methods: {
@@ -61,7 +63,30 @@ export default {
           <h3 class="recommendations__article-title">
             {{ selectedRecommendation.title }}
           </h3>
-          <app-button text="Read more"></app-button>
+          <div class="recommendations__btn-section">
+            <app-button
+              style="margin-top: 0"
+              @click="() => router.push(selectedRecommendation.link)"
+              class="more-btn"
+              >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
+            /></app-button>
+            <div v-if="selectedRecommendation.video" class="recommendations__video-btn-group">
+              <a
+                class="recommendations__video-btn"
+                target="_blank"
+                :href="selectedRecommendation.video.link"
+                ><img src="/play.svg" alt="Icon of a play"
+              /></a>
+              <div class="recommendations__video-btn-text-box">
+                <p class="recommendations__video-btn-text">
+                  {{ selectedRecommendation.video.title }}
+                </p>
+                <span class="recommendations__video-btn-duration">{{
+                  selectedRecommendation.video.duration
+                }}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <ul class="recommendations__list">
@@ -82,6 +107,12 @@ export default {
           </h4>
           <p class="recommendations__list-item-title">
             {{ recommendation.title }}
+            <img
+              v-if="recommendation.video"
+              style="vertical-align: text-bottom"
+              src="/play-small.svg"
+              alt="Icon of having a video-link"
+            />
           </p>
           <img
             v-if="recommendation.isSelected"
@@ -163,6 +194,34 @@ export default {
           @extend %roboto-slab-bold;
           @include text(2.5rem, 3.125rem, white, left);
         }
+
+        .recommendations__btn-section {
+          margin-top: 20px;
+          @include flex(row, start, center, 30px);
+
+          .recommendations__video-btn-group {
+            @include flex(row, start, center, 10px);
+
+            .recommendations__video-btn {
+              @include size(50px, 50px);
+              cursor: pointer;
+            }
+
+            .recommendations__video-btn-text-box {
+              @include flex(column, start, start, 2px);
+
+              .recommendations__video-btn-text {
+                @extend %lato-regular;
+                @include text(0.875rem, 1.25rem, rgba(white, 0.85), left);
+              }
+
+              .recommendations__video-btn-duration {
+                @extend %lato-regular;
+                @include text(0.75rem, 0.9375rem, rgba(white, 0.4), left);
+              }
+            }
+          }
+        }
       }
     }
 
@@ -185,6 +244,10 @@ export default {
 
         &:has(h4) {
           cursor: pointer;
+
+          &:hover .recommendations__list-item-title {
+            text-decoration: underline rgba($color-dark, 0.5);
+          }
         }
 
         &:last-of-type {

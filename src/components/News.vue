@@ -13,6 +13,17 @@ export default {
       mainNews: news.filter((item) => item.tag === 'main').filter((i, index) => index < 6),
       asides: news.filter((item) => item.tag === 'aside').filter((i, index) => index < 7)
     }
+  },
+  methods: {
+    clickFavorite(e) {
+      this.mainNews = this.mainNews.map((item) =>
+        item.id === Number(e.target.closest('.news__list-item').id)
+          ? !item.isFavorite
+            ? { ...item, isFavorite: true }
+            : { ...item, isFavorite: false }
+          : item
+      )
+    }
   }
 }
 </script>
@@ -26,6 +37,7 @@ export default {
             class="news__list-item-bookmark"
             :src="!item.isFavorite ? '/bookmark.svg' : '/bookmark-active.svg'"
             alt="Icon of a bookmark"
+            @click="clickFavorite"
           />
           <div class="news__list-item-imgbox">
             <img
@@ -105,6 +117,7 @@ export default {
           top: 0;
           right: 0;
           @include size(14px, 18px);
+          cursor: pointer;
         }
 
         &-imgbox {

@@ -24,7 +24,11 @@ export default {
     <p class="slide__name">{{ authorName }}</p>
     <p class="slide__profession">{{ authorProfession }}</p>
     <h3 class="slide__title">{{ title }}</h3>
-    <app-button text="Read more"></app-button>
+    <app-button class="slide__btn"
+      ><img src="/pics.svg" alt="Icon of photos" />
+      <p>Watch photos</p>
+      <span>{{ photos }}</span></app-button
+    >
   </li>
 </template>
 
@@ -68,6 +72,19 @@ export default {
     margin-block: 30px 25px;
     @extend %roboto-slab-bold;
     @include text(2.5rem, 3.125rem, white, center);
+  }
+
+  &__btn {
+    @include flex(row, start, center, 5px);
+
+    img {
+      margin-right: 5px;
+      @include size(19px, 15px);
+    }
+
+    span {
+      color: #c5e4fc;
+    }
   }
 }
 </style>

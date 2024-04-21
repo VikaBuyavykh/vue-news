@@ -1,11 +1,9 @@
 <script>
 import AppHeader from '@/components/Header.vue'
-import AppMain from '@/components/Main.vue'
 import AppFooter from '@/components/Footer.vue'
 export default {
   components: {
     AppHeader,
-    AppMain,
     AppFooter
   }
 }
@@ -14,7 +12,7 @@ export default {
 <template>
   <div class="page">
     <app-header></app-header>
-    <app-main></app-main>
+    <router-view></router-view>
     <app-footer></app-footer>
   </div>
 </template>
@@ -32,5 +30,16 @@ export default {
 
 .page {
   @include flex(column, start, center, 0px);
+}
+
+.more-btn {
+  &:hover img {
+    transform: translateX(5px);
+  }
+
+  img {
+    transition: all 0.2s ease;
+    margin-left: 5px;
+  }
 }
 </style>

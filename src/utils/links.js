@@ -1,47 +1,47 @@
 const links = [
   {
     name: 'News',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Opinion',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Science',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Life',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Travel',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Moneys',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Art & Design',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Sports',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'People',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Health',
-    href: 'https://ria.ru/'
+    href: '#'
   },
   {
     name: 'Education',
-    href: 'https://ria.ru/'
+    href: '#'
   }
 ]
 

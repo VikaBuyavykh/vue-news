@@ -16,7 +16,9 @@ export default {
 <template>
   <article class="separator" :style="{ backgroundImage: `url(${separator.img})` }">
     <h2 class="separator__title">{{ separator.title }}</h2>
-    <app-button text="Read more"></app-button>
+    <app-button class="more-btn"
+      >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
+    /></app-button>
   </article>
 </template>
 

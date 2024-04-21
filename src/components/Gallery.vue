@@ -171,7 +171,9 @@ export default {
           </p>
           <h3 class="gallery__main-content-title">{{ main.title }}</h3>
           <p class="gallery__main-content-description">{{ main.description }}</p>
-          <app-button style="z-index: 2" text="Read more"></app-button>
+          <app-button class="gallery__btn more-btn"
+            >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
+          /></app-button>
         </div>
         <div class="gallery__circle"></div>
         <img class="gallery__img" src="/gallery/girl.png" alt="Illustration" />
@@ -252,6 +254,10 @@ export default {
         &-description {
           @extend %lato-regular;
           @include text(0.875rem, 1.25rem, $font-color-medium, left);
+          z-index: 2;
+        }
+
+        .gallery__btn {
           z-index: 2;
         }
       }

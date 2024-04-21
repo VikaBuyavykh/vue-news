@@ -3,24 +3,16 @@ import AppButton from '@/components/UI/Button.vue'
 import sections from '@/utils/sections.js'
 import NavBar from '@/components/NavBar.vue'
 import contacts from '@/utils/contacts.js'
-import SliderButtons from '@/components/UI/SliderButtons.vue'
 export default {
   components: {
     AppButton,
-    NavBar,
-    SliderButtons
+    NavBar
   },
   data() {
     return {
       sections,
       contacts,
-      buttons: [
-        { id: 1, isSelected: false },
-        { id: 2, isSelected: false },
-        { id: 3, isSelected: true },
-        { id: 4, isSelected: false },
-        { id: 5, isSelected: false }
-      ]
+      email: ''
     }
   }
 }
@@ -30,16 +22,18 @@ export default {
   <footer class="footer">
     <div class="footer__content">
       <h2 class="footer__title">Subscribe now and get 20% off</h2>
-      <div class="footer__input-section">
+      <form class="footer__input-section">
         <input
           class="footer__input"
           type="email"
           name="email"
           id="email"
           placeholder="Enter your email"
+          v-model="email"
+          @input="() => console.log(email)"
         />
-        <app-button style="margin: 0" text="Subscribe"></app-button>
-      </div>
+        <app-button style="margin: 0">Subscribe</app-button>
+      </form>
       <ul class="footer__nav-bar">
         <li v-for="section in sections" :key="section.name" class="footer__nav-bar-block">
           <h3 :style="{ borderTopColor: section.themeColor }" class="footer__nav-bar-title">
@@ -72,7 +66,6 @@ export default {
         </p>
         <p class="footer__additional-info">© 2019 Universal UI Kit</p>
       </div>
-      <slider-buttons :buttons="buttons"></slider-buttons>
     </div>
   </footer>
 </template>
@@ -139,6 +132,11 @@ export default {
           text-decoration: none;
           @extend %lato-regular;
           @include text(0.875rem, 1.25rem, $font-color-medium, left);
+          transition: all 0.2s ease;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
       }
     }
@@ -158,6 +156,14 @@ export default {
       .footer__socials {
         margin-right: auto;
         @include flex(row, start, center, 15px);
+
+        &-link {
+          transition: all 0.2s ease;
+
+          &:hover {
+            transform: translateY(-2px);
+          }
+        }
       }
     }
 

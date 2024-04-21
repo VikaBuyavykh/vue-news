@@ -1,29 +1,20 @@
 <script>
-export default {}
+import articles from '@/utils/articles'
+export default {
+  data() {
+    return {
+      content: articles.filter((item) => item.section === 'articles')
+    }
+  }
+}
 </script>
 
 <template>
   <section class="articles">
     <ul class="articles__list">
-      <li class="articles__list-item">
-        <p class="articles__text">25 Songs That Tell Us Where Music Is Going</p>
-        <img src="/articles/guitar.png" alt="Illustration of a guitar" class="articles__img" />
-      </li>
-      <li class="articles__list-item">
-        <p class="articles__text">These Ancient Assassins Eat Their Own Kind</p>
-        <img
-          src="/articles/butterfly.png"
-          alt="Illustration of a butterfly"
-          class="articles__img"
-        />
-      </li>
-      <li class="articles__list-item">
-        <p class="articles__text">How Do You Teach People to Love Difficult Music?</p>
-        <img src="/articles/man.png" alt="Illustration of a man" class="articles__img" />
-      </li>
-      <li class="articles__list-item">
-        <p class="articles__text">International Soccer’s Man of Mystery</p>
-        <img src="/articles/stadium.png" alt="Illustration of a stadium" class="articles__img" />
+      <li v-for="article in content" :key="article.id" class="articles__list-item">
+        <router-link :to="article.link" class="articles__text">{{ article.title }}</router-link>
+        <img :src="article.img.src" :alt="article.img.alt" class="articles__img" />
       </li>
     </ul>
   </section>
@@ -59,8 +50,13 @@ export default {}
       }
 
       .articles__text {
+        text-decoration: none;
         @extend %roboto-slab-bold;
         @include text(1rem, 1.5625rem, white, left);
+
+        &:hover {
+          text-decoration: underline rgba(white, 0.3);
+        }
       }
 
       .articles__img {
