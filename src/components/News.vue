@@ -50,8 +50,10 @@ export default {
             <p :style="{ color: item.themeColor }" class="news__list-item-theme">
               {{ item.theme }}
             </p>
-            <h3 class="news__list-item-title">{{ item.title }}</h3>
-            <p class="news__list-item-description">{{ item.description }}</p>
+            <router-link :to="item.link" class="news__list-item-link">
+              <h3 class="news__list-item-title">{{ item.title }}</h3>
+              <p class="news__list-item-description">{{ item.description }}</p>
+            </router-link>
             <div class="news__list-item-infoblock">
               <p class="news__date">{{ item.date }}</p>
               <comments type="comments" :content="item.comments"></comments>
@@ -61,15 +63,17 @@ export default {
         </li>
       </ul>
       <app-aside section="news">
-        <li v-for="(item, index) in asides" :key="item.id" :id="item.id" class="aside__item">
-          <div class="aside__item-imgbox">
-            <img class="aside__item-img" :src="item.img" alt="Illustration" />
-          </div>
-          <div class="aside__item-info">
-            <i class="aside__item-index">{{ index + 1 }}</i>
-            <h4 class="aside__item-title">{{ item.title }}</h4>
-            <p class="aside__item-date">{{ item.date }}</p>
-          </div>
+        <li v-for="(item, index) in asides" :key="item.id" :id="item.id" class="news__aside-item">
+          <router-link :to="item.link" class="news__aside-link">
+            <div class="news__aside-imgbox">
+              <img class="news__aside-img" :src="item.img" alt="Illustration" />
+            </div>
+            <div class="news__aside-info">
+              <i class="news__aside-index">{{ index + 1 }}</i>
+              <h4 class="news__aside-title">{{ item.title }}</h4>
+              <p class="news__aside-date">{{ item.date }}</p>
+            </div>
+          </router-link>
         </li>
       </app-aside>
     </div>
@@ -141,15 +145,20 @@ export default {
             @extend %theme-font;
           }
 
-          .news__list-item-title {
-            margin-top: 5px;
-            @extend %roboto-slab-bold;
-            @include text(1.25rem, 1.5625rem, $color-dark, left);
-          }
+          .news__list-item-link {
+            @include flex(column, start, start, 10px);
+            text-decoration: none;
 
-          .news__list-item-description {
-            @extend %lato-regular;
-            @include text(0.875rem, 1.25rem, $font-color-medium, left);
+            .news__list-item-title {
+              margin-top: 5px;
+              @extend %roboto-slab-bold;
+              @include text(1.25rem, 1.5625rem, $color-dark, left);
+            }
+
+            .news__list-item-description {
+              @extend %lato-regular;
+              @include text(0.875rem, 1.25rem, $font-color-medium, left);
+            }
           }
 
           .news__list-item-infoblock {
@@ -164,57 +173,62 @@ export default {
         }
       }
     }
-  }
-}
 
-.aside__item {
-  border-bottom: $light-border;
-  padding-block: 17px;
-  @include size(100%, auto);
-  display: grid;
-  grid-template-columns: 60px auto;
-  gap: 10px;
+    .news__aside-item {
+      border-bottom: $light-border;
+      padding-block: 17px;
+      @include size(100%, auto);
 
-  &:last-of-type {
-    border: none;
-  }
+      &:last-of-type {
+        border: none;
+      }
 
-  &-imgbox {
-    @include size(auto, 60px);
-    position: relative;
+      .news__aside-link {
+        @include size(100%, auto);
+        display: grid;
+        grid-template-columns: 60px auto;
+        gap: 10px;
+        text-decoration: none;
 
-    .aside__item-img {
-      object-position: center;
-      object-fit: cover;
-      position: absolute;
-      @include size(100%, 100%);
-    }
-  }
+        .news__aside-imgbox {
+          @include size(auto, 60px);
+          position: relative;
 
-  &-info {
-    @include flex(column, start, start, 5px);
-    position: relative;
+          .news__aside-img {
+            object-position: center;
+            object-fit: cover;
+            position: absolute;
+            @include size(100%, 100%);
+          }
+        }
 
-    .aside__item-index {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      right: 0;
-      z-index: 1;
-      @extend %lato-bold;
-      @include text(4.375rem, 3.125rem, rgba($color-dark, 0.08), right);
-    }
+        .news__aside-info {
+          @include flex(column, start, start, 5px);
+          position: relative;
 
-    .aside__item-title {
-      @extend %lato-regular;
-      @include text(0.875rem, 1.25rem, $font-color-medium, left);
-      z-index: 2;
-    }
+          .news__aside-index {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0;
+            z-index: 1;
+            @extend %lato-bold;
+            @include text(4.375rem, 3.125rem, rgba($color-dark, 0.08), right);
+          }
 
-    .aside__item-date {
-      @extend %lato-regular;
-      @include text(0.75rem, 0.9375rem, $font-color-light, left);
-      z-index: 2;
+          .news__aside-title {
+            @extend %lato-regular;
+            @include text(0.875rem, 1.25rem, $font-color-medium, left);
+            z-index: 2;
+          }
+
+          .news__aside-date {
+            @extend %lato-regular;
+            @include text(0.75rem, 0.9375rem, $font-color-light, left);
+            z-index: 2;
+          }
+        }
+      }
     }
   }
 }

@@ -29,13 +29,13 @@ export default {
     <div class="columns__content">
       <article class="columns__content-item columns__content-main">
         <div class="columns__main-article">
-          <div class="columns__main-article-container">
+          <router-link :to="main.link" class="columns__main-article-container">
             <p :style="{ color: main.themeColor }" class="columns__main-article-theme">
               {{ main.theme }}
             </p>
             <h3 class="columns__main-article-title">{{ main.title }}</h3>
             <p class="columns__main-article-description">{{ main.description }}</p>
-          </div>
+          </router-link>
           <img
             class="columns__main-article-img"
             src="/columns/car.png"
@@ -59,7 +59,7 @@ export default {
         class="columns__content-item columns__content-popular"
       >
         <sign bgColor="#3dc47e">Popular</sign>
-        <div class="columns__popular-content">
+        <router-link :to="popular.link" class="columns__popular-content">
           <p :style="{ color: popular.themeColor }" class="columns__popular-content-theme">
             {{ popular.theme }}
           </p>
@@ -79,19 +79,30 @@ export default {
               </div>
             </div>
           </div>
-        </div>
+        </router-link>
       </article>
       <app-aside section="columns">
-        <li v-for="column in asides" :key="column.id" :id="column.id" class="aside__list-item">
-          <img class="aside__list-item-img" src="/quote.svg" alt="Image of quote" />
-          <h3 class="aside__list-item-title">{{ column.title }}</h3>
-          <div class="aside__list-item-author">
-            <img class="aside__author-img" :src="column.author.avatar" alt="Authors's avatar" />
-            <div class="aside__author">
-              <p class="aside__author-name">{{ column.author.name }}</p>
-              <p class="aside__author-profession">{{ column.author.profession }}</p>
+        <li
+          v-for="column in asides"
+          :key="column.id"
+          :id="column.id"
+          class="columns__aside-list-item"
+        >
+          <img class="columns__aside-quote" src="/quote.svg" alt="Image of quote" />
+          <router-link :to="column.link" class="columns__aside-link">
+            <h3 class="columns__aside-title">{{ column.title }}</h3>
+            <div class="columns__aside-author">
+              <img
+                class="columns__aside-author-avatar"
+                :src="column.author.avatar"
+                alt="Authors's avatar"
+              />
+              <div class="columns__aside-author-info">
+                <p class="columns__aside-author-name">{{ column.author.name }}</p>
+                <p class="columns__aside-author-profession">{{ column.author.profession }}</p>
+              </div>
             </div>
-          </div>
+          </router-link>
         </li>
       </app-aside>
       <article class="columns__content-item columns__content-additional">
@@ -100,7 +111,9 @@ export default {
           :src="additional.img.link"
           :alt="additional.img.alt"
         />
-        <h3 class="columns__content-additional-title">{{ additional.title }}</h3>
+        <router-link class="columns__content-additional-link" :to="additional.link"
+          ><h3>{{ additional.title }}</h3></router-link
+        >
       </article>
       <ordinary-article
         v-for="item in rest"
@@ -109,6 +122,7 @@ export default {
         :title="item.title"
         :description="item.description"
         :date="item.date"
+        :link="item.link"
       ></ordinary-article>
     </div>
   </section>
@@ -150,6 +164,7 @@ export default {
         border-bottom: $border;
 
         &-container {
+          text-decoration: none;
           margin-top: 20px;
           @include flex(column, start, start, 20px);
 
@@ -205,6 +220,7 @@ export default {
       grid-area: 1 / 3 / 3 / 4;
       padding: 18px 35px 25px 25px;
       background-position: center;
+
       background-size: cover;
       background-repeat: no-repeat;
       @include flex(column, space-between, start, 15px);
@@ -212,6 +228,7 @@ export default {
       .columns__popular-content {
         @include size(100%, auto);
         @include flex(column, start, start, 10px);
+        text-decoration: none;
 
         &-theme {
           @extend %theme-font;
@@ -256,6 +273,65 @@ export default {
       }
     }
 
+    .columns__aside-list-item {
+      margin-top: 35px;
+      padding-top: 10px;
+      padding-left: 10px;
+      padding-bottom: 39px;
+      position: relative;
+      @include flex(column, start, start, 15px);
+      border-bottom: $light-border;
+
+      &:last-of-type {
+        border: none;
+      }
+
+      .columns__aside-quote {
+        position: absolute;
+        top: 0;
+        left: 0;
+        @include size(40px, 40px);
+        z-index: 1;
+      }
+
+      .columns__aside-link {
+        text-decoration: none;
+        @include flex(column, start, start, 15px);
+
+        .columns__aside-title {
+          z-index: 2;
+          @extend %roboto-slab-bold;
+          @include text(1.25rem, 1.5625rem, white, left);
+        }
+
+        .columns__aside-author {
+          z-index: 2;
+          @include size(100%, auto);
+          @include flex(row, start, center, 10px);
+
+          &-avatar {
+            @include size(45px, 45px);
+            border-radius: 50%;
+          }
+
+          &-info {
+            @include size(100%, auto);
+            @include flex(column, start, start, 2px);
+
+            .columns__aside-author-name {
+              @extend %lato-regular;
+              @include text(0.875rem, 1.25rem, $font-color-extralight, left);
+            }
+
+            .columns__aside-author-profession {
+              @extend %lato-regular;
+              @include text(0.75rem, 0.9375rem, $font-color-extralight, left);
+            }
+          }
+        }
+      }
+    }
+
     &-additional {
       grid-area: 3 / 1 / 5 / 2;
       background-color: white;
@@ -268,64 +344,11 @@ export default {
         object-fit: cover;
       }
 
-      &-title {
+      &-link {
+        text-decoration: none;
         padding: 15px 25px 30px;
         @extend %roboto-slab-bold;
         @include text(1rem, 1.5625rem, $color-dark, left);
-      }
-    }
-  }
-}
-
-.aside__list-item {
-  margin-top: 35px;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-bottom: 39px;
-  position: relative;
-  @include flex(column, start, start, 15px);
-  border-bottom: $light-border;
-
-  &:last-of-type {
-    border: none;
-  }
-
-  &-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    @include size(40px, 40px);
-    z-index: 1;
-  }
-
-  &-title {
-    z-index: 2;
-    @extend %roboto-slab-bold;
-    @include text(1.25rem, 1.5625rem, white, left);
-  }
-
-  &-author {
-    z-index: 2;
-    @include size(100%, auto);
-    @include flex(row, start, center, 10px);
-
-    .aside__author-img {
-      @include size(45px, 45px);
-      border-radius: 50%;
-    }
-
-    .aside__author {
-      @include size(100%, auto);
-      @include flex(column, start, start, 2px);
-
-      &-name {
-        @extend %lato-regular;
-        @include text(0.875rem, 1.25rem, $font-color-extralight, left);
-      }
-
-      &-profession {
-        @extend %lato-regular;
-        @include text(0.75rem, 0.9375rem, $font-color-extralight, left);
       }
     }
   }

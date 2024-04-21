@@ -16,7 +16,7 @@ const articles = [
       name: 'Benjamin Turner',
       profession: 'Traveler'
     },
-    link: 'article',
+    link: '/article',
     section: 'recommendations'
   },
   {
@@ -31,7 +31,7 @@ const articles = [
       name: 'Sir Elton John',
       profession: 'Singer'
     },
-    link: 'article',
+    link: '/article',
     section: 'recommendations'
   },
   {
@@ -46,7 +46,7 @@ const articles = [
       name: 'Bella Hadid',
       profession: 'Supermodel'
     },
-    link: 'article',
+    link: '/article',
     section: 'recommendations'
   },
   {
@@ -66,7 +66,7 @@ const articles = [
       name: 'Metthew McConaughey',
       profession: 'Actor'
     },
-    link: 'article',
+    link: '/article',
     section: 'recommendations'
   },
   {
@@ -81,7 +81,7 @@ const articles = [
       name: 'Vladimir Pozner',
       profession: 'Journalist'
     },
-    link: 'article',
+    link: '/article',
     section: 'recommendations'
   },
   {
@@ -98,6 +98,7 @@ const articles = [
       quote:
         'Even as the ride-hailing service’s future remember it is that with ride-sharing people share a single ride'
     },
+    link: '/article',
     section: 'columns',
     comments: 342,
     tag: 'main'
@@ -112,6 +113,7 @@ const articles = [
       avatar: '/authors/engineer.png',
       name: 'Sarah Jenkins'
     },
+    link: '/article',
     section: 'columns',
     comments: 16,
     likes: 832,
@@ -126,6 +128,7 @@ const articles = [
       name: 'David Williams',
       profession: 'Architect'
     },
+    link: '/article',
     section: 'columns',
     tag: 'aside'
   },
@@ -137,6 +140,7 @@ const articles = [
       name: 'Alexandra Green',
       profession: 'Interior designer'
     },
+    link: '/article',
     section: 'columns',
     tag: 'aside'
   },
@@ -148,6 +152,7 @@ const articles = [
       name: 'Olivia Thompson',
       profession: 'Coacher'
     },
+    link: '/article',
     section: 'columns',
     tag: 'aside'
   },
@@ -158,6 +163,7 @@ const articles = [
       link: '/columns/pet.png',
       alt: 'The picture of a cat'
     },
+    link: '/article',
     section: 'columns',
     tag: 'additional'
   },
@@ -165,6 +171,7 @@ const articles = [
     id: 12,
     title: 'Is Coffee Bad for Bones?',
     description: 'Coffee drinkers may excrete more calcium, but it doesn’t appear to weaken bones',
+    link: '/article',
     section: 'columns',
     date: 'Oct 15'
   },
@@ -172,6 +179,7 @@ const articles = [
     id: 13,
     title: 'What We Manufacture',
     description: 'A global history of the factory and the modern world that all should read',
+    link: '/article',
     section: 'columns',
     date: 'Oct 14'
   },
@@ -180,6 +188,7 @@ const articles = [
     title: 'It’s a Stressful World',
     description:
       'Can a cruise skeptic enjoy four days on the seas with his family and a bunch of princesses?',
+    link: '/article',
     section: 'columns',
     date: 'Oct 14'
   },
@@ -187,6 +196,7 @@ const articles = [
     id: 15,
     title: 'A Treat for Lemon Lovers',
     description: 'This tangerine, ginger and chocolate tart has verve, depth and a hint of spice',
+    link: '/article',
     section: 'columns',
     date: 'Oct 13'
   },
@@ -194,6 +204,7 @@ const articles = [
     id: 16,
     title: 'The Big Bloom or «How Flowering Plants Changed the World»',
     img: '/separator/flower.png',
+    link: '/article',
     section: 'separator'
   },
   {
@@ -207,6 +218,7 @@ const articles = [
     date: 'Aug 6',
     comments: '342',
     likes: '830',
+    link: '/article',
     section: 'news',
     tag: 'main'
   },
@@ -222,6 +234,7 @@ const articles = [
     comments: '27',
     likes: '129',
     isFavorite: true,
+    link: '/article',
     section: 'news',
     tag: 'main'
   },
@@ -236,6 +249,7 @@ const articles = [
     date: 'Oct 11',
     comments: '30',
     likes: '284',
+    link: '/article',
     section: 'news',
     tag: 'main'
   },
@@ -250,6 +264,7 @@ const articles = [
     date: 'Oct 19',
     comments: '102',
     likes: '1,293',
+    link: '/article',
     section: 'news',
     tag: 'main'
   },
@@ -264,6 +279,7 @@ const articles = [
     date: 'Oct 22',
     comments: '5',
     likes: '82',
+    link: '/article',
     section: 'news',
     tag: 'main'
   },
@@ -278,6 +294,7 @@ const articles = [
     date: 'Oct 26',
     comments: '101',
     likes: '432',
+    link: '/article',
     section: 'news',
     tag: 'main'
   },
@@ -286,6 +303,7 @@ const articles = [
     title: 'Office Meetings Leave the Office',
     img: '/news/girl.png',
     date: '15 minuts ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -294,6 +312,7 @@ const articles = [
     title: 'Experimental Vocal Music in Brooklyn',
     img: '/news/bird.png',
     date: '32 minuts ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -302,6 +321,7 @@ const articles = [
     title: 'Google’s Influence Over Think Tanks',
     img: '/news/hand.png',
     date: '38 minuts ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -310,6 +330,7 @@ const articles = [
     title: 'Homes for Sale in NYC and Connecticut',
     img: '/news/cloud.png',
     date: '53 minuts ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -318,6 +339,7 @@ const articles = [
     title: 'Are You There, Dad? It’s Me, Alice',
     img: '/news/book.png',
     date: '1 hour ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -326,6 +348,7 @@ const articles = [
     title: 'The New Punk Look: Lacy and Colorful',
     img: '/news/cage.png',
     date: '1 hour ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -334,6 +357,7 @@ const articles = [
     title: 'Sunday Best in Harlem and Brooklyn',
     img: '/news/bottles.png',
     date: '2 hours ago',
+    link: '/article',
     section: 'news',
     tag: 'aside'
   },
@@ -347,6 +371,7 @@ const articles = [
       avatar: '/authors/photographer.jpg'
     },
     photos: '26',
+    link: '/article',
     section: 'gallery',
     tag: 'slider'
   },
@@ -360,6 +385,7 @@ const articles = [
       avatar: '/authors/photographer.jpg'
     },
     photos: '26',
+    link: '/article',
     section: 'gallery',
     tag: 'slider'
   },
@@ -373,6 +399,7 @@ const articles = [
       avatar: '/authors/photographer.jpg'
     },
     photos: '26',
+    link: '/article',
     section: 'gallery',
     tag: 'slider'
   },
@@ -386,6 +413,7 @@ const articles = [
       avatar: '/authors/photographer.jpg'
     },
     photos: '26',
+    link: '/article',
     section: 'gallery',
     tag: 'slider'
   },
@@ -399,6 +427,7 @@ const articles = [
       avatar: '/authors/photographer.jpg'
     },
     photos: '26',
+    link: '/article',
     section: 'gallery',
     tag: 'slider'
   },
@@ -407,6 +436,7 @@ const articles = [
     title: 'Is Coffee Bad for Bones?',
     description: 'Coffee drinkers may excrete more calcium, but it doesn’t appear to weaken bones',
     date: 'Oct 15',
+    link: '/article',
     section: 'gallery'
   },
   {
@@ -414,6 +444,7 @@ const articles = [
     title: 'What We Manufacture',
     description: 'A global history of the factory and the modern world that all should read',
     date: 'Oct 14',
+    link: '/article',
     section: 'gallery'
   },
   {
@@ -424,6 +455,7 @@ const articles = [
     description:
       'Try to understand the culture of the company where you want to work and be authentic in your interview, experts emphasize',
     img: '/authors/photographer.jpg',
+    link: '/article',
     section: 'gallery',
     tag: 'main'
   },

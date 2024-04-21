@@ -246,7 +246,7 @@ export default {
           cursor: pointer;
 
           &:hover .recommendations__list-item-title {
-            text-decoration: underline rgba($color-dark, 0.5);
+            color: darken($color-dark, 1);
           }
         }
 

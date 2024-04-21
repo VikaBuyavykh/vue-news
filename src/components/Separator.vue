@@ -1,13 +1,15 @@
 <script>
 import articles from '@/utils/articles'
 import AppButton from '@/components/UI/Button.vue'
+import router from '@/router'
 export default {
   components: {
     AppButton
   },
   data() {
     return {
-      separator: articles.find((article) => article.section === 'separator')
+      separator: articles.find((article) => article.section === 'separator'),
+      router
     }
   }
 }
@@ -16,7 +18,7 @@ export default {
 <template>
   <article class="separator" :style="{ backgroundImage: `url(${separator.img})` }">
     <h2 class="separator__title">{{ separator.title }}</h2>
-    <app-button class="more-btn"
+    <app-button @click="() => router.push(separator.link)" class="more-btn"
       >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
     /></app-button>
   </article>

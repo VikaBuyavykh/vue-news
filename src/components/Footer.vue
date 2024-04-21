@@ -39,12 +39,12 @@ export default {
           <h3 :style="{ borderTopColor: section.themeColor }" class="footer__nav-bar-title">
             {{ section.name }}
           </h3>
-          <a
+          <router-link
             class="footer__nav-bar-link"
             v-for="link in section.links"
             :key="link.name"
-            :href="link.link"
-            >{{ link.name }}</a
+            :to="link.link"
+            >{{ link.name }}</router-link
           >
         </li>
       </ul>
@@ -52,10 +52,18 @@ export default {
         <img class="footer__logo" src="/logo.svg" alt="Logo" />
         <nav-bar :links="contacts" place="footer"></nav-bar>
         <div class="footer__socials">
-          <a class="footer__socials-link" href="#"><img src="/fb.svg" alt="Facebook icon" /></a>
-          <a class="footer__socials-link" href="#"><img src="/twitter.svg" alt="Twitter icon" /></a>
-          <a class="footer__socials-link" href="#"><img src="/yt.svg" alt="Youtube icon" /></a>
-          <a class="footer__socials-link" href="#"><img src="/ig.svg" alt="Instagram icon" /></a>
+          <a class="footer__socials-link" target="_blank" href="https://www.facebook.com/"
+            ><img src="/fb.svg" alt="Facebook icon"
+          /></a>
+          <a class="footer__socials-link" target="_blank" href="https://twitter.com/"
+            ><img src="/twitter.svg" alt="Twitter icon"
+          /></a>
+          <a class="footer__socials-link" target="_blank" href="https://www.youtube.com/?hl=RU"
+            ><img src="/yt.svg" alt="Youtube icon"
+          /></a>
+          <a class="footer__socials-link" target="_blank" href="https://www.instagram.com/"
+            ><img src="/ig.svg" alt="Instagram icon"
+          /></a>
         </div>
       </div>
       <div class="footer__additional">

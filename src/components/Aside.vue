@@ -21,7 +21,7 @@ export default {
     <ul class="aside__list">
       <slot></slot>
     </ul>
-    <a :style="{ color: color }" class="aside__link">Read more</a>
+    <router-link to="/#" :style="{ color: color }" class="aside__link">Read more</router-link>
   </article>
 </template>
 
@@ -52,6 +52,7 @@ export default {
   }
 
   &__link {
+    text-decoration: none;
     border-top: $light-border;
     padding-block: 11px 14px;
     @extend %lato-bold;

@@ -4,6 +4,7 @@ import OrdinaryArticle from '@/components/OrdinaryArticle.vue'
 import AppButton from '@/components/UI/Button.vue'
 import SliderItem from '@/components/SliderItem.vue'
 import SliderButtons from '@/components/UI/SliderButtons.vue'
+import router from '@/router'
 export default {
   components: {
     OrdinaryArticle,
@@ -32,7 +33,8 @@ export default {
       posFinal: 0,
       slideWidth: 0,
       posX: 0,
-      isMousedown: false
+      isMousedown: false,
+      router
     }
   },
   watch: {
@@ -160,6 +162,7 @@ export default {
             :authorProfession="item.author.profession"
             :authorAvatar="item.author.avatar"
             :photos="item.photos"
+            :link="item.link"
           ></slider-item>
           <slider-buttons :buttons="buttons" :changeSlide="changeSlide"></slider-buttons>
         </ul>
@@ -171,7 +174,7 @@ export default {
           </p>
           <h3 class="gallery__main-content-title">{{ main.title }}</h3>
           <p class="gallery__main-content-description">{{ main.description }}</p>
-          <app-button class="gallery__btn more-btn"
+          <app-button @click="() => router.push(main.link)" class="gallery__btn more-btn"
             >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
           /></app-button>
         </div>
@@ -185,6 +188,7 @@ export default {
         :title="article.title"
         :description="article.description"
         :date="article.date"
+        :link="article.link"
       ></ordinary-article>
     </div>
   </section>

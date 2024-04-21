@@ -1,6 +1,7 @@
 <script>
 import AppButton from '@/components/UI/Button.vue'
 import Sign from '@/components/UI/Sign.vue'
+import router from '@/router'
 export default {
   components: {
     AppButton,
@@ -12,7 +13,13 @@ export default {
     authorName: String,
     authorProfession: String,
     authorAvatar: String,
-    photos: String
+    photos: String,
+    link: String
+  },
+  data() {
+    return {
+      router
+    }
   }
 }
 </script>
@@ -24,7 +31,7 @@ export default {
     <p class="slide__name">{{ authorName }}</p>
     <p class="slide__profession">{{ authorProfession }}</p>
     <h3 class="slide__title">{{ title }}</h3>
-    <app-button class="slide__btn"
+    <app-button @click="() => router.push(link)" class="slide__btn"
       ><img src="/pics.svg" alt="Icon of photos" />
       <p>Watch photos</p>
       <span>{{ photos }}</span></app-button

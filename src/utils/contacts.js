@@ -1,19 +1,19 @@
 const contacts = [
   {
     name: 'Contact Us',
-    href: '#'
+    href: '/#'
   },
   {
     name: 'Work with Us',
-    href: '#'
+    href: '/#'
   },
   {
     name: 'Advertise',
-    href: '#'
+    href: '/#'
   },
   {
     name: 'Your Ad Choise',
-    href: '#'
+    href: '/#'
   }
 ]
 

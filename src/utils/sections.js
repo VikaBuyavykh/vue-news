@@ -5,19 +5,19 @@ const sections = [
     links: [
       {
         name: 'Nation',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'World',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Politics',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Solar Eclipse',
-        link: '#'
+        link: '/#'
       }
     ]
   },
@@ -27,23 +27,23 @@ const sections = [
     links: [
       {
         name: 'Art & Design',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Movies',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'People',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Video: Arts',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Theater',
-        link: '#'
+        link: '/#'
       }
     ]
   },
@@ -53,15 +53,15 @@ const sections = [
     links: [
       {
         name: 'Destinations',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Flights',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Business Travel',
-        link: '#'
+        link: '/#'
       }
     ]
   },
@@ -71,23 +71,23 @@ const sections = [
     links: [
       {
         name: 'Olympics',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Motor Sports',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Volleyball',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'MMA',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Cycling',
-        link: '#'
+        link: '/#'
       }
     ]
   },
@@ -97,19 +97,19 @@ const sections = [
     links: [
       {
         name: 'Tech',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Tech Columnists',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Tech Reviews',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Talking Tech',
-        link: '#'
+        link: '/#'
       }
     ]
   },
@@ -119,23 +119,23 @@ const sections = [
     links: [
       {
         name: 'Markets',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Business',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Personal Finance',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Retirement',
-        link: '#'
+        link: '/#'
       },
       {
         name: 'Careers',
-        link: '#'
+        link: '/#'
       }
     ]
   }
