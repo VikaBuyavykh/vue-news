@@ -270,7 +270,7 @@ export default {
         @include size(260px, 260px);
         position: absolute;
         top: 50%;
-        transform: translateY(-50%);
+        transform: translateY(-46%);
         right: 30px;
         background-color: $font-color-extralight;
         border-radius: 50%;

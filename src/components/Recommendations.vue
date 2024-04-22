@@ -147,7 +147,7 @@ export default {
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      padding: 55px;
+      padding: 55px 55px 95px;
       @include flex(column, space-between, start, 45px);
       position: relative;
 
@@ -183,7 +183,7 @@ export default {
 
       .recommendations__article-group {
         @include size(90%, auto);
-        @include flex(column, start, start, 25px);
+        @include flex(column, start, start, 18px);
         z-index: 2;
 
         .recommendations__article-theme {
@@ -191,6 +191,7 @@ export default {
         }
 
         .recommendations__article-title {
+          margin-top: 7px;
           @extend %roboto-slab-bold;
           @include text(2.5rem, 3.125rem, white, left);
         }
@@ -252,6 +253,7 @@ export default {
 
         &:last-of-type {
           border: none;
+          margin-bottom: 10px;
         }
 
         &_selected {

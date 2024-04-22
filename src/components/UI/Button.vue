@@ -17,7 +17,7 @@ export default {}
   outline: none;
   background-color: $accent-blue;
   border-radius: 20px;
-  padding: 10px 30px;
+  padding: 10px 22px;
   @extend %lato-bold;
   @include text(0.875rem, 1.25rem, white, left);
   cursor: pointer;

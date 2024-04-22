@@ -101,7 +101,7 @@ export default {
 
     .footer__input-section {
       @include size(100%, auto);
-      @include flex(row, center, center, 10px);
+      @include flex(row, center, center, 15px);
       margin-bottom: 45px;
 
       .footer__input {
@@ -130,7 +130,7 @@ export default {
           @include size(100%, auto);
           border-top-width: 5px;
           border-top-style: solid;
-          padding-top: 35px;
+          padding-top: 30px;
           margin-bottom: 10px;
           @extend %lato-bold;
           @include text(0.875rem, 1.25rem, $color-dark, left);
@@ -151,8 +151,8 @@ export default {
 
     .footer__contacts {
       @include size(100%, auto);
-      margin-block: 64px 40px;
-      padding-block: 30px;
+      margin-block: 40px 17px;
+      padding-block: 28px 26px;
       @include flex(row, start, center, 30px);
       border-top: $border;
       border-bottom: $border;

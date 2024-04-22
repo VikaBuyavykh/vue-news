@@ -32,7 +32,7 @@ export default {
 
 .btns-list {
   position: absolute;
-  bottom: 10%;
+  bottom: 7%;
   left: 50%;
   transform: translateX(-50%);
   display: grid;

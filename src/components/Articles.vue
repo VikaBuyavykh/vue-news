@@ -41,6 +41,7 @@ export default {
     list-style-type: none;
 
     &-item {
+      @include size(100%, auto);
       padding-inline: 25px;
       border-right: $border;
       @include flex(row, space-between, center, 15px);
@@ -52,7 +53,7 @@ export default {
       .articles__text {
         text-decoration: none;
         @extend %roboto-slab-bold;
-        @include text(1rem, 1.5625rem, white, left);
+        @include text(0.875rem, 1.5625rem, white, left);
 
         &:hover {
           text-decoration: underline rgba(white, 0.3);

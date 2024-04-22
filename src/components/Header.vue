@@ -223,7 +223,7 @@ export default {
 
     .header__title {
       @include size(11.5rem, 2.5rem);
-      margin-right: 3.75rem;
+      margin-right: 6%;
     }
 
     .header__info-group {

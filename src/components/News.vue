@@ -118,8 +118,8 @@ export default {
 
         &-bookmark {
           position: absolute;
-          top: 0;
-          right: 0;
+          top: 2px;
+          right: 3px;
           @include size(14px, 18px);
           cursor: pointer;
         }
@@ -142,6 +142,7 @@ export default {
           @include flex(column, start, start, 10px);
 
           .news__list-item-theme {
+            padding-top: 5px;
             @extend %theme-font;
           }
 
@@ -163,7 +164,7 @@ export default {
 
           .news__list-item-infoblock {
             @include flex(row, start, center, 10px);
-            margin-top: auto;
+            margin-block: auto 5px;
 
             .news__date {
               @extend %lato-regular;
