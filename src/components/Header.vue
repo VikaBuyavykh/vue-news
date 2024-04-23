@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios'
 import NavBar from './NavBar.vue'
 import links from '@/utils/links'
 export default {
@@ -12,7 +13,9 @@ export default {
       date: '',
       isLoginHovered: false,
       isSearchHovered: false,
-      isMenuHovered: false
+      isMenuHovered: false,
+      temp: null,
+      weatherIcon: null
     }
   },
   methods: {
@@ -24,6 +27,21 @@ export default {
     },
     hoverMenu() {
       !this.isMenuHovered ? (this.isMenuHovered = true) : (this.isMenuHovered = false)
+    },
+    async getWeather() {
+      try {
+        const { data } = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
+          params: {
+            q: 'Moscow',
+            units: 'metric',
+            appid: 'b463ca9aaa0838203592e4617935e4ca'
+          }
+        })
+        this.temp = Math.round(data.main.temp)
+        this.weatherIcon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   mounted() {
@@ -34,6 +52,7 @@ export default {
       day: 'numeric',
       year: 'numeric'
     })
+    this.getWeather()
   }
 }
 </script>
@@ -91,8 +110,8 @@ export default {
       <div class="header__info-group">
         <p class="header__date">{{ date }}</p>
         <div class="header__weather-group">
-          <img src="/sun.svg" alt="Thw weather icon" class="header__weather-icon" />
-          <p class="header__weather-text">- 23 °C</p>
+          <img :src="weatherIcon" alt="Thw weather icon" class="header__weather-icon" />
+          <p class="header__weather-text">{{ temp }} °C</p>
         </div>
       </div>
     </div>
@@ -238,7 +257,7 @@ export default {
         @include flex(row, start, center, 10px);
 
         .header__weather-icon {
-          @include size(1.25rem, 1.25rem);
+          @include size(2rem, 2rem);
         }
 
         .header__weather-text {
