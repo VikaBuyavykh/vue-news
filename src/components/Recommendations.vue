@@ -135,6 +135,10 @@ export default {
   @include size(100%, auto);
   background: linear-gradient($color-dark 50%, $bg-color-light 50%);
 
+  @include media_md {
+    background: linear-gradient($color-dark 33%, $bg-color-light 33%);
+  }
+
   &__content {
     @include size(100%, auto);
     max-width: $big-screen-max-width;
@@ -143,6 +147,14 @@ export default {
     overflow: hidden;
     @include flex(row, start, stretch, 0px);
 
+    @include media_lg {
+      width: 90%;
+    }
+
+    @include media_md {
+      flex-direction: column;
+    }
+
     .recommendations__active-item {
       background-position: center;
       background-repeat: no-repeat;
@@ -150,6 +162,14 @@ export default {
       padding: 55px 55px 95px;
       @include flex(column, space-between, start, 45px);
       position: relative;
+
+      @include media_smaller {
+        padding: 40px 40px 60px;
+      }
+
+      @include media_sm {
+        padding: 20px 20px 40px;
+      }
 
       .recommendations__overlay {
         position: absolute;
@@ -194,11 +214,19 @@ export default {
           margin-top: 7px;
           @extend %roboto-slab-bold;
           @include text(2.5rem, 3.125rem, white, left);
+
+          @include media_sm {
+            @include text(1.875rem, 2.5rem, white, left);
+          }
         }
 
         .recommendations__btn-section {
           margin-top: 20px;
           @include flex(row, start, center, 30px);
+
+          @include media_smaller {
+            @include flex(column-reverse, start, start, 20px);
+          }
 
           .recommendations__video-btn-group {
             @include flex(row, start, center, 10px);
@@ -230,6 +258,11 @@ export default {
       max-width: 263px;
       list-style-type: none;
       @include flex(column, start, start, 0px);
+
+      @include media_md {
+        max-width: unset;
+        width: 100%;
+      }
 
       background-color: white;
 
@@ -276,6 +309,10 @@ export default {
           transform: translateY(-50%);
           left: -12px;
           z-index: 2;
+
+          @include media_md {
+            display: none;
+          }
         }
       }
     }

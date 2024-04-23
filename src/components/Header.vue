@@ -15,7 +15,8 @@ export default {
       isSearchHovered: false,
       isMenuHovered: false,
       temp: null,
-      weatherIcon: null
+      weatherIcon: null,
+      isSectionsVisible: true
     }
   },
   methods: {
@@ -42,6 +43,9 @@ export default {
       } catch (error) {
         console.log(error)
       }
+    },
+    changeSectionsVisibility() {
+      this.isSectionsVisible = !this.isSectionsVisible
     }
   },
   mounted() {
@@ -60,7 +64,12 @@ export default {
 <template>
   <header class="header">
     <div class="header__search-section">
-      <div @mouseenter="hoverMenu" @mouseleave="hoverMenu" class="header__menu-group">
+      <div
+        @click="changeSectionsVisibility"
+        @mouseenter="hoverMenu"
+        @mouseleave="hoverMenu"
+        class="header__menu-group"
+      >
         <img
           :src="isMenuHovered ? '/menu-active.svg' : '/menu.svg'"
           alt="Icon of menu"
@@ -115,7 +124,9 @@ export default {
         </div>
       </div>
     </div>
-    <nav-bar :links="links" place="header"></nav-bar>
+    <Transition>
+      <nav-bar v-if="isSectionsVisible" :links="links" place="header"></nav-bar>
+    </Transition>
   </header>
 </template>
 
@@ -123,6 +134,23 @@ export default {
 @import '@/assets/fonts/font.scss';
 @import '@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
+
+.v-enter-active {
+  transition: all 1s ease-out;
+}
+.v-leave-active {
+  transition: all 0.15s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.v-enter-from {
+  height: 0;
+  transform: translateX(-50%);
+  opacity: 0;
+}
+.v-leave-to {
+  height: 0;
+  transform: translateX(50%);
+  opacity: 0;
+}
 
 .header {
   @include size(100%, auto);
@@ -134,6 +162,10 @@ export default {
     margin: 0 auto;
     @include flex(row, space-between, center, 25px);
     border-bottom: $border;
+
+    @include media_lg {
+      width: 90%;
+    }
 
     .header__menu-group {
       @include size(auto, 100%);

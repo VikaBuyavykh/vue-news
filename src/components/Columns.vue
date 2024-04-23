@@ -147,6 +147,23 @@ export default {
     grid-template-rows: repeat(4, minmax(170px, max-content));
     gap: 30px;
 
+    @include media_lg {
+      width: 90%;
+    }
+
+    @include media_md {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include media_smaller {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(6, minmax(170px, max-content));
+    }
+
+    @include media_sm {
+      @include flex(column, start, stretch, 10px);
+    }
+
     &-item {
       border-radius: 10px;
     }
@@ -156,6 +173,14 @@ export default {
       @include flex(column, start, stretch, 0px);
       background-color: white;
 
+      @include media_md {
+        grid-area: 1 / 1 / 2 / 3;
+      }
+
+      @include media_smaller {
+        grid-area: 1 / 1 / 2 / 3;
+      }
+
       .columns__main-article {
         @include size(100%, 100%);
         margin-top: 15px;
@@ -163,10 +188,19 @@ export default {
         @include flex(row, start, start, 0px);
         border-bottom: $border;
 
+        @include media_xs {
+          flex-direction: column;
+          padding-left: 20px;
+        }
+
         &-container {
           text-decoration: none;
-          margin-top: 20px;
+          margin-block: 20px;
           @include flex(column, start, start, 20px);
+
+          @include media_xs {
+            margin-right: 15px;
+          }
 
           .columns__main-article-theme {
             @extend %theme-font;
@@ -186,6 +220,11 @@ export default {
 
         &-img {
           @include size(52.6%, auto);
+          align-self: center;
+
+          @include media_xs {
+            align-self: end;
+          }
         }
       }
 
@@ -220,6 +259,14 @@ export default {
       grid-area: 1 / 3 / 3 / 4;
       padding: 18px 35px 25px 25px;
       background-position: center;
+
+      @include media_md {
+        grid-area: 1 / 3 / 2 / 4;
+      }
+
+      @include media_smaller {
+        grid-area: 2 / 1 / 3 / 2;
+      }
 
       background-size: cover;
       background-repeat: no-repeat;
@@ -338,10 +385,27 @@ export default {
       @include flex(column, start, start, 0px);
       overflow: hidden;
 
+      @include media_md {
+        grid-area: 2 / 2 / 4 / 3;
+      }
+
+      @include media_smaller {
+        grid-area: 3 / 1 / 5 / 2;
+      }
+
+      @include media_sm {
+        display: grid;
+        grid-template-columns: 33% auto;
+      }
+
       &-img {
         @include size(100%, auto);
         object-position: center;
         object-fit: cover;
+
+        @include media_sm {
+          height: 100%;
+        }
       }
 
       &-link {

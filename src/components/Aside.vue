@@ -7,7 +7,6 @@ export default {
     return {
       title: this.section === 'columns' ? 'Columns' : 'Recommended for you',
       bg: this.section === 'columns' ? '#6e99ae' : 'white',
-      gr: this.section === 'columns' ? '1 / 5' : 'unset',
       height: this.section === 'columns' ? 'auto' : 'fit-content',
       color: this.section === 'columns' ? 'white' : '#262d33'
     }
@@ -16,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <article class="aside" :style="{ backgroundColor: bg, gridRow: gr, height: height }">
+  <article class="aside" :style="{ backgroundColor: bg, height: height }">
     <h2 :style="{ color: color }" class="aside__title">{{ title }}</h2>
     <ul class="aside__list">
       <slot></slot>
@@ -33,7 +32,15 @@ export default {
 .aside {
   border-radius: 10px;
   @include flex(column, space-between, stretch, 0px);
-  grid-column: 4 / 5;
+  grid-area: 1 / 4 / 5 / 5;
+
+  @include media_md {
+    grid-area: 2 / 1 / 5 / 2;
+  }
+
+  @include media_smaller {
+    grid-area: 2 / 2 / 5 / 3;
+  }
 
   &__title {
     text-transform: uppercase;
