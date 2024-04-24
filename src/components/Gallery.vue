@@ -204,6 +204,10 @@ export default {
   background-color: $color-dark;
   padding-block: 60px;
 
+  @include media_sm {
+    padding-block: 20px;
+  }
+
   &__content {
     margin: 0 auto;
     @include size(100%, auto);
@@ -212,6 +216,21 @@ export default {
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 30px;
+
+    @include media_lg {
+      width: 90%;
+    }
+
+    @include media_md {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, minmax(min-content, max-content));
+    }
+
+    @include media_sm {
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: repeat(4, minmax(min-content, max-content));
+      gap: 10px;
+    }
 
     .gallery__article {
       background-color: white;
@@ -222,6 +241,14 @@ export default {
       grid-area: 1 / 1 / 4 / 3;
       overflow: hidden;
       position: relative;
+
+      @include media_md {
+        grid-area: 1 / 1 / 2 / 3;
+      }
+
+      @include media_sm {
+        grid-area: 1 / 1 / 2 / 2;
+      }
 
       &-content {
         list-style-type: none;
@@ -238,6 +265,15 @@ export default {
       background-color: $accent-skyblue;
       padding: 35px 30px 50px 35px;
       position: relative;
+      overflow: hidden;
+
+      @include media_md {
+        grid-area: 2 / 1 / 3 / 3;
+      }
+
+      @include media_sm {
+        grid-area: 2 / 1 / 3 / 2;
+      }
 
       &-content {
         @include size(55%, 100%);
@@ -275,6 +311,14 @@ export default {
         background-color: $font-color-extralight;
         border-radius: 50%;
         z-index: 0;
+
+        @include media_sm {
+          right: 0px;
+        }
+
+        @include media_xs {
+          right: -25%;
+        }
       }
 
       .gallery__img {
@@ -283,6 +327,27 @@ export default {
         bottom: 0;
         right: 10%;
         z-index: 1;
+
+        @include media_lg {
+          right: 2%;
+        }
+
+        @include media_md {
+          width: 205px;
+          right: 10%;
+        }
+
+        @include media_smaller {
+          width: 230px;
+        }
+
+        @include media_sm {
+          right: 2%;
+        }
+
+        @include media_xs {
+          right: -20%;
+        }
       }
     }
   }

@@ -13,7 +13,10 @@ export default {
     class="navigation"
   >
     <ul
-      :style="{ justifyContent: `${place === 'header' ? 'space-between' : 'start'}` }"
+      :class="{
+        navigation__list_place_header: place === 'header',
+        navigation__list_place_footer: place === 'footer'
+      }"
       class="navigation__list"
     >
       <li class="navigation__item" v-for="link in links" :key="link.name">
@@ -46,6 +49,23 @@ export default {
     align-items: center;
     gap: 30px;
     list-style-type: none;
+
+    &_place_header {
+      justify-content: space-between;
+    }
+
+    &_place_footer {
+      justify-content: start;
+
+      @include media_md {
+        justify-content: center;
+      }
+
+      @include media_sm {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
 
     .navigation__item {
       padding-block: 3px;

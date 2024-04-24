@@ -88,21 +88,43 @@ export default {
   padding-block: 60px 55px;
   background-color: white;
 
+  @include media_smaller {
+    padding-block: 30px;
+  }
+
   &__content {
     @include size(100%, auto);
     max-width: $big-screen-max-width;
     margin: 0 auto;
     @include flex(column, start, stretch, 25px);
 
+    @include media_lg {
+      width: 90%;
+    }
+
     .footer__title {
       @extend %roboto-slab-bold;
       @include text(2.5rem, 3.125rem, $color-dark, center);
+
+      @include media_smaller {
+        font-size: 1.5rem;
+        line-height: 2.125rem;
+      }
     }
 
     .footer__input-section {
       @include size(100%, auto);
       @include flex(row, center, center, 15px);
       margin-bottom: 45px;
+
+      @include media_md {
+        margin-bottom: 25px;
+      }
+
+      @include media_smaller {
+        flex-direction: column;
+        margin-bottom: 10px;
+      }
 
       .footer__input {
         @include size(27.5%, auto);
@@ -113,6 +135,22 @@ export default {
         border-radius: 5px;
         @extend %lato-regular;
         @include text(0.875rem, 1.25rem, $font-color-light, left);
+
+        @include media_lg {
+          width: 35%;
+        }
+
+        @include media_smaller {
+          width: 50%;
+        }
+
+        @include media_sm {
+          width: 75%;
+        }
+
+        @include media_xs {
+          width: 100%;
+        }
       }
     }
 
@@ -121,6 +159,17 @@ export default {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       list-style-type: none;
+
+      @include media_smaller {
+        grid-template-rows: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 30px;
+      }
+
+      @include media_sm {
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
+      }
 
       &-block {
         @include size(100%, auto);
@@ -157,6 +206,19 @@ export default {
       border-top: $border;
       border-bottom: $border;
 
+      @include media_md {
+        @include flex(column, center, center, 10px);
+      }
+
+      @include media_smaller {
+        margin-top: 17px;
+      }
+
+      @include media_sm {
+        align-items: flex-start;
+        margin-block: 0px;
+      }
+
       .footer__logo {
         @include size(50px, 50px);
       }
@@ -164,6 +226,11 @@ export default {
       .footer__socials {
         margin-right: auto;
         @include flex(row, start, center, 15px);
+
+        @include media_md {
+          justify-content: center;
+          margin: 0;
+        }
 
         &-link {
           transition: all 0.2s ease;
@@ -179,6 +246,10 @@ export default {
       @include size(100%, auto);
       @include flex(row, space-between, start, 30px);
 
+      @include media_smaller {
+        flex-direction: column;
+      }
+
       &-info {
         @extend %lato-regular;
         @include text(0.875rem, 1.25rem, $font-color-light, right);
@@ -186,6 +257,10 @@ export default {
         &_not-copyright {
           text-align: left;
           @include size(67%, auto);
+
+          @include media_smaller {
+            width: 100%;
+          }
         }
       }
     }

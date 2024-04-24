@@ -37,11 +37,20 @@ export default {
   background-repeat: no-repeat;
   @include flex(column, start, center, 5px);
 
+  @include media_smaller {
+    padding-block: 30px 35px;
+  }
+
   &__title {
     @include size(60%, auto);
     max-width: 946px;
     @extend %roboto-slab-bold;
     @include text(2.5rem, 3.125rem, white, center);
+
+    @include media_smaller {
+      font-size: 1.5rem;
+      line-height: 2.125rem;
+    }
   }
 }
 </style>

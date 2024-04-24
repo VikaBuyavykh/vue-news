@@ -6,8 +6,6 @@ export default {
   data() {
     return {
       title: this.section === 'columns' ? 'Columns' : 'Recommended for you',
-      bg: this.section === 'columns' ? '#6e99ae' : 'white',
-      height: this.section === 'columns' ? 'auto' : 'fit-content',
       color: this.section === 'columns' ? 'white' : '#262d33'
     }
   }
@@ -15,7 +13,10 @@ export default {
 </script>
 
 <template>
-  <article class="aside" :style="{ backgroundColor: bg, height: height }">
+  <article
+    class="aside"
+    :class="{ aside_theme_blue: section === 'columns', aside_theme_white: section === 'news' }"
+  >
     <h2 :style="{ color: color }" class="aside__title">{{ title }}</h2>
     <ul class="aside__list">
       <slot></slot>
@@ -34,12 +35,26 @@ export default {
   @include flex(column, space-between, stretch, 0px);
   grid-area: 1 / 4 / 5 / 5;
 
-  @include media_md {
-    grid-area: 2 / 1 / 5 / 2;
+  &_theme_blue {
+    background-color: #6e99ae;
+    height: auto;
+
+    @include media_md {
+      grid-area: 2 / 1 / 5 / 2;
+    }
+
+    @include media_smaller {
+      grid-area: 2 / 2 / 5 / 3;
+    }
   }
 
-  @include media_smaller {
-    grid-area: 2 / 2 / 5 / 3;
+  &_theme_white {
+    background-color: white;
+    height: fit-content;
+
+    @include media_md {
+      grid-area: unset;
+    }
   }
 
   &__title {

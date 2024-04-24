@@ -138,6 +138,10 @@ export default {
   background-color: $bg-color-light;
   padding-block: 30px 60px;
 
+  @include media_sm {
+    padding-block: 20px;
+  }
+
   &__content {
     @include size(100%, auto);
     max-width: $big-screen-max-width;

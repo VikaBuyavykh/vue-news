@@ -30,6 +30,10 @@ export default {
   background-color: $color-dark;
   padding-block: 30px;
 
+  @include media_sm {
+    padding-block: 20px;
+  }
+
   &__list {
     @include size(100%, auto);
     max-width: $big-screen-max-width;

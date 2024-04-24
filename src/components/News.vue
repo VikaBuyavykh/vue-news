@@ -34,19 +34,17 @@ export default {
       <ul class="news__list">
         <li v-for="item in mainNews" :key="item.id" :id="item.id" class="news__list-item">
           <img
-            class="news__list-item-bookmark"
-            :src="!item.isFavorite ? '/bookmark.svg' : '/bookmark-active.svg'"
-            alt="Icon of a bookmark"
-            @click="clickFavorite"
+            class="news__list-item-img"
+            :src="item.img"
+            :alt="`${item.theme}'s article's illustration`"
           />
-          <div class="news__list-item-imgbox">
-            <img
-              class="news__list-item-img"
-              :src="item.img"
-              :alt="`${item.theme}'s article's illustration`"
-            />
-          </div>
           <div class="news__list-item-container">
+            <img
+              class="news__bookmark"
+              :src="!item.isFavorite ? '/bookmark.svg' : '/bookmark-active.svg'"
+              alt="Icon of a bookmark"
+              @click="clickFavorite"
+            />
             <p :style="{ color: item.themeColor }" class="news__list-item-theme">
               {{ item.theme }}
             </p>
@@ -95,7 +93,20 @@ export default {
     max-width: $big-screen-max-width;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 29px;
+    column-gap: 29px;
+
+    @include media_lg {
+      width: 90%;
+    }
+
+    @include media_md {
+      @include flex(column, start, stretch, 30px);
+    }
+
+    @include media_sm {
+      gap: 10px;
+      margin-block: 20px;
+    }
 
     .news__list {
       grid-column: 1 / 4;
@@ -109,37 +120,38 @@ export default {
         margin: 25px 25px 0;
         padding-bottom: 25px;
         border-bottom: $border;
-        @include flex(row, stretch, stretch, 25px);
-        position: relative;
+        display: grid;
+        grid-template-columns: 42.1% auto;
+        gap: 25px;
+
+        @include media_sm {
+          grid-template-columns: 1fr;
+          grid-template-rows: repeat(2, minmax(min-content, max-content));
+        }
 
         &:last-of-type {
           border: none;
         }
 
-        &-bookmark {
-          position: absolute;
-          top: 2px;
-          right: 3px;
-          @include size(14px, 18px);
-          cursor: pointer;
-        }
-
-        &-imgbox {
-          @include size(42.1%, auto);
-          position: relative;
-
-          .news__list-item-img {
-            position: absolute;
-            @include size(100%, 100%);
-            object-position: center;
-            object-fit: cover;
-          }
+        &-img {
+          @include size(100%, 100%);
+          object-position: center;
+          object-fit: cover;
         }
 
         &-container {
-          @include size(calc(100% - 42.1% - 25px), auto);
+          @include size(100%, auto);
           min-height: 195px;
           @include flex(column, start, start, 10px);
+          position: relative;
+
+          .news__bookmark {
+            position: absolute;
+            top: 2px;
+            right: 3px;
+            @include size(14px, 18px);
+            cursor: pointer;
+          }
 
           .news__list-item-theme {
             padding-top: 5px;
