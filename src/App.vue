@@ -31,6 +31,7 @@ export default {
 .page {
   @include flex(column, start, center, 0px);
   overflow: hidden;
+  min-width: 280px;
 }
 
 .more-btn {

@@ -1,10 +1,12 @@
 <script>
 import axios from 'axios'
-import NavBar from './NavBar.vue'
+import NavBar from '@/components/NavBar.vue'
 import links from '@/utils/links'
+import Popup from '@/components/Popup.vue'
 export default {
   components: {
-    NavBar
+    NavBar,
+    Popup
   },
   data() {
     return {
@@ -16,7 +18,8 @@ export default {
       isMenuHovered: false,
       temp: null,
       weatherIcon: null,
-      isSectionsVisible: true
+      isSectionsVisible: true,
+      isPopupVisible: false
     }
   },
   methods: {
@@ -46,6 +49,12 @@ export default {
     },
     changeSectionsVisibility() {
       this.isSectionsVisible = !this.isSectionsVisible
+    },
+    changePopupVisibility() {
+      this.isPopupVisible = !this.isPopupVisible
+    },
+    onSectionsClick() {
+      window.innerWidth <= 1000 ? this.changePopupVisibility() : this.changeSectionsVisibility()
     }
   },
   mounted() {
@@ -57,6 +66,13 @@ export default {
       year: 'numeric'
     })
     this.getWeather()
+  },
+  watch: {
+    isPopupVisible() {
+      if (this.isPopupVisible && this.isSectionsVisible) {
+        this.isSectionsVisible = false
+      }
+    }
   }
 }
 </script>
@@ -65,7 +81,11 @@ export default {
   <header class="header">
     <div class="header__search-section">
       <div
-        @click="changeSectionsVisibility"
+        @click="
+          () => {
+            onSectionsClick()
+          }
+        "
         @mouseenter="hoverMenu"
         @mouseleave="hoverMenu"
         class="header__menu-group"
@@ -127,6 +147,9 @@ export default {
     <Transition>
       <nav-bar v-if="isSectionsVisible" :links="links" place="header"></nav-bar>
     </Transition>
+    <popup :changePopupVisibility="changePopupVisibility" v-if="isPopupVisible">
+      <nav-bar :links="links" place="header-popup"></nav-bar>
+    </popup>
   </header>
 </template>
 
@@ -157,36 +180,75 @@ export default {
   @include flex(column, start, stretch, 0px);
 
   &__search-section {
-    @include size(100%, 3.125rem);
+    @include size(100%, auto);
     max-width: $big-screen-max-width;
     margin: 0 auto;
-    @include flex(row, space-between, center, 25px);
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 25px;
     border-bottom: $border;
 
     @include media_lg {
       width: 90%;
     }
 
+    @include media_smaller {
+      grid-template-columns: auto 1fr auto;
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0;
+    }
+
     .header__menu-group {
       @include size(auto, 100%);
-      padding-right: 25px;
       border-right: $border;
+      padding-right: 25px;
       @include flex(row, space-between, center, 15px);
       cursor: pointer;
 
+      @include media_smaller {
+        border: none;
+        justify-content: start;
+      }
+
+      @include media_sm {
+        gap: 10px;
+      }
+
+      @include media_xs {
+        padding-right: 10px;
+      }
+
       .header__menu-btn {
         @include size(1.25rem, 1.25rem);
+
+        @include media_sm {
+          @include size(1rem, 1rem);
+        }
       }
 
       .header__menu-text {
         @extend %lato-bold;
         @include text(0.875rem, 1.25rem, $color-dark, left);
+
+        @include media_sm {
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
       }
     }
 
     .header__search-form {
       @include flex(row, start, center, 10px);
-      flex-grow: 1;
+
+      @include media_smaller {
+        justify-content: center;
+        grid-area: 1/1/2/4;
+      }
+
+      @include media_xs {
+        grid-area: 1/1/2/3;
+        gap: 5px;
+      }
 
       .header__search-btn {
         @include size(1.25rem, 1.25rem);
@@ -199,6 +261,16 @@ export default {
         @include size(80%, auto);
         @extend %lato-regular;
         @include text(0.875rem, 1.25rem, $color-dark, left);
+
+        @include media_smaller {
+          background-color: rgba($font-color-light, 0.1);
+          border-radius: 10px;
+          padding-inline: 15px;
+        }
+
+        @include media_xs {
+          width: 100%;
+        }
 
         &::placeholder {
           color: $font-color-light;
@@ -215,13 +287,23 @@ export default {
       @include flex(row, start, center, 10px);
       cursor: pointer;
 
+      @include media_xs {
+        flex-direction: row-reverse;
+        justify-content: end;
+        grid-area: 2/2/3/4;
+      }
+
       .header__subscribe-img {
+        margin-top: 3px;
         @include size(4.125rem, 2.75rem);
         align-self: end;
+
+        @include media_smaller {
+          margin: 0;
+        }
       }
 
       .header__subscribe-paragraph {
-        @include size(7.4375rem, auto);
         @include flex(column, center, start, 0px);
 
         .header__subscribe-text {
@@ -239,15 +321,34 @@ export default {
     .header__login-group {
       @include flex(row, start, center, 10px);
       cursor: pointer;
+      padding-left: 25px;
+
+      @include media_smaller {
+        justify-content: end;
+      }
+
+      @include media_xs {
+        grid-area: 1/3/2/4;
+        padding-left: 10px;
+      }
 
       .header__login-btn {
         @include size(1.25rem, 1.25rem);
         cursor: pointer;
+
+        @include media_sm {
+          @include size(1rem, 1rem);
+        }
       }
 
       .header__login-text {
         @extend %lato-regular;
         @include text(0.875rem, 1.25rem, $font-color-medium, left);
+
+        @include media_sm {
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
       }
     }
   }
@@ -256,11 +357,43 @@ export default {
     @include size(100%, auto);
     max-width: $big-screen-max-width;
     margin: 0 auto;
-    @include flex(row, space-between, center, 10px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    @include media_lg {
+      width: 90%;
+    }
+
+    @include media_smaller {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, minmax(min-content, max-content));
+      column-gap: 40px;
+    }
+
+    @include media_xs {
+      grid-template-columns: repeat(1, 1fr);
+      grid-template-rows: repeat(3, minmax(min-content, max-content));
+    }
 
     .header__about-group {
       @include flex(row, start, center, 15px);
-      margin-left: 2rem;
+      margin-left: 32px;
+
+      @include media_lg {
+        margin: 0;
+      }
+
+      @include media_md {
+        @include flex(column, center, start, 0px);
+      }
+
+      @include media_smaller {
+        grid-area: 1/1/3/2;
+      }
+
+      @include media_xs {
+        grid-area: 1/1/2/2;
+      }
 
       .header__main-img {
         @include size(6.25rem, 5.25rem);
@@ -274,11 +407,40 @@ export default {
 
     .header__title {
       @include size(11.5rem, 2.5rem);
-      margin-right: 6%;
+      margin: auto;
+
+      @include media_smaller {
+        margin-right: 0;
+      }
+
+      @include media_xs {
+        margin-left: 0;
+      }
     }
 
     .header__info-group {
       @include flex(row, start, center, 68px);
+      margin-left: auto;
+
+      @include media_lg {
+        gap: 20px;
+      }
+
+      @include media_md {
+        @include flex(column-reverse, end, end, 0px);
+      }
+
+      @include media_smaller {
+        grid-area: 1/2/2/3;
+        @include flex(column, start, end, 0px);
+        margin-top: 5px;
+      }
+
+      @include media_xs {
+        grid-area: 3/1/4/2;
+        @include flex(column, start, start, 0px);
+        margin: 7px 0 0;
+      }
 
       .header__date {
         @extend %lato-regular;
