@@ -1,17 +1,18 @@
 <script>
-import articles from '@/utils/articles'
 import AppButton from '@/components/UI/Button.vue'
 import router from '@/router'
 export default {
+  props: {
+    recommendationsContent: Array
+  },
   components: {
     AppButton
   },
   data() {
-    const recommendations = articles.filter((item) => item.section === 'recommendations')
     return {
-      recommendations: recommendations,
-      selectedRecommendation: recommendations[0],
-      router
+      router,
+      recommendations: [],
+      selectedRecommendation: {}
     }
   },
   methods: {
@@ -27,13 +28,17 @@ export default {
         this.selectedRecommendation = value.find((item) => item.isSelected === true)
       },
       deep: true
+    },
+    recommendationsContent() {
+      this.recommendations = this.recommendationsContent
+      this.selectedRecommendation = this.recommendations[0]
     }
   }
 }
 </script>
 
 <template>
-  <section class="recommendations">
+  <section v-if="recommendationsContent.length > 0" class="recommendations">
     <div class="recommendations__content">
       <div
         :style="{ backgroundImage: `url(${selectedRecommendation.img})` }"

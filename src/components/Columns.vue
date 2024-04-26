@@ -1,10 +1,12 @@
 <script>
-import articles from '@/utils/articles'
 import Comments from '@/components/UI/Comments.vue'
 import OrdinaryArticle from '@/components/OrdinaryArticle.vue'
 import AppAside from '@/components/Aside.vue'
 import Sign from '@/components/UI/Sign.vue'
 export default {
+  props: {
+    columnsContent: Array
+  },
   components: {
     Comments,
     OrdinaryArticle,
@@ -12,20 +14,30 @@ export default {
     Sign
   },
   data() {
-    const columns = articles.filter((item) => item.section === 'columns')
     return {
-      main: columns.find((item) => item.tag === 'main'),
-      popular: columns.find((item) => item.tag === 'popular'),
-      asides: columns.filter((item) => item.tag === 'aside').filter((i, index) => index < 3),
-      additional: columns.find((item) => item.tag === 'additional'),
-      rest: columns.filter((item) => !item.tag).filter((i, index) => index < 4)
+      main: {},
+      popular: {},
+      asides: [],
+      additional: {},
+      rest: []
+    }
+  },
+  watch: {
+    columnsContent() {
+      this.main = this.columnsContent.find((item) => item.tag === 'main')
+      this.popular = this.columnsContent.find((item) => item.tag === 'popular')
+      this.asides = this.columnsContent
+        .filter((item) => item.tag === 'aside')
+        .filter((i, index) => index < 3)
+      this.additional = this.columnsContent.find((item) => item.tag === 'additional')
+      this.rest = this.columnsContent.filter((item) => !item.tag).filter((i, index) => index < 4)
     }
   }
 }
 </script>
 
 <template>
-  <section class="columns">
+  <section v-if="columnsContent.length > 0" class="columns">
     <div class="columns__content">
       <article class="columns__content-item columns__content-main">
         <div class="columns__main-article">

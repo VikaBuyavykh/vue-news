@@ -1,11 +1,13 @@
 <script>
-import articles from '@/utils/articles'
 import OrdinaryArticle from '@/components/OrdinaryArticle.vue'
 import AppButton from '@/components/UI/Button.vue'
 import SliderItem from '@/components/SliderItem.vue'
 import SliderButtons from '@/components/UI/SliderButtons.vue'
 import router from '@/router'
 export default {
+  props: {
+    galleryContent: Array
+  },
   components: {
     OrdinaryArticle,
     AppButton,
@@ -13,13 +15,10 @@ export default {
     SliderButtons
   },
   data() {
-    const galleryArticles = articles.filter((item) => item.section === 'gallery')
     return {
-      sliderItems: galleryArticles
-        .filter((item) => item.tag === 'slider')
-        .filter((i, index) => index < 5),
-      main: galleryArticles.find((item) => item.tag === 'main'),
-      rest: galleryArticles.filter((item) => !item.tag).filter((i, index) => index < 2),
+      sliderItems: [],
+      main: {},
+      rest: [],
       currentSlideIndex: 0,
       buttons: [
         { id: 1, isSelected: true },
@@ -42,6 +41,16 @@ export default {
       this.buttons = this.buttons.map((item) =>
         value !== item.id - 1 ? { ...item, isSelected: false } : { ...item, isSelected: true }
       )
+    },
+    galleryContent() {
+      this.main = this.galleryContent.find((item) => item.tag === 'main')
+      this.rest = this.galleryContent.filter((item) => !item.tag).filter((i, index) => index < 2)
+      this.sliderItems = this.galleryContent
+        .filter((item) => item.tag === 'slider')
+        .filter((i, index) => index < 5)
+    },
+    slideWidth() {
+      this.slideWidth = document.querySelector('.slide').offsetWidth
     }
   },
   methods: {
@@ -124,7 +133,6 @@ export default {
   },
   mounted() {
     this.intervalStart()
-    this.slideWidth = document.querySelector('.slide').offsetWidth
   },
   unmounted() {
     clearInterval(this.intervalStart)
@@ -133,7 +141,7 @@ export default {
 </script>
 
 <template>
-  <section class="gallery">
+  <section v-if="galleryContent.length > 0" class="gallery">
     <div class="gallery__content">
       <article class="gallery__article gallery__slider">
         <ul

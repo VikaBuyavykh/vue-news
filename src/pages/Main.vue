@@ -6,6 +6,19 @@ import Separator from '@/components/Separator.vue'
 import News from '@/components/News.vue'
 import Gallery from '@/components/Gallery.vue'
 export default {
+  props: {
+    articles: Array
+  },
+  data() {
+    return {
+      articlesContent: [],
+      recommendationsContent: [],
+      columnsContent: [],
+      separatorContent: {},
+      newsContent: [],
+      galleryContent: []
+    }
+  },
   components: {
     Articles,
     Recommendations,
@@ -13,18 +26,30 @@ export default {
     Separator,
     News,
     Gallery
+  },
+  watch: {
+    articles() {
+      this.articlesContent = this.articles.filter((item) => item.section === 'articles')
+      this.recommendationsContent = this.articles.filter(
+        (item) => item.section === 'recommendations'
+      )
+      this.columnsContent = this.articles.filter((item) => item.section === 'columns')
+      this.separatorContent = this.articles.find((article) => article.section === 'separator')
+      this.newsContent = this.articles.filter((article) => article.section === 'news')
+      this.galleryContent = this.articles.filter((item) => item.section === 'gallery')
+    }
   }
 }
 </script>
 
 <template>
   <main class="main-content">
-    <articles></articles>
-    <recommendations></recommendations>
-    <columns></columns>
-    <separator></separator>
-    <news></news>
-    <gallery></gallery>
+    <articles :articlesContent="articlesContent"></articles>
+    <recommendations :recommendationsContent="recommendationsContent"></recommendations>
+    <columns :columnsContent="columnsContent"></columns>
+    <separator :separatorContent="separatorContent"></separator>
+    <news :newsContent="newsContent"></news>
+    <gallery :galleryContent="galleryContent"></gallery>
   </main>
 </template>
 

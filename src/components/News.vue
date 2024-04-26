@@ -1,17 +1,18 @@
 <script>
-import articles from '@/utils/articles'
 import Comments from '@/components/UI/Comments.vue'
 import AppAside from '@/components/Aside.vue'
 export default {
+  props: {
+    newsContent: Array
+  },
   components: {
     Comments,
     AppAside
   },
   data() {
-    const news = articles.filter((article) => article.section === 'news')
     return {
-      mainNews: news.filter((item) => item.tag === 'main').filter((i, index) => index < 6),
-      asides: news.filter((item) => item.tag === 'aside').filter((i, index) => index < 7)
+      mainNews: [],
+      asides: []
     }
   },
   methods: {
@@ -24,12 +25,22 @@ export default {
           : item
       )
     }
+  },
+  watch: {
+    newsContent() {
+      this.mainNews = this.newsContent
+        .filter((item) => item.tag === 'main')
+        .filter((i, index) => index < 6)
+      this.asides = this.newsContent
+        .filter((item) => item.tag === 'aside')
+        .filter((i, index) => index < 7)
+    }
   }
 }
 </script>
 
 <template>
-  <section class="news">
+  <section v-if="newsContent" class="news">
     <div class="news__content">
       <ul class="news__list">
         <li v-for="item in mainNews" :key="item.id" :id="item.id" class="news__list-item">
@@ -204,6 +215,7 @@ export default {
         text-decoration: none;
 
         .news__aside-imgbox {
+          align-self: center;
           @include size(auto, 60px);
           position: relative;
 

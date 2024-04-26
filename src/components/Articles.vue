@@ -1,10 +1,7 @@
 <script>
-import articles from '@/utils/articles'
 export default {
-  data() {
-    return {
-      content: articles.filter((item) => item.section === 'articles')
-    }
+  props: {
+    articlesContent: Array
   }
 }
 </script>
@@ -12,7 +9,7 @@ export default {
 <template>
   <section class="articles">
     <ul class="articles__list">
-      <li v-for="article in content" :key="article.id" class="articles__list-item">
+      <li v-for="article in articlesContent" :key="article.id" class="articles__list-item">
         <router-link :to="article.link" class="articles__text">{{ article.title }}</router-link>
         <img :src="article.img.src" :alt="article.img.alt" class="articles__img" />
       </li>
@@ -68,14 +65,22 @@ export default {
       @include size(100%, auto);
       padding-inline: 25px;
       border-right: $border;
-      @include flex(row, space-between, center, 15px);
+      display: grid;
+      grid-template-columns: auto 65px;
+      gap: 15px;
+      align-items: center;
 
       @include media_lg {
-        @include flex(column, space-between, start, 15px);
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+        align-items: self-start;
       }
 
       @include media_md {
-        @include flex(row, space-between, center, 15px);
+        display: grid;
+        grid-template-columns: auto 65px;
+        grid-template-rows: 1fr;
+        align-items: center;
       }
 
       @include media_sm {
@@ -105,6 +110,8 @@ export default {
 
         @include media_sm {
           margin-left: 10px;
+          font-size: 0.75rem;
+          line-height: 1rem;
         }
 
         &:hover {
@@ -113,21 +120,9 @@ export default {
       }
 
       .articles__img {
-        @include size(4.0625rem, 4.0625rem);
+        @include size(100%, 65px);
         object-fit: cover;
         object-position: center;
-
-        @include media_lg {
-          width: 100%;
-        }
-
-        @include media_md {
-          @include size(4.0625rem, 4.0625rem);
-        }
-
-        @include media_smaller {
-          height: 100%;
-        }
       }
     }
   }
