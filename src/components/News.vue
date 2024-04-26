@@ -1,6 +1,7 @@
 <script>
 import Comments from '@/components/UI/Comments.vue'
 import AppAside from '@/components/Aside.vue'
+import axios from 'axios'
 export default {
   props: {
     newsContent: Array
@@ -16,9 +17,20 @@ export default {
     }
   },
   methods: {
+    async setFavorite(id, value) {
+      try {
+        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${id}`, {
+          isFavorite: value
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
     clickFavorite(e) {
+      const element = e.target.closest('.news__list-item')
+      this.setFavorite(element.id, element.getAttribute('isFavorite') !== 'true')
       this.mainNews = this.mainNews.map((item) =>
-        item.id === Number(e.target.closest('.news__list-item').id)
+        item.id === Number(element.id)
           ? !item.isFavorite
             ? { ...item, isFavorite: true }
             : { ...item, isFavorite: false }
@@ -43,7 +55,13 @@ export default {
   <section v-if="newsContent" class="news">
     <div class="news__content">
       <ul class="news__list">
-        <li v-for="item in mainNews" :key="item.id" :id="item.id" class="news__list-item">
+        <li
+          v-for="item in mainNews"
+          :key="item.id"
+          :id="item.id"
+          :isFavorite="item.isFavorite"
+          class="news__list-item"
+        >
           <img
             class="news__list-item-img"
             :src="item.img"

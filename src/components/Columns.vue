@@ -201,11 +201,12 @@ export default {
         @include size(100%, 100%);
         margin-top: 15px;
         padding-left: 35px;
-        @include flex(row, start, start, 0px);
+        display: grid;
+        grid-template-columns: auto 56.15%;
         border-bottom: $border;
 
         @include media_xs {
-          flex-direction: column;
+          grid-template-columns: 1fr;
           padding-left: 20px;
         }
 
@@ -235,11 +236,12 @@ export default {
         }
 
         &-img {
-          @include size(52.6%, auto);
+          @include size(100%, auto);
           align-self: center;
 
           @include media_xs {
-            align-self: end;
+            width: 50%;
+            justify-self: end;
           }
         }
       }

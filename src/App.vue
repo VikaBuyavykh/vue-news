@@ -1,29 +1,11 @@
 <script>
 import AppHeader from '@/components/Header.vue'
 import AppFooter from '@/components/Footer.vue'
-import axios from 'axios'
+
 export default {
   components: {
     AppHeader,
     AppFooter
-  },
-  data() {
-    return {
-      articles: []
-    }
-  },
-  methods: {
-    async getArticles() {
-      try {
-        const { data } = await axios.get('https://7b3a9f14b0b4b7d5.mokky.dev/articles')
-        this.articles = data
-      } catch (error) {
-        console.log(error)
-      }
-    }
-  },
-  mounted() {
-    this.getArticles()
   }
 }
 </script>
@@ -31,7 +13,7 @@ export default {
 <template>
   <div class="page">
     <app-header></app-header>
-    <router-view :articles="articles"></router-view>
+    <router-view></router-view>
     <app-footer></app-footer>
   </div>
 </template>

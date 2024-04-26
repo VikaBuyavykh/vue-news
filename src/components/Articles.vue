@@ -7,7 +7,7 @@ export default {
 </script>
 
 <template>
-  <section class="articles">
+  <section v-if="articlesContent" class="articles">
     <ul class="articles__list">
       <li v-for="article in articlesContent" :key="article.id" class="articles__list-item">
         <router-link :to="article.link" class="articles__text">{{ article.title }}</router-link>

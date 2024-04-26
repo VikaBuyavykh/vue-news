@@ -141,7 +141,7 @@ export default {
 </script>
 
 <template>
-  <section v-if="galleryContent.length > 0" class="gallery">
+  <section v-if="galleryContent.length" class="gallery">
     <div class="gallery__content">
       <article class="gallery__article gallery__slider">
         <ul

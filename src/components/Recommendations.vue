@@ -150,14 +150,15 @@ export default {
     margin: 0 auto;
     border-radius: 10px;
     overflow: hidden;
-    @include flex(row, start, stretch, 0px);
+    display: grid;
+    grid-template-columns: auto 263px;
 
     @include media_lg {
       width: 90%;
     }
 
     @include media_md {
-      flex-direction: column;
+      grid-template-columns: 1fr;
     }
 
     .recommendations__active-item {
@@ -291,7 +292,7 @@ export default {
 
         &:last-of-type {
           border: none;
-          margin-bottom: 10px;
+          padding-bottom: 29px;
         }
 
         &_selected {
