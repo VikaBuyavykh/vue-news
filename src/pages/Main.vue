@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios'
+import { mapState } from 'vuex'
 import Articles from '@/components/Articles.vue'
 import Recommendations from '@/components/Recommendations.vue'
 import Columns from '@/components/Columns.vue'
@@ -7,9 +7,16 @@ import Separator from '@/components/Separator.vue'
 import News from '@/components/News.vue'
 import Gallery from '@/components/Gallery.vue'
 export default {
+  components: {
+    Articles,
+    Recommendations,
+    Columns,
+    Separator,
+    News,
+    Gallery
+  },
   data() {
     return {
-      articles: [],
       articlesContent: [],
       recommendationsContent: [],
       columnsContent: [],
@@ -18,13 +25,10 @@ export default {
       galleryContent: []
     }
   },
-  components: {
-    Articles,
-    Recommendations,
-    Columns,
-    Separator,
-    News,
-    Gallery
+  computed: {
+    ...mapState({
+      articles: (state) => state.articles.articles
+    })
   },
   watch: {
     articles() {
@@ -36,21 +40,15 @@ export default {
       this.separatorContent = this.articles.find((article) => article.section === 'separator')
       this.newsContent = this.articles.filter((article) => article.section === 'news')
       this.galleryContent = this.articles.filter((item) => item.section === 'gallery')
-      console.log(this.articles)
-    }
-  },
-  methods: {
-    async getArticles() {
-      try {
-        const { data } = await axios.get('https://7b3a9f14b0b4b7d5.mokky.dev/articles')
-        this.articles = data
-      } catch (error) {
-        console.log(error)
-      }
     }
   },
   mounted() {
-    this.getArticles()
+    this.$store.dispatch('articles/getArticles')
+    // console.log(this.$store.state.articles.number)
+    // console.log(this.$store.getters['articles/doubleNumber'])
+    // this.$store.commit('articles/increment')
+    // console.log(this.$store.state.articles.number)
+    // console.log(this.$store.getters['articles/doubleNumber'])
   }
 }
 </script>
