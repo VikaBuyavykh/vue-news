@@ -1,58 +1,30 @@
 <script>
+import { mapActions, mapGetters, mapState } from 'vuex'
 import Comments from '@/components/UI/Comments.vue'
 import AppAside from '@/components/Aside.vue'
-import axios from 'axios'
 export default {
-  props: {
-    newsContent: Array
-  },
   components: {
     Comments,
     AppAside
   },
-  data() {
-    return {
-      mainNews: [],
-      asides: []
-    }
+  computed: {
+    ...mapState({
+      mainNews: (state) => state.articles.mainNews
+    }),
+    ...mapGetters({
+      asides: 'articles/asideNews'
+    })
   },
   methods: {
-    async setFavorite(id, value) {
-      try {
-        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${id}`, {
-          isFavorite: value
-        })
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    clickFavorite(e) {
-      const element = e.target.closest('.news__list-item')
-      this.setFavorite(element.id, element.getAttribute('isFavorite') !== 'true')
-      this.mainNews = this.mainNews.map((item) =>
-        item.id === Number(element.id)
-          ? !item.isFavorite
-            ? { ...item, isFavorite: true }
-            : { ...item, isFavorite: false }
-          : item
-      )
-    }
-  },
-  watch: {
-    newsContent() {
-      this.mainNews = this.newsContent
-        .filter((item) => item.tag === 'main')
-        .filter((i, index) => index < 6)
-      this.asides = this.newsContent
-        .filter((item) => item.tag === 'aside')
-        .filter((i, index) => index < 7)
-    }
+    ...mapActions({
+      clickFavorite: 'articles/clickFavorite'
+    })
   }
 }
 </script>
 
 <template>
-  <section v-if="newsContent" class="news">
+  <section v-if="mainNews" class="news">
     <div class="news__content">
       <ul class="news__list">
         <li

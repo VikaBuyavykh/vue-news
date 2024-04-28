@@ -1,44 +1,34 @@
 <script>
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import AppButton from '@/components/UI/Button.vue'
 import router from '@/router'
 export default {
-  props: {
-    recommendationsContent: Array
-  },
   components: {
     AppButton
   },
   data() {
     return {
-      router,
-      recommendations: [],
-      selectedRecommendation: {}
+      router
     }
+  },
+  computed: {
+    ...mapState({
+      recommendations: (state) => state.articles.recommendations
+    }),
+    ...mapGetters({
+      selectedRecommendation: 'articles/selectedRecommendation'
+    })
   },
   methods: {
-    selectRecommendation(e) {
-      this.recommendations.map((item) =>
-        item.id == e.currentTarget.id ? (item.isSelected = true) : (item.isSelected = false)
-      )
-    }
-  },
-  watch: {
-    recommendations: {
-      handler(value) {
-        this.selectedRecommendation = value.find((item) => item.isSelected === true)
-      },
-      deep: true
-    },
-    recommendationsContent() {
-      this.recommendations = this.recommendationsContent
-      this.selectedRecommendation = this.recommendations[0]
-    }
+    ...mapMutations({
+      selectRecommendation: 'articles/selectRecommendation'
+    })
   }
 }
 </script>
 
 <template>
-  <section v-if="recommendationsContent.length > 0" class="recommendations">
+  <section v-if="recommendations.length > 0" class="recommendations">
     <div class="recommendations__content">
       <div
         :style="{ backgroundImage: `url(${selectedRecommendation.img})` }"

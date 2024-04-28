@@ -1,15 +1,18 @@
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  props: {
-    articlesContent: Array
+  computed: {
+    ...mapGetters({
+      content: 'articles/articlesContent'
+    })
   }
 }
 </script>
 
 <template>
-  <section v-if="articlesContent" class="articles">
+  <section v-if="content" class="articles">
     <ul class="articles__list">
-      <li v-for="article in articlesContent" :key="article.id" class="articles__list-item">
+      <li v-for="article in content" :key="article.id" class="articles__list-item">
         <router-link :to="article.link" class="articles__text">{{ article.title }}</router-link>
         <img :src="article.img.src" :alt="article.img.alt" class="articles__img" />
       </li>

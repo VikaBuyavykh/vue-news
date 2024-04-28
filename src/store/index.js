@@ -1,10 +1,10 @@
 import { createStore } from 'vuex'
 import { articlesModule } from '@/store/modules/articles'
-import { articles2Module } from './modules/articles2'
+import { sliderModule } from '@/store/modules/slider'
 
 export default createStore({
   modules: {
     articles: articlesModule,
-    articles2: articles2Module
+    slider: sliderModule
   }
 })

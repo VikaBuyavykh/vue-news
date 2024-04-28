@@ -1,33 +1,26 @@
 <script>
+import { mapGetters } from 'vuex'
 import AppButton from '@/components/UI/Button.vue'
 import router from '@/router'
 export default {
-  props: {
-    separatorContent: Object
-  },
   components: {
     AppButton
   },
   data() {
     return {
-      separator: {},
       router
     }
   },
-  watch: {
-    separatorContent() {
-      this.separator = this.separatorContent
-    }
+  computed: {
+    ...mapGetters({
+      separator: 'articles/separatorArticle'
+    })
   }
 }
 </script>
 
 <template>
-  <article
-    v-if="separatorContent"
-    class="separator"
-    :style="{ backgroundImage: `url(${separator.img})` }"
-  >
+  <article v-if="separator" class="separator" :style="{ backgroundImage: `url(${separator.img})` }">
     <h2 class="separator__title">{{ separator.title }}</h2>
     <app-button @click="() => router.push(separator.link)" class="more-btn"
       >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"

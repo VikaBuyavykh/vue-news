@@ -1,13 +1,11 @@
 <script>
+import { mapGetters, mapState } from 'vuex'
 import OrdinaryArticle from '@/components/OrdinaryArticle.vue'
 import AppButton from '@/components/UI/Button.vue'
 import SliderItem from '@/components/SliderItem.vue'
 import SliderButtons from '@/components/UI/SliderButtons.vue'
 import router from '@/router'
 export default {
-  props: {
-    galleryContent: Array
-  },
   components: {
     OrdinaryArticle,
     AppButton,
@@ -16,132 +14,135 @@ export default {
   },
   data() {
     return {
-      sliderItems: [],
-      main: {},
-      rest: [],
-      currentSlideIndex: 0,
-      buttons: [
-        { id: 1, isSelected: true },
-        { id: 2, isSelected: false },
-        { id: 3, isSelected: false },
-        { id: 4, isSelected: false },
-        { id: 5, isSelected: false }
-      ],
-      intervalId: '',
-      posInit: 0,
-      posFinal: 0,
-      slideWidth: 0,
-      posX: 0,
-      isMousedown: false,
+      // currentSlideIndex: 0,
+      // buttons: [
+      //   { id: 1, isSelected: true },
+      //   { id: 2, isSelected: false },
+      //   { id: 3, isSelected: false },
+      //   { id: 4, isSelected: false },
+      //   { id: 5, isSelected: false }
+      // ],
+      // intervalId: '',
+      // posInit: 0,
+      // posFinal: 0,
+      // slideWidth: 0,
+      // posX: 0,
+      // isMousedown: false,
       router
     }
   },
+  computed: {
+    ...mapState({
+      currentSlideIndex: (state) => state.slider.currentSlideIndex
+    }),
+    ...mapGetters({
+      sliderItems: 'articles/sliderItems',
+      main: 'articles/mainGalleryArticle',
+      rest: 'articles/restGalleryArticles'
+    })
+  },
   watch: {
-    currentSlideIndex(value) {
-      this.buttons = this.buttons.map((item) =>
-        value !== item.id - 1 ? { ...item, isSelected: false } : { ...item, isSelected: true }
-      )
-    },
-    galleryContent() {
-      this.main = this.galleryContent.find((item) => item.tag === 'main')
-      this.rest = this.galleryContent.filter((item) => !item.tag).filter((i, index) => index < 2)
-      this.sliderItems = this.galleryContent
-        .filter((item) => item.tag === 'slider')
-        .filter((i, index) => index < 5)
-    },
-    slideWidth() {
-      this.slideWidth = document.querySelector('.slide').offsetWidth
-    }
+    // currentSlideIndex(value) {
+    //   this.buttons = this.buttons.map((item) =>
+    //     value !== item.id - 1 ? { ...item, isSelected: false } : { ...item, isSelected: true }
+    //   )
+    // }
+    // slideWidth() {
+    //   this.slideWidth = document.querySelector('.slide').offsetWidth
+    // }
   },
   methods: {
-    nextSlide() {
-      if (this.currentSlideIndex + 1 < this.sliderItems.length) {
-        this.currentSlideIndex++
-      } else {
-        this.currentSlideIndex = 0
-      }
-    },
-    prevSlide() {
-      if (this.currentSlideIndex > 0) {
-        this.currentSlideIndex--
-      } else {
-        this.currentSlideIndex = this.sliderItems.length - 1
-      }
-    },
-    changeSlide(e) {
-      this.currentSlideIndex = e.currentTarget.id - 1
-      clearInterval(this.intervalId)
-      this.intervalStart()
-    },
-    intervalStart: function () {
-      const self = this
-      this.intervalId = setInterval(() => {
-        self.nextSlide()
-      }, 5000)
-    },
-    start(e) {
-      if (e.type === 'touchstart') {
-        this.posInit = e.touches[0].clientX
-      } else {
-        this.posInit = e.clientX
-      }
-      this.isMousedown = true
-      this.$refs.slider.style.cursor = 'grab'
-      this.$refs.slider.style.transition = 'none'
-    },
-    end(e) {
-      if (this.isMousedown) {
-        if (e.type === 'touchend') {
-          this.posFinal = e.changedTouches[0].clientX
-        } else {
-          this.posFinal = e.clientX
-        }
-        if (Math.abs(this.posInit - this.posFinal) > this.slideWidth * 0.35) {
-          if (this.posInit - this.posFinal > 0) {
-            this.nextSlide()
-          } else {
-            this.prevSlide()
-          }
-          clearInterval(this.intervalId)
-          this.intervalStart()
-        } else {
-          this.$refs.slider.style.marginLeft = `${this.currentSlideIndex * this.slideWidth * -1}px`
-        }
-      }
-      this.isMousedown = false
-      this.$refs.slider.style.cursor = 'pointer'
-      this.$refs.slider.style.transition = 'all 1s ease'
-    },
-    move(e) {
-      if (this.isMousedown) {
-        this.$refs.slider.style.transition = 'none'
-        if (e.type === 'touchmove') {
-          this.posX = this.posInit - e.touches[0].clientX
-        } else {
-          this.posX = this.posInit - e.clientX
-        }
-        if (
-          (this.currentSlideIndex === 0 && this.posX < 0) ||
-          (this.currentSlideIndex === this.sliderItems.length - 1 && this.posX > 0)
-        ) {
-          return
-        } else {
-          this.$refs.slider.style.marginLeft = `${this.posX * -1 + this.currentSlideIndex * this.slideWidth * -1}px`
-        }
-      }
-    }
-  },
-  mounted() {
-    this.intervalStart()
-  },
-  unmounted() {
-    clearInterval(this.intervalStart)
+    // nextSlide() {
+    //   if (this.currentSlideIndex + 1 < this.sliderItems.length) {
+    //     this.currentSlideIndex++
+    //   } else {
+    //     this.currentSlideIndex = 0
+    //   }
+    // },
+    // prevSlide() {
+    //   if (this.currentSlideIndex > 0) {
+    //     this.currentSlideIndex--
+    //   } else {
+    //     this.currentSlideIndex = this.sliderItems.length - 1
+    //   }
+    // },
+    // changeSlide(e) {
+    //   this.currentSlideIndex = e.currentTarget.id - 1
+    //   clearInterval(this.intervalId)
+    //   this.intervalStart()
+    // },
+    //   intervalStart: function () {
+    //     const self = this
+    //     this.intervalId = setInterval(() => {
+    //       self.nextSlide()
+    //     }, 5000)
+    //   },
+    //   start(e) {
+    //     if (e.type === 'touchstart') {
+    //       this.posInit = e.touches[0].clientX
+    //     } else {
+    //       this.posInit = e.clientX
+    //     }
+    //     this.isMousedown = true
+    //     this.$refs.slider.style.cursor = 'grab'
+    //     this.$refs.slider.style.transition = 'none'
+    //   },
+    //   end(e) {
+    //     if (this.isMousedown) {
+    //       if (e.type === 'touchend') {
+    //         this.posFinal = e.changedTouches[0].clientX
+    //       } else {
+    //         this.posFinal = e.clientX
+    //       }
+    //       if (Math.abs(this.posInit - this.posFinal) > this.slideWidth * 0.35) {
+    //         if (this.posInit - this.posFinal > 0) {
+    //           this.nextSlide()
+    //         } else {
+    //           this.prevSlide()
+    //         }
+    //         clearInterval(this.intervalId)
+    //         this.intervalStart()
+    //       } else {
+    //         this.$refs.slider.style.marginLeft = `${this.currentSlideIndex * this.slideWidth * -1}px`
+    //       }
+    //     }
+    //     this.isMousedown = false
+    //     this.$refs.slider.style.cursor = 'pointer'
+    //     this.$refs.slider.style.transition = 'all 1s ease'
+    //   },
+    //   move(e) {
+    //     if (this.isMousedown) {
+    //       this.$refs.slider.style.transition = 'none'
+    //       if (e.type === 'touchmove') {
+    //         this.posX = this.posInit - e.touches[0].clientX
+    //       } else {
+    //         this.posX = this.posInit - e.clientX
+    //       }
+    //       if (
+    //         (this.currentSlideIndex === 0 && this.posX < 0) ||
+    //         (this.currentSlideIndex === this.sliderItems.length - 1 && this.posX > 0)
+    //       ) {
+    //         return
+    //       } else {
+    //         this.$refs.slider.style.marginLeft = `${this.posX * -1 + this.currentSlideIndex * this.slideWidth * -1}px`
+    //       }
+    //     }
+    //   }
   }
+  // mounted() {
+  //   this.intervalStart()
+  // },
+  // unmounted() {
+  //   clearInterval(this.intervalStart)
+  // }
 }
 </script>
 
+//для слайдер айтема @mousemove="move" // @touchmove="move" // @mousedown="start" //
+@touchstart="start" // @mouseup="end" // @touchend="end" // @mouseleave="end" // @touchleave="end"
+
 <template>
-  <section v-if="galleryContent.length" class="gallery">
+  <section v-if="sliderItems && main && rest" class="gallery">
     <div class="gallery__content">
       <article class="gallery__article gallery__slider">
         <ul
@@ -153,14 +154,6 @@ export default {
           class="gallery__slider-content"
         >
           <slider-item
-            @mousemove="move"
-            @touchmove="move"
-            @mousedown="start"
-            @touchstart="start"
-            @mouseup="end"
-            @touchend="end"
-            @mouseleave="end"
-            @touchleave="end"
             v-for="item in sliderItems"
             :key="item.id"
             :id="item.id"
@@ -172,7 +165,7 @@ export default {
             :photos="item.photos"
             :link="item.link"
           ></slider-item>
-          <slider-buttons :buttons="buttons" :changeSlide="changeSlide"></slider-buttons>
+          <slider-buttons></slider-buttons>
         </ul>
       </article>
       <article class="gallery__article gallery__main">

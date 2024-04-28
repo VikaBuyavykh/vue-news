@@ -15,52 +15,25 @@ export default {
     News,
     Gallery
   },
-  data() {
-    return {
-      articlesContent: [],
-      recommendationsContent: [],
-      columnsContent: [],
-      separatorContent: {},
-      newsContent: [],
-      galleryContent: []
-    }
-  },
   computed: {
     ...mapState({
       articles: (state) => state.articles.articles
     })
   },
-  watch: {
-    articles() {
-      this.articlesContent = this.articles.filter((item) => item.section === 'articles')
-      this.recommendationsContent = this.articles.filter(
-        (item) => item.section === 'recommendations'
-      )
-      this.columnsContent = this.articles.filter((item) => item.section === 'columns')
-      this.separatorContent = this.articles.find((article) => article.section === 'separator')
-      this.newsContent = this.articles.filter((article) => article.section === 'news')
-      this.galleryContent = this.articles.filter((item) => item.section === 'gallery')
-    }
-  },
   mounted() {
     this.$store.dispatch('articles/getArticles')
-    // console.log(this.$store.state.articles.number)
-    // console.log(this.$store.getters['articles/doubleNumber'])
-    // this.$store.commit('articles/increment')
-    // console.log(this.$store.state.articles.number)
-    // console.log(this.$store.getters['articles/doubleNumber'])
   }
 }
 </script>
 
 <template>
   <main v-if="articles" class="main-content">
-    <articles :articlesContent="articlesContent"></articles>
-    <recommendations :recommendationsContent="recommendationsContent"></recommendations>
-    <columns :columnsContent="columnsContent"></columns>
-    <separator :separatorContent="separatorContent"></separator>
-    <news :newsContent="newsContent"></news>
-    <gallery :galleryContent="galleryContent"></gallery>
+    <articles></articles>
+    <recommendations></recommendations>
+    <columns></columns>
+    <separator></separator>
+    <news></news>
+    <gallery></gallery>
   </main>
 </template>
 

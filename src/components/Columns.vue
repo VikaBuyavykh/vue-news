@@ -1,43 +1,30 @@
 <script>
+import { mapGetters } from 'vuex'
 import Comments from '@/components/UI/Comments.vue'
 import OrdinaryArticle from '@/components/OrdinaryArticle.vue'
 import AppAside from '@/components/Aside.vue'
 import Sign from '@/components/UI/Sign.vue'
 export default {
-  props: {
-    columnsContent: Array
-  },
   components: {
     Comments,
     OrdinaryArticle,
     AppAside,
     Sign
   },
-  data() {
-    return {
-      main: {},
-      popular: {},
-      asides: [],
-      additional: {},
-      rest: []
-    }
-  },
-  watch: {
-    columnsContent() {
-      this.main = this.columnsContent.find((item) => item.tag === 'main')
-      this.popular = this.columnsContent.find((item) => item.tag === 'popular')
-      this.asides = this.columnsContent
-        .filter((item) => item.tag === 'aside')
-        .filter((i, index) => index < 3)
-      this.additional = this.columnsContent.find((item) => item.tag === 'additional')
-      this.rest = this.columnsContent.filter((item) => !item.tag).filter((i, index) => index < 4)
-    }
+  computed: {
+    ...mapGetters({
+      main: 'articles/columnsMainArticle',
+      popular: 'articles/columnsPopularArticle',
+      asides: 'articles/columnsAsideArticles',
+      additional: 'articles/columnsAdditionalArticle',
+      rest: 'articles/columnsRestArticles'
+    })
   }
 }
 </script>
 
 <template>
-  <section v-if="columnsContent.length > 0" class="columns">
+  <section v-if="main" class="columns">
     <div class="columns__content">
       <article class="columns__content-item columns__content-main">
         <div class="columns__main-article">

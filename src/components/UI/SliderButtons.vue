@@ -1,8 +1,15 @@
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 export default {
-  props: {
-    buttons: Array,
-    changeSlide: Function
+  computed: {
+    ...mapGetters({
+      buttons: 'slider/buttons'
+    })
+  },
+  methods: {
+    ...mapMutations({
+      changeSlide: 'slider/changeSlide'
+    })
   }
 }
 </script>
