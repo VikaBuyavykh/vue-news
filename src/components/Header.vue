@@ -1,5 +1,5 @@
 <script>
-import axios from 'axios'
+import { mapActions, mapMutations, mapState } from 'vuex'
 import NavBar from '@/components/NavBar.vue'
 import links from '@/utils/links'
 import Popup from '@/components/Popup.vue'
@@ -10,67 +10,55 @@ export default {
   },
   data() {
     return {
-      links,
-      searchQuery: '',
-      date: '',
-      isLoginHovered: false,
-      isSearchHovered: false,
-      isMenuHovered: false,
-      temp: null,
-      weatherIcon: null,
-      isSectionsVisible: true,
-      isPopupVisible: false
+      links
     }
   },
+  computed: {
+    ...mapState({
+      isLoginHovered: (state) => state.header.isLoginHovered,
+      isSearchHovered: (state) => state.header.isSearchHovered,
+      isMenuHovered: (state) => state.header.isMenuHovered,
+      date: (state) => state.header.date,
+      temp: (state) => state.header.temp,
+      weatherIcon: (state) => state.header.weatherIcon,
+      searchQuery: (state) => state.header.searchQuery,
+      isSectionsVisible: (state) => state.header.isSectionsVisible,
+      isPopupVisible: (state) => state.header.isPopupVisible
+    })
+  },
   methods: {
-    hoverLogin() {
-      !this.isLoginHovered ? (this.isLoginHovered = true) : (this.isLoginHovered = false)
-    },
-    hoverSearch() {
-      !this.isSearchHovered ? (this.isSearchHovered = true) : (this.isSearchHovered = false)
-    },
-    hoverMenu() {
-      !this.isMenuHovered ? (this.isMenuHovered = true) : (this.isMenuHovered = false)
-    },
-    async getWeather() {
-      try {
-        const { data } = await axios.get('https://api.openweathermap.org/data/2.5/weather', {
-          params: {
-            q: 'Moscow',
-            units: 'metric',
-            appid: 'b463ca9aaa0838203592e4617935e4ca'
-          }
-        })
-        this.temp = Math.round(data.main.temp)
-        this.weatherIcon = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    changeSectionsVisibility() {
-      this.isSectionsVisible = !this.isSectionsVisible
-    },
-    changePopupVisibility() {
-      this.isPopupVisible = !this.isPopupVisible
-    },
+    ...mapMutations({
+      hoverLogin: 'header/hoverLogin',
+      hoverSearch: 'header/hoverSearch',
+      hoverMenu: 'header/hoverMenu',
+      setDate: 'header/setDate',
+      setSearchQuery: 'header/setSearchQuery',
+      changeSectionsVisibility: 'header/changeSectionsVisibility',
+      changePopupVisibility: 'header/changePopupVisibility'
+    }),
+    ...mapActions({
+      getWeather: 'header/getWeather'
+    }),
     onSectionsClick() {
       window.innerWidth <= 1000 ? this.changePopupVisibility() : this.changeSectionsVisibility()
     }
   },
   mounted() {
     const newDate = new Date()
-    this.date = newDate.toLocaleString('en-US', {
-      weekday: 'long',
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
-    })
+    this.setDate(
+      newDate.toLocaleString('en-US', {
+        weekday: 'long',
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric'
+      })
+    )
     this.getWeather()
   },
   watch: {
     isPopupVisible() {
       if (this.isPopupVisible && this.isSectionsVisible) {
-        this.isSectionsVisible = false
+        this.changeSectionsVisibility()
       }
     }
   }
@@ -81,11 +69,7 @@ export default {
   <header class="header">
     <div class="header__search-section">
       <div
-        @click="
-          () => {
-            onSectionsClick()
-          }
-        "
+        @click="onSectionsClick"
         @mouseenter="hoverMenu"
         @mouseleave="hoverMenu"
         class="header__menu-group"
@@ -111,7 +95,8 @@ export default {
           id="search"
           class="header__search-field"
           placeholder="Search"
-          v-model="searchQuery"
+          :value="searchQuery"
+          @input="setSearchQuery"
         />
       </form>
       <div class="header__subscribe-group">

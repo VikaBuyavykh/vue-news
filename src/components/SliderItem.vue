@@ -1,7 +1,8 @@
 <script>
+import { mapMutations } from 'vuex'
+import router from '@/router'
 import AppButton from '@/components/UI/Button.vue'
 import Sign from '@/components/UI/Sign.vue'
-import router from '@/router'
 export default {
   components: {
     AppButton,
@@ -14,11 +15,22 @@ export default {
     authorProfession: String,
     authorAvatar: String,
     photos: String,
-    link: String
+    link: String,
+    index: Number
   },
   data() {
     return {
       router
+    }
+  },
+  methods: {
+    ...mapMutations({
+      setSlideWidth: 'slider/setSlideWidth'
+    })
+  },
+  mounted() {
+    if (this.index === 0) {
+      this.setSlideWidth(document.querySelector('.slide').offsetWidth)
     }
   }
 }

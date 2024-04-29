@@ -1,4 +1,5 @@
 <script>
+import { mapMutations, mapState } from 'vuex'
 import AppButton from '@/components/UI/Button.vue'
 import sections from '@/utils/sections.js'
 import NavBar from '@/components/NavBar.vue'
@@ -11,9 +12,18 @@ export default {
   data() {
     return {
       sections,
-      contacts,
-      email: ''
+      contacts
     }
+  },
+  computed: {
+    ...mapState({
+      searchQuery: (state) => state.footer.searchQuery
+    })
+  },
+  methods: {
+    ...mapMutations({
+      setSearchQuery: 'footer/setSearchQuery'
+    })
   }
 }
 </script>
@@ -29,8 +39,8 @@ export default {
           name="email"
           id="email"
           placeholder="Enter your email"
-          v-model="email"
-          @input="() => console.log(email)"
+          :value="searchQuery"
+          @input="setSearchQuery"
         />
         <app-button style="margin: 0">Subscribe</app-button>
       </form>
