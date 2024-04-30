@@ -11,8 +11,24 @@ export default {
   <div class="comments">
     <img
       class="comments__img"
-      :src="type === 'comments' ? '/comment.svg' : '/likes.svg'"
-      :alt="type === 'comments' ? 'Icon of comments' : 'Icon of likes'"
+      :src="
+        type === 'comments'
+          ? '/comment.svg'
+          : type === 'likes'
+            ? '/likes.svg'
+            : type === 'time'
+              ? '/clock.svg'
+              : '/eye.svg'
+      "
+      :alt="
+        type === 'comments'
+          ? 'Icon of comments'
+          : type === 'likes'
+            ? 'Icon of likes'
+            : type === 'likes'
+              ? 'Icon of time'
+              : 'Icon of the number of readers'
+      "
     />
     <p class="comments__text">{{ content }}</p>
   </div>
