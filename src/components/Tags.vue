@@ -21,6 +21,11 @@
   list-style-type: none;
   @include flex(row, start, center, 8px);
   border-bottom: $border;
+  flex-wrap: wrap;
+
+  @include media_md {
+    padding-block: 17px 47px;
+  }
 
   &__item {
     border: $border;

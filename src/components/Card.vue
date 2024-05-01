@@ -32,6 +32,11 @@ export default {}
   transform: translateY(-35%);
   @include flex(column, start, center, 0px);
 
+  @include media_md {
+    transform: none;
+    margin-top: 15px;
+  }
+
   &__author {
     padding-block: 34px;
     @include size(90%, auto);

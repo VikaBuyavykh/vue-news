@@ -31,6 +31,11 @@
   @include size(100%, auto);
   @include flex(column, start, start, 25px);
 
+  @include media_smaller {
+    align-items: center;
+    padding-block: 30px 0;
+  }
+
   &__title {
     @extend %roboto-slab-bold;
     @include text(1.5625rem, 1.875rem, $color-dark, left);
@@ -38,6 +43,10 @@
 
   &__btns {
     @include flex(row, start, center, 10px);
+
+    @include media_smaller {
+      flex-direction: column;
+    }
 
     .support__btn {
       border-radius: 20px;

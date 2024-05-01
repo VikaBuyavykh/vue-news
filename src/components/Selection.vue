@@ -59,6 +59,11 @@ export default {
   margin-block: 60px 30px;
   background-color: #f5f5f5;
 
+  @include media_lg {
+    padding-block: 30px;
+    margin-block: 30px;
+  }
+
   &__content {
     margin: 0 auto;
     @include size(100%, auto);
@@ -66,7 +71,17 @@ export default {
     list-style-type: none;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    column-gap: 30px;
+    gap: 30px;
+
+    @include media_lg {
+      width: 90%;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media_sm {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
 
     .selection__item {
       cursor: pointer;
@@ -74,8 +89,8 @@ export default {
       @include flex(column, start, start, 15px);
 
       .selection__img {
+        @include size(100%, 180px);
         border-radius: 10px;
-        height: 180px;
         object-fit: cover;
         object-position: center;
       }

@@ -10,7 +10,6 @@ export default {
 <template>
   <section class="cover">
     <div class="cover__content">
-      <img class="cover__bookmark" src="/bookmark.svg" alt="Icon of a bookmark" />
       <div class="cover__theme-section">
         <p class="cover__theme">Destinations</p>
         <router-link to="/" class="cover__home-link">
@@ -36,6 +35,7 @@ export default {
           </button>
         </div>
       </div>
+      <img class="cover__bookmark" src="/bookmark.svg" alt="Icon of a bookmark" />
       <h1 class="cover__title">Five Travel Stories From 2017 to Help You Escape Into the World</h1>
       <p class="cover__description">
         From the coastlines of Europe to remote Kodiak Island, Alaska, here are five of our favorite
@@ -68,6 +68,10 @@ export default {
   background-size: cover;
   background-repeat: no-repeat;
 
+  @include media_sm {
+    padding-block: 30px;
+  }
+
   &__content {
     margin: 0 auto;
     @include size(100%, auto);
@@ -75,22 +79,40 @@ export default {
     @include flex(column, start, start, 28px);
     position: relative;
 
+    @include media_lg {
+      width: 90%;
+    }
+
     .cover__bookmark {
       @include size(21px, 27px);
       position: absolute;
       top: 90px;
       left: -85px;
+
+      @include media_lg {
+        position: unset;
+      }
     }
 
     .cover__theme-section {
       @include size(100%, auto);
-      @include flex(row, end, center, 15px);
+      @include flex(row, end, center, 30px);
+
+      @include media_sm {
+        flex-direction: column-reverse;
+        gap: 10px;
+        align-items: start;
+      }
 
       .cover__theme {
         margin-right: auto;
         text-transform: uppercase;
         @extend %lato-regular;
         @include text(0.75rem, 0.9375rem, #4592ff, left);
+
+        @include media_sm {
+          margin-top: 20px;
+        }
       }
 
       .cover__home-link {
@@ -98,17 +120,20 @@ export default {
         @extend %lato-bold;
         @include text(0.875rem, 1.25rem, white, left);
         transition: all 0.2s ease;
+        @include flex(row, center, center, 5px);
 
         &:hover {
           scale: 0.95;
+        }
+
+        @include media_sm {
+          order: 1;
         }
 
         .cover__home-img {
           @include size(20px, 20px);
           object-fit: contain;
           object-position: center;
-          margin-right: 5px;
-          vertical-align: text-bottom;
         }
       }
 
@@ -123,6 +148,7 @@ export default {
           @include text(0.875rem, 1.25rem, white, left);
           cursor: pointer;
           transition: all 0.2s ease;
+          @include flex(row, center, center, 5px);
 
           &:last-of-type:hover {
             transform: translateX(10%);
@@ -134,15 +160,9 @@ export default {
 
           &-img {
             @include size(20px, 20px);
-            vertical-align: text-bottom;
 
             &_prev {
-              margin-right: 5px;
               transform: rotate(180deg);
-            }
-
-            &_next {
-              margin-left: 5px;
             }
           }
         }
@@ -155,6 +175,16 @@ export default {
       @extend %roboto-slab-regular;
       @include text(3.4375rem, 4.375rem, white, left);
       letter-spacing: 1.2px;
+
+      @include media_lg {
+        margin: 0;
+        width: 100%;
+      }
+
+      @include media_smaller {
+        font-size: 2rem;
+        line-height: 2.5rem;
+      }
     }
 
     .cover__description {
@@ -162,10 +192,24 @@ export default {
       @include size(58.8%, auto);
       @extend %lato-regular;
       @include text(1.125rem, 1.875rem, white, left);
+
+      @include media_lg {
+        width: 100%;
+      }
+
+      @include media_smaller {
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+      }
     }
 
     .cover__info {
       @include flex(row, start, center, 30px);
+
+      @include media_md {
+        flex-direction: column;
+        align-items: start;
+      }
 
       .cover__main-info {
         @include flex(row, start, center, 20px);

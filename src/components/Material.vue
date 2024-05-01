@@ -36,6 +36,19 @@ export default {
   row-gap: 5px;
   cursor: pointer;
 
+  @include media_md {
+    width: 50%;
+    margin-top: 30px;
+  }
+
+  @include media_smaller {
+    width: 75%;
+  }
+
+  @include media_sm {
+    width: 100%;
+  }
+
   &__name {
     @extend %roboto-slab-bold;
     @include text(1.25rem, 1.5625rem, $color-dark, left);

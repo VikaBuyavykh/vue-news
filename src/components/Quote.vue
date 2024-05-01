@@ -26,8 +26,16 @@
   @include size(105%, auto);
   display: grid;
   grid-template-columns: auto 165px;
-  column-gap: 30px;
+  gap: 30px;
   position: relative;
+
+  @include media_md {
+    margin-block: 35px 10px;
+    width: 90%;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    align-self: center;
+  }
 
   &__img {
     opacity: 0.15;
@@ -45,6 +53,10 @@
 
   &__author {
     @include flex(column, start, start, 0px);
+
+    @include media_md {
+      align-items: center;
+    }
 
     &-avatar {
       @include size(60px, 60px);

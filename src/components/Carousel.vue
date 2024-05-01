@@ -119,16 +119,31 @@ export default {
   position: relative;
   margin-bottom: 30px;
 
+  @include media_lg {
+    width: 90%;
+  }
+
+  @include media_md {
+    margin-bottom: 15px;
+  }
+
   &-btn {
     position: absolute;
     top: 45%;
-
     opacity: 0.3;
     @include size(60px, 60px);
     transition:
       opacity 0.2s ease,
       scale 0.2s ease;
     cursor: pointer;
+
+    @include media_md {
+      @include size(50px, 50px);
+    }
+
+    @include media_sm {
+      @include size(40px, 40px);
+    }
 
     &:hover {
       opacity: 0.7;
@@ -138,11 +153,27 @@ export default {
     &-prev {
       transform: translateY(-50%) rotate(180deg);
       left: 35px;
+
+      @include media_md {
+        left: 25px;
+      }
+
+      @include media_sm {
+        left: 15px;
+      }
     }
 
     &-next {
       transform: translateY(-50%);
       right: 35px;
+
+      @include media_md {
+        right: 25px;
+      }
+
+      @include media_sm {
+        right: 15px;
+      }
     }
   }
 
@@ -156,6 +187,22 @@ export default {
       display: grid;
       grid-template-rows: 555px auto;
 
+      @include media_lg {
+        grid-template-rows: 450px auto;
+      }
+
+      @include media_md {
+        grid-template-rows: 350px auto;
+      }
+
+      @include media_sm {
+        grid-template-rows: 250px auto;
+      }
+
+      @include media_xs {
+        grid-template-rows: 200px auto;
+      }
+
       .carousel__image {
         @include size(100%, 100%);
         object-fit: cover;
@@ -165,7 +212,7 @@ export default {
       .carousel__info {
         @include size(100%, auto);
         display: grid;
-        grid-template-columns: auto 23%;
+        grid-template-columns: auto max-content;
         align-items: center;
 
         .carousel__description {
@@ -173,6 +220,10 @@ export default {
           padding-inline: 35px;
           @extend %lato-regular;
           @include text(0.875rem, 1.25rem, $font-color-medium, left);
+
+          @include media_md {
+            display: none;
+          }
         }
 
         .carousel__author {
@@ -181,6 +232,10 @@ export default {
           grid-template-columns: 45px auto;
           column-gap: 10px;
           border-left: $border;
+
+          @include media_smaller {
+            padding-block: 6px;
+          }
 
           &-avatar {
             border-radius: 50%;

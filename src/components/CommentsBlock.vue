@@ -48,8 +48,10 @@ export default {
   <section class="comments-block">
     <ul class="comments-block__content">
       <li class="comments-block__header">
-        <h3 class="comments-block__title">Comments</h3>
-        <p class="comments-block__amount">19</p>
+        <div class="comments-block__title-group">
+          <h3 class="comments-block__title">Comments</h3>
+          <p class="comments-block__amount">19</p>
+        </div>
         <button class="comments-block__add-btn">
           <img src="/add.svg" alt="Icon of adding a comment" />
           Add comment
@@ -90,8 +92,6 @@ export default {
             <img src="/shape.png" alt="Textarea border" />
             <textarea name="comment-text" id="comment-text"></textarea>
           </div>
-          <!-- <textarea name="comment-text" id="comment-text"> </textarea
-            ><img src="/shape.svg" alt="Textarea border" /> -->
           <app-button class="comments-block__sbmt-btn">
             Submit<img src="/arrow.svg" alt="Icon of submit" />
           </app-button>
@@ -111,30 +111,60 @@ export default {
   max-width: 946px;
   margin: 60px auto 30px;
 
+  @include media_lg {
+    width: 90%;
+    margin-block: 0;
+  }
+
   &__content {
     @include size(79.3%, auto);
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(min-content, max-content));
     list-style-type: none;
 
+    @include media_lg {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    @include media_md {
+      width: 90%;
+    }
+
+    @include media_smaller {
+      width: 100%;
+    }
+
     .comments-block__header {
       @include size(100%, auto);
       padding-bottom: 30px;
-      @include flex(row, start, center, 10px);
+      @include flex(row, space-between, center, 10px);
       border-bottom: $border;
 
-      .comments-block__title {
-        @extend %roboto-slab-bold;
-        @include text(2.5rem, 3.125rem, $color-dark, left);
+      @include media_smaller {
+        flex-direction: column;
       }
 
-      .comments-block__amount {
-        @extend %lato-regular;
-        @include text(2.5rem, 3.125rem, $font-color-light, left);
+      .comments-block__title-group {
+        @include flex(row, start, center, 10px);
+
+        .comments-block__title {
+          @extend %roboto-slab-bold;
+          @include text(2.5rem, 3.125rem, $color-dark, left);
+
+          @include media_smaller {
+            font-size: 1.75rem;
+            line-height: 2rem;
+          }
+        }
+
+        .comments-block__amount {
+          @extend %lato-regular;
+          @include text(2.5rem, 3.125rem, $font-color-light, left);
+        }
       }
 
       .comments-block__add-btn {
-        margin-left: auto;
         border-radius: 20px;
         background-color: transparent;
         outline: none;
@@ -145,6 +175,10 @@ export default {
         @include text(0.875rem, 1.25rem, $color-dark, left);
         cursor: pointer;
         transition: all 0.2s ease;
+
+        @include media_smaller {
+          padding-block: 5px;
+        }
 
         &:hover {
           transform: translateY(-2px);
@@ -172,6 +206,10 @@ export default {
         grid-template-columns: 75px auto;
         column-gap: 15px;
 
+        @include media_smaller {
+          grid-template-columns: 50px auto;
+        }
+
         &_reply {
           margin-left: auto;
         }
@@ -181,6 +219,10 @@ export default {
           border-radius: 50%;
           object-fit: cover;
           object-position: center;
+
+          @include media_smaller {
+            height: 50px;
+          }
         }
 
         .comments-block__main {
@@ -189,6 +231,12 @@ export default {
 
           .comments-block__info {
             @include flex(row, start, center, 10px);
+
+            @include media_smaller {
+              flex-direction: column;
+              align-items: start;
+              gap: 0;
+            }
 
             .comments-block__name {
               @extend %roboto-slab-bold;
@@ -205,6 +253,11 @@ export default {
             margin-bottom: 5px;
             @extend %lato-regular;
             @include text(1.125rem, 1.875rem, $font-color-medium, left);
+
+            @include media_smaller {
+              font-size: 0.875rem;
+              line-height: 1.125rem;
+            }
           }
 
           .comments-block__btns {
@@ -244,10 +297,19 @@ export default {
       grid-template-columns: 75px auto;
       column-gap: 10px;
 
+      @include media_sm {
+        grid-template-columns: 1fr;
+        padding: 15px 10px 20px 5px;
+      }
+
       &-avatar {
         margin-top: 40px;
         @include size(100%, 75px);
         border-radius: 50%;
+
+        @include media_sm {
+          display: none;
+        }
       }
 
       &-form {

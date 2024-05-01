@@ -124,8 +124,20 @@ export default {
     grid-template-columns: auto 264px;
     column-gap: 60px;
 
+    @include media_lg {
+      width: 90%;
+    }
+
+    @include media_md {
+      grid-template-columns: 1fr;
+    }
+
     &_first {
       padding-block: 45px;
+
+      @include media_md {
+        padding-block: 15px 30px;
+      }
     }
 
     .article__paragraphs {
