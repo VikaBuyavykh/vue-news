@@ -7,6 +7,7 @@ import Quote from '@/components/Quote.vue'
 import Tags from '@/components/Tags.vue'
 import Support from '@/components/Support.vue'
 import Selection from '@/components/Selection.vue'
+import CommentsBlock from '@/components/CommentsBlock.vue'
 export default {
   components: {
     Cover,
@@ -16,7 +17,8 @@ export default {
     Quote,
     Tags,
     Support,
-    Selection
+    Selection,
+    CommentsBlock
   }
 }
 </script>
@@ -102,6 +104,7 @@ export default {
       <material></material>
     </div>
     <selection></selection>
+    <comments-block></comments-block>
   </main>
 </template>
 
