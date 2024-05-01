@@ -48,7 +48,7 @@ export default {
           <comments type="comments" content="19"></comments>
         </div>
         <button class="cover__share-btn">
-          <img class="cover__share-btn-img" src="/share.svg" alt="Icon of sharing" />Share
+          <img class="cover__share-btn-img" src="/share.svg" alt="Icon of sharing" />142 Shares
         </button>
       </div>
     </div>
@@ -72,19 +72,19 @@ export default {
     margin: 0 auto;
     @include size(100%, auto);
     max-width: 946px;
-    @include flex(column, start, start, 30px);
+    @include flex(column, start, start, 28px);
     position: relative;
 
     .cover__bookmark {
       @include size(21px, 27px);
       position: absolute;
-      top: 87px;
-      left: -70px;
+      top: 90px;
+      left: -85px;
     }
 
     .cover__theme-section {
       @include size(100%, auto);
-      @include flex(row, end, center, 30px);
+      @include flex(row, end, center, 15px);
 
       .cover__theme {
         margin-right: auto;
@@ -154,9 +154,11 @@ export default {
       @include size(79.3%, auto);
       @extend %roboto-slab-regular;
       @include text(3.4375rem, 4.375rem, white, left);
+      letter-spacing: 1.2px;
     }
 
     .cover__description {
+      margin-bottom: 30px;
       @include size(58.8%, auto);
       @extend %lato-regular;
       @include text(1.125rem, 1.875rem, white, left);
@@ -173,7 +175,7 @@ export default {
         background-color: transparent;
         border: 1px solid white;
         border-radius: 20px;
-        padding: 5px 25px;
+        padding: 7px 25px;
         @extend %lato-bold;
         @include text(0.875rem, 1.25rem, white, left);
         cursor: pointer;

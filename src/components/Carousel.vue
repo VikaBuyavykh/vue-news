@@ -121,7 +121,7 @@ export default {
 
   &-btn {
     position: absolute;
-    top: 50%;
+    top: 45%;
 
     opacity: 0.3;
     @include size(60px, 60px);

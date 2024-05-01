@@ -17,15 +17,15 @@
 
 .tags {
   @include size(100%, auto);
-  padding-block: 30px 60px;
+  padding-block: 27px 57px;
   list-style-type: none;
-  @include flex(row, start, center, 10px);
+  @include flex(row, start, center, 8px);
   border-bottom: $border;
 
   &__item {
     border: $border;
     border-radius: 5px;
-    padding: 5px 15px;
+    padding: 5px 14px;
     @extend %lato-bold;
     @include text(0.875rem, 1.25rem, $color-dark, left);
   }

@@ -133,6 +133,7 @@ export default {
       @include flex(column, start, start, 0px);
 
       .article__paragraph {
+        letter-spacing: -0.2px;
         @extend %lato-regular;
         @include text(1.125rem, 1.875rem, $font-color-medium, left);
         padding-block: 15px;

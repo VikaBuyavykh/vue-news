@@ -23,7 +23,7 @@
 
 .quote {
   margin-block: 65px 30px;
-  @include size(100%, auto);
+  @include size(105%, auto);
   display: grid;
   grid-template-columns: auto 165px;
   column-gap: 30px;
@@ -40,6 +40,7 @@
   &__text {
     @extend %roboto-slab-bold;
     @include text(1.5625rem, 1.875rem, $color-dark, left);
+    letter-spacing: -1px;
   }
 
   &__author {

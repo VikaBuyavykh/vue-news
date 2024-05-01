@@ -29,7 +29,7 @@ export default {
 @import '@/assets/styles/mixins.scss';
 
 .material {
-  align-self: center;
+  margin-top: 150px;
   @include size(100%, fit-content);
   display: grid;
   grid-template-rows: repeat(5, minmax(min-content, max-content));

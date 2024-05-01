@@ -112,7 +112,6 @@ export default {
   margin: 60px auto 30px;
 
   &__content {
-    outline: 1px solid red;
     @include size(79.3%, auto);
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(min-content, max-content));
@@ -256,7 +255,7 @@ export default {
         @include flex(column, start, start, 15px);
 
         .comments-block__question {
-          margin-left: 15px;
+          margin-left: 10px;
           @extend %roboto-slab-bold;
           @include text(1.25rem, 1.5625rem, $color-dark, left);
         }
@@ -284,7 +283,7 @@ export default {
         }
 
         .comments-block__sbmt-btn {
-          margin-left: 15px;
+          margin-left: 10px;
           margin-top: 0;
           @include flex(row, center, center, 8px);
         }
