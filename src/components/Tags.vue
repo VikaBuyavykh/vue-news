@@ -1,12 +1,14 @@
-<script></script>
+<script>
+export default {
+  props: {
+    keys: Array
+  }
+}
+</script>
 
 <template>
   <ul class="tags">
-    <li class="tags__item">Travel</li>
-    <li class="tags__item">Destinations</li>
-    <li class="tags__item">Nature</li>
-    <li class="tags__item">World</li>
-    <li class="tags__item">Alaska</li>
+    <li v-for="item in keys" :key="item" class="tags__item">{{ item }}</li>
   </ul>
 </template>
 

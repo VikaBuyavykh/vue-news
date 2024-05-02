@@ -1,4 +1,12 @@
-<script></script>
+<script>
+export default {
+  props: {
+    likes: String,
+    shares: String,
+    tweets: String
+  }
+}
+</script>
 
 <template>
   <div class="support">
@@ -6,15 +14,15 @@
     <ul class="support__btns">
       <li class="support__btn support__btn_like">
         <img src="/like.svg" alt="Icon of like" />
-        Like it <span>42</span>
+        Like it <span>{{ likes }}</span>
       </li>
       <li class="support__btn support__btn_fb">
         <img src="/fb-icon.svg" alt="Icon of facebook-sharing-button" />
-        Share <span>80</span>
+        Share <span>{{ shares }}</span>
       </li>
       <li class="support__btn support__btn_twitter">
         <img src="/twitter-icon.svg" alt="Icon of twitter-sharing-button" />
-        Tweet <span>33</span>
+        Tweet <span>{{ tweets }}</span>
       </li>
       <img class="support__show-more-btn" src="/etc.svg" alt="Icon of show-more-button" />
     </ul>

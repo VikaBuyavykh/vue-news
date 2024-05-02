@@ -1,45 +1,69 @@
 <script>
 import Comments from '@/components/UI/Comments.vue'
 import AppButton from '@/components/UI/Button.vue'
+import axios from 'axios'
 export default {
   components: {
     Comments,
     AppButton
   },
+  props: {
+    comments: Array,
+    id: Number
+  },
+  computed: {
+    currentComments() {
+      return this.comments.filter((item, index) => index < this.currentCommentsAmount)
+    },
+    isMoreBtnDisabled() {
+      return this.currentComments.length === this.comments.length
+    }
+  },
   data() {
     return {
-      comments: [
-        {
-          name: 'Ryan Hall',
-          avatar: '/authors/man-in-glasses.png',
-          date: 'July 17, 6:38 pm',
-          text: 'In the event, "in places like Iraq and Jordan, leaders of the new sovereign states were brought in from the outside, tailored to suit colonial interests and commitments',
-          estimate: '+10'
-        },
-        {
-          name: 'Lora Morrow',
-          avatar: '/authors/coacher.png',
-          date: 'July 17, 6:41 pm',
-          text: 'Likewise, most states in the Persian Gulf were handed over to those who could protect and safeguard imperial interests in the post-withdrawal phase',
-          estimate: '0',
-          reply: true
-        },
-        {
-          name: 'Tara Stark',
-          avatar: '/authors/girl-curly-hair.png',
-          date: 'July 17, 6:53 pm',
-          text: 'French Indochina was divided into five subdivisions: Tonkin, Annam, Cochinchina, Cambodia and Laos. Cochinchina was the first territory under French Control. Saigon was conquired in 1859. Then, in 1887, the Indochinese Union was established.',
-          estimate: '-3'
-        },
-        {
-          name: 'Kris Robertson',
-          avatar: '/authors/man-with-mustache.png',
-          date: 'July 17, 7:12 pm',
-          text: 'Indian Marxist scholar Vivek Chibber has critiqued some foundational logics of Postcolonial Theory in his book Postcolonial Theory and the Specter of Capital',
-          estimate: '0'
-        }
-      ]
+      currentCommentsAmount: 4,
+      textOfComment: ''
     }
+  },
+  methods: {
+    showMore() {
+      this.currentCommentsAmount += 2
+    },
+    async sbmt() {
+      const time = new Date()
+      try {
+        const { data } = await axios.patch(
+          `https://7b3a9f14b0b4b7d5.mokky.dev/articles/${this.id}`,
+          {
+            comments: [
+              ...this.comments,
+              {
+                name: 'Maria Ivanova',
+                avatar: '/authors/girl-in-hat.png',
+                date: `${time.toLocaleString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric'
+                })}, ${time
+                  .toLocaleString('en-US', {
+                    hour: 'numeric',
+                    minute: 'numeric'
+                  })
+                  .toLowerCase()}`,
+                text: this.textOfComment,
+                estimate: '0'
+              }
+            ]
+          }
+        )
+        console.log(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  },
+  unmounted() {
+    this.currentCommentsAmount = 4
   }
 }
 </script>
@@ -58,7 +82,7 @@ export default {
         </button>
       </li>
       <li
-        v-for="(item, index) in comments"
+        v-for="(item, index) in currentComments"
         :key="item.date"
         class="comments-block__item"
         :class="{ 'comments-block__item_last': index === comments.length - 1 }"
@@ -81,7 +105,7 @@ export default {
           </div>
         </div>
       </li>
-      <li class="comments-block__more-btn">
+      <li @click="showMore" v-if="!isMoreBtnDisabled" class="comments-block__more-btn">
         <img src="/loading.svg" alt="Icon of more-button" />Load more
       </li>
       <li class="comments-block__comment">
@@ -90,9 +114,9 @@ export default {
           <label for="comment-text" class="comments-block__question">What do you think?</label>
           <div class="comments-block__textarea">
             <img src="/shape.png" alt="Textarea border" />
-            <textarea name="comment-text" id="comment-text"></textarea>
+            <textarea v-model="textOfComment" name="comment-text" id="comment-text"></textarea>
           </div>
-          <app-button class="comments-block__sbmt-btn">
+          <app-button @click="sbmt" class="comments-block__sbmt-btn">
             Submit<img src="/arrow.svg" alt="Icon of submit" />
           </app-button>
         </form>

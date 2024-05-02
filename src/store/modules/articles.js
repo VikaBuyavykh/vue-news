@@ -47,6 +47,9 @@ export const articlesModule = {
     },
     restGalleryArticles(state) {
       return state.galleryArticles.filter((item) => !item.tag).filter((i, index) => index < 2)
+    },
+    testArticle(state) {
+      return state.articles.find((item) => item.section === 'article')
     }
   },
   mutations: {

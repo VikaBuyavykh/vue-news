@@ -1,11 +1,11 @@
 <script>
-import { mapState } from 'vuex'
 import Articles from '@/components/Articles.vue'
 import Recommendations from '@/components/Recommendations.vue'
 import Columns from '@/components/Columns.vue'
 import Separator from '@/components/Separator.vue'
 import News from '@/components/News.vue'
 import Gallery from '@/components/Gallery.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     Articles,
@@ -19,9 +19,6 @@ export default {
     ...mapState({
       articles: (state) => state.articles.articles
     })
-  },
-  mounted() {
-    this.$store.dispatch('articles/getArticles')
   }
 }
 </script>

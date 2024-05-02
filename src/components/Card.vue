@@ -1,21 +1,40 @@
 <script>
-export default {}
+export default {
+  props: {
+    avatar: String,
+    name: String,
+    profession: String,
+    articles: String,
+    fbLink: String,
+    twitterLink: String,
+    igLink: String,
+    localLink: String
+  }
+}
 </script>
 
 <template>
   <div class="card">
     <div class="card__author">
-      <img class="card__author-avatar" src="/authors/coacher.png" alt="Author's avatar" />
-      <h4 class="card__author-name">Mira Anderson</h4>
-      <p class="card__author-profession">Traveler & Photographer</p>
-      <p class="card__author-articles">82 articles</p>
+      <img class="card__author-avatar" :src="avatar" alt="Author's avatar" />
+      <h4 class="card__author-name">{{ name }}</h4>
+      <p class="card__author-profession">{{ profession }}</p>
+      <p class="card__author-articles">{{ articles }} articles</p>
       <ul class="card__author-socials">
-        <li><img src="/fb-pale.svg" alt="Icon of Facebook" /></li>
-        <li><img src="/twitter-pale.svg" alt="Icon of Twitter" /></li>
-        <li><img src="/ig-pale.svg" alt="Icon of Instagram" /></li>
+        <li>
+          <a :href="fbLink" target="_blank"><img src="/fb-pale.svg" alt="Icon of Facebook" /></a>
+        </li>
+        <li>
+          <a :href="twitterLink" target="_blank"
+            ><img src="/twitter-pale.svg" alt="Icon of Twitter"
+          /></a>
+        </li>
+        <li>
+          <a :href="igLink" target="_blank"><img src="/ig-pale.svg" alt="Icon of Instagram" /></a>
+        </li>
       </ul>
     </div>
-    <a class="card__link" href="#">Follow on Universal</a>
+    <a class="card__link" :href="localLink" target="_blank">Follow on Universal</a>
   </div>
 </template>
 

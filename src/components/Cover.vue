@@ -3,15 +3,27 @@ import Comments from '@/components/UI/Comments.vue'
 export default {
   components: {
     Comments
+  },
+  props: {
+    title: String,
+    description: String,
+    theme: String,
+    themeColor: String,
+    isFavorite: Boolean,
+    date: String,
+    likes: String,
+    comments: Array,
+    shares: String,
+    img: Object
   }
 }
 </script>
 
 <template>
-  <section class="cover">
+  <section class="cover" :style="{ backgroundImage: `url(${img.src})` }">
     <div class="cover__content">
       <div class="cover__theme-section">
-        <p class="cover__theme">Destinations</p>
+        <p :style="{ color: themeColor }" class="cover__theme">{{ theme }}</p>
         <router-link to="/" class="cover__home-link">
           <img class="cover__home-img" src="/home.svg" alt="Icon of home page" />
           Back to main
@@ -35,20 +47,22 @@ export default {
           </button>
         </div>
       </div>
-      <img class="cover__bookmark" src="/bookmark.svg" alt="Icon of a bookmark" />
-      <h1 class="cover__title">Five Travel Stories From 2017 to Help You Escape Into the World</h1>
-      <p class="cover__description">
-        From the coastlines of Europe to remote Kodiak Island, Alaska, here are five of our favorite
-        stories to help you explore the world
-      </p>
+      <img
+        class="cover__bookmark"
+        :src="isFavorite ? '/bookmark-active.svg' : '/bookmark.svg'"
+        alt="Icon of a bookmark"
+      />
+      <h1 class="cover__title">{{ title }}</h1>
+      <p class="cover__description">{{ description }}</p>
       <div class="cover__info">
         <div class="cover__main-info">
-          <comments type="time" content="Aug 6, 10:23 pm"></comments>
-          <comments type="likes" content="830"></comments>
-          <comments type="comments" content="19"></comments>
+          <comments type="time" :content="date"></comments>
+          <comments type="likes" :content="likes"></comments>
+          <comments type="comments" :content="String(comments.length)"></comments>
         </div>
         <button class="cover__share-btn">
-          <img class="cover__share-btn-img" src="/share.svg" alt="Icon of sharing" />142 Shares
+          <img class="cover__share-btn-img" src="/share.svg" alt="Icon of sharing" />{{ shares }}
+          Shares
         </button>
       </div>
     </div>
@@ -63,7 +77,6 @@ export default {
 .cover {
   @include size(100%, auto);
   padding-block: 60px;
-  background-image: url('/article/moto.png');
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -88,6 +101,12 @@ export default {
       position: absolute;
       top: 90px;
       left: -85px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+      }
 
       @include media_lg {
         position: unset;
@@ -108,7 +127,8 @@ export default {
         margin-right: auto;
         text-transform: uppercase;
         @extend %lato-regular;
-        @include text(0.75rem, 0.9375rem, #4592ff, left);
+        font-size: 0.75rem;
+        line-height: 0.75rem;
 
         @include media_sm {
           margin-top: 20px;

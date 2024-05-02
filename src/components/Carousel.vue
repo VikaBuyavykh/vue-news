@@ -1,55 +1,16 @@
 <script>
 export default {
+  props: {
+    gallery: Array
+  },
   data() {
     return {
-      slides: [
-        {
-          id: 1,
-          img: '/article/mountines.jpg',
-          text: 'Geostatistics deal with quantitative data analysis, specifically the application of statistical methodology',
-          author: {
-            avatar: '/authors/photographer2.png',
-            name: 'Andrew Washington',
-            profession: 'Photographer'
-          }
-        },
-        {
-          id: 2,
-          img: '/article/moto.png',
-          text: 'Geostatistics deal with quantitative data analysis, specifically the application of statistical methodology',
-          author: {
-            avatar: '/authors/supermodel.jpg',
-            name: 'Vika Buyavykh',
-            profession: 'Frontend Dev'
-          }
-        },
-        {
-          id: 3,
-          img: '/article/mountines.jpg',
-          text: 'Geostatistics deal with quantitative data analysis, specifically the application of statistical methodology',
-          author: {
-            avatar: '/authors/photographer2.png',
-            name: 'Andrew Washington',
-            profession: 'Photographer'
-          }
-        },
-        {
-          id: 4,
-          img: '/article/moto.png',
-          text: 'Geostatistics deal with quantitative data analysis, specifically the application of statistical methodology',
-          author: {
-            avatar: '/authors/supermodel.jpg',
-            name: 'Vika Buyavykh',
-            profession: 'Frontend Dev'
-          }
-        }
-      ],
       slideIndex: 0
     }
   },
   methods: {
     next() {
-      if (this.slideIndex === this.slides.length - 1) {
+      if (this.slideIndex === this.gallery.length - 1) {
         this.slideIndex = 0
       } else {
         this.slideIndex++
@@ -57,7 +18,7 @@ export default {
     },
     prev() {
       if (this.slideIndex === 0) {
-        this.slideIndex = this.slides.length - 1
+        this.slideIndex = this.gallery.length - 1
       } else {
         this.slideIndex--
       }
@@ -82,9 +43,9 @@ export default {
     />
     <ul
       class="carousel__content"
-      :style="{ width: slides.length * 100 + '%', marginLeft: '-' + 100 * slideIndex + '%' }"
+      :style="{ width: gallery.length * 100 + '%', marginLeft: '-' + 100 * slideIndex + '%' }"
     >
-      <li v-for="slide in slides" :key="slide.id" class="carousel__item">
+      <li v-for="slide in gallery" :key="slide.id" class="carousel__item">
         <img class="carousel__image" :src="slide.img" alt="Image" />
         <div class="carousel__info">
           <p class="carousel__description">{{ slide.text }}</p>

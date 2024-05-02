@@ -1,4 +1,5 @@
 <script>
+import { mapGetters } from 'vuex'
 import Cover from '@/components/Cover.vue'
 import Card from '@/components/Card.vue'
 import Carousel from '@/components/Carousel.vue'
@@ -19,13 +20,29 @@ export default {
     Support,
     Selection,
     CommentsBlock
+  },
+  computed: {
+    ...mapGetters({
+      testArticle: 'articles/testArticle'
+    })
   }
 }
 </script>
 
 <template>
-  <main class="article">
-    <cover></cover>
+  <main v-if="testArticle" class="article">
+    <cover
+      :title="testArticle.title"
+      :description="testArticle.description"
+      :theme="testArticle.theme"
+      :themeColor="testArticle.themeColor"
+      :isFavorite="testArticle.isFavorite"
+      :date="testArticle.date"
+      :likes="testArticle.likes"
+      :comments="testArticle.comments"
+      :shares="testArticle.shares"
+      :img="testArticle.img"
+    ></cover>
     <div class="article__part article__part_first">
       <div class="article__paragraphs">
         <p class="article__first-paragraph article__paragraph">
@@ -57,9 +74,18 @@ export default {
           to represent.
         </p>
       </div>
-      <card></card>
+      <card
+        :avatar="testArticle.author.avatar"
+        :name="testArticle.author.name"
+        :profession="testArticle.author.profession"
+        :articles="testArticle.author.articles"
+        :fb-link="testArticle.author.fbLink"
+        :twitter-link="testArticle.author.twitterLink"
+        :ig-link="testArticle.author.igLink"
+        :local-link="testArticle.author.localLink"
+      ></card>
     </div>
-    <carousel></carousel>
+    <carousel :gallery="testArticle.gallery"></carousel>
     <div class="article__part">
       <div class="article__paragraphs">
         <p class="article__paragraph">
@@ -98,13 +124,17 @@ export default {
           The first rigorous system of latitude and longitude lines is credited to Hipparchus. He
           employed a sexagesimal system that was derived from Babylonian mathematics.
         </p>
-        <tags></tags>
-        <support></support>
+        <tags :keys="testArticle.keys"></tags>
+        <support
+          :likes="testArticle.likes"
+          :shares="testArticle.shares"
+          :tweets="testArticle.tweets"
+        ></support>
       </div>
       <material></material>
     </div>
     <selection></selection>
-    <comments-block></comments-block>
+    <comments-block :comments="testArticle.comments" :id="testArticle.id"></comments-block>
   </main>
 </template>
 

@@ -1,4 +1,5 @@
 <script>
+import { mapState } from 'vuex'
 import AppHeader from '@/components/Header.vue'
 import AppFooter from '@/components/Footer.vue'
 
@@ -6,6 +7,14 @@ export default {
   components: {
     AppHeader,
     AppFooter
+  },
+  computed: {
+    ...mapState({
+      articles: (state) => state.articles.articles
+    })
+  },
+  mounted() {
+    this.$store.dispatch('articles/getArticles')
   }
 }
 </script>
