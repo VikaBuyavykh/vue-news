@@ -11,52 +11,62 @@ export default {
     comments: Array,
     id: Number
   },
-  computed: {
-    currentComments() {
-      return this.comments.filter((item, index) => index < this.currentCommentsAmount)
-    },
-    isMoreBtnDisabled() {
-      return this.currentComments.length === this.comments.length
-    }
-  },
   data() {
     return {
       currentCommentsAmount: 4,
-      textOfComment: ''
+      textOfComment: '',
+      copyComments: this.comments.slice(0)
+    }
+  },
+  computed: {
+    currentComments() {
+      return this.copyComments.filter((item, index) => index < this.currentCommentsAmount)
+    },
+    isMoreBtnDisabled() {
+      return this.currentComments.length === this.copyComments.length
     }
   },
   methods: {
+    scrollToElement() {
+      document
+        .querySelector('.comments-block__item_last')
+        .scrollIntoView({ behavior: 'smooth', block: 'center' })
+    },
     showMore() {
       this.currentCommentsAmount += 2
     },
-    async sbmt() {
+    showEverything() {
+      this.currentCommentsAmount = this.copyComments.length
+    },
+    async sbmt(e) {
+      e.preventDefault()
       const time = new Date()
+      const newComment = {
+        name: 'Maria Ivanova',
+        avatar: '/authors/girl-in-hat.png',
+        date: `${time.toLocaleString('en-US', {
+          month: 'long',
+          day: 'numeric',
+          year: 'numeric'
+        })}, ${time
+          .toLocaleString('en-US', {
+            hour: 'numeric',
+            minute: 'numeric'
+          })
+          .toLowerCase()}`,
+        text: this.textOfComment,
+        estimate: '0'
+      }
       try {
-        const { data } = await axios.patch(
-          `https://7b3a9f14b0b4b7d5.mokky.dev/articles/${this.id}`,
-          {
-            comments: [
-              ...this.comments,
-              {
-                name: 'Maria Ivanova',
-                avatar: '/authors/girl-in-hat.png',
-                date: `${time.toLocaleString('en-US', {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
-                })}, ${time
-                  .toLocaleString('en-US', {
-                    hour: 'numeric',
-                    minute: 'numeric'
-                  })
-                  .toLowerCase()}`,
-                text: this.textOfComment,
-                estimate: '0'
-              }
-            ]
-          }
-        )
-        console.log(data)
+        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${this.id}`, {
+          comments: [...this.comments, newComment]
+        })
+        this.copyComments.push(newComment)
+        this.textOfComment = ''
+        this.showEverything()
+        setTimeout(() => {
+          this.scrollToElement()
+        }, 0)
       } catch (error) {
         console.log(error)
       }
@@ -76,7 +86,7 @@ export default {
           <h3 class="comments-block__title">Comments</h3>
           <p class="comments-block__amount">19</p>
         </div>
-        <button class="comments-block__add-btn">
+        <button @click="rrr" class="comments-block__add-btn">
           <img src="/add.svg" alt="Icon of adding a comment" />
           Add comment
         </button>
@@ -85,7 +95,7 @@ export default {
         v-for="(item, index) in currentComments"
         :key="item.date"
         class="comments-block__item"
-        :class="{ 'comments-block__item_last': index === comments.length - 1 }"
+        :class="{ 'comments-block__item_last': index === currentComments.length - 1 }"
       >
         <div
           class="comments-block__item-content"
