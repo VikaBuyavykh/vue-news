@@ -1,5 +1,13 @@
+<script>
+export default {
+  props: {
+    type: String
+  }
+}
+</script>
+
 <template>
-  <button type="button" class="btn"><slot></slot></button>
+  <button :type="type === 'sbmt' ? 'submit' : 'button'" class="btn"><slot></slot></button>
 </template>
 
 <style lang="scss" scoped>

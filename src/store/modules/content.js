@@ -8,7 +8,9 @@ export const contentModule = {
     currentCommentsAmount: 4,
     textOfComment: '',
     copyComments: [],
-    id: null
+    id: null,
+    isReply: false,
+    replyIndex: null
   }),
   getters: {
     currentComments(state) {
@@ -19,6 +21,12 @@ export const contentModule = {
     }
   },
   mutations: {
+    setReplyIndex(state, payload) {
+      state.replyIndex = payload
+    },
+    setIsReply(state, payload) {
+      state.isReply = payload
+    },
     setId(state, payload) {
       state.id = payload
     },
@@ -33,6 +41,9 @@ export const contentModule = {
     },
     pushCopyComments(state, payload) {
       state.copyComments.push(payload)
+    },
+    insertCopyComments(state, payload) {
+      state.copyComments.splice(state.replyIndex, 0, payload)
     },
     setParagraphs(state, payload) {
       state.paragraphs = payload
@@ -51,14 +62,15 @@ export const contentModule = {
     },
     showMore(state) {
       state.currentCommentsAmount += 2
+      state.isReply = false
+      state.replyIndex = null
     },
     showEverything(state) {
       state.currentCommentsAmount = state.copyComments.length
     }
   },
   actions: {
-    async sbmt(context, e) {
-      e.preventDefault()
+    async sbmt(context) {
       const time = new Date()
       const newComment = {
         name: 'Maria Ivanova',
@@ -74,23 +86,43 @@ export const contentModule = {
           })
           .toLowerCase()}`,
         text: context.state.textOfComment,
-        estimate: '0'
+        estimate: '0',
+        reply: context.state.isReply
       }
       try {
+        if (context.state.isReply) {
+          context.commit('insertCopyComments', newComment)
+        } else {
+          context.commit('pushCopyComments', newComment)
+        }
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${context.state.id}`, {
-          comments: [...context.state.copyComments, newComment]
+          comments: context.state.copyComments
         })
-        context.commit('pushCopyComments', newComment)
         context.commit('resetTextOfComment', '')
-        context.commit('showEverything')
-        setTimeout(() => {
-          document
-            .querySelector('.comments-block__item_last')
-            .scrollIntoView({ behavior: 'smooth', block: 'center' })
-        }, 0)
+        if (context.state.isReply) {
+          context.commit('setCurrentCommentsAmount', context.state.replyIndex + 1)
+          context.commit('setIsReply', false)
+          context.commit('setReplyIndex', null)
+        } else {
+          context.commit('showEverything')
+          setTimeout(() => {
+            document
+              .querySelector('.comments-block__item_last')
+              .scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }, 0)
+        }
       } catch (error) {
         console.log(error)
       }
+    },
+    reply({ state, commit }, e) {
+      commit(
+        'setReplyIndex',
+        Number(e.currentTarget.closest('.comments-block__item').getAttribute('index')) + 1
+      )
+      commit('setCurrentCommentsAmount', state.replyIndex)
+      document.querySelector('#comment-text').focus()
+      commit('setIsReply', true)
     }
   },
   namespaced: true

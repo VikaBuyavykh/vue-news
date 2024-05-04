@@ -32,7 +32,8 @@ export default {
       setTextOfComment: 'content/setTextOfComment'
     }),
     ...mapActions({
-      sbmt: 'content/sbmt'
+      sbmt: 'content/sbmt',
+      reply: 'content/reply'
     })
   },
   created() {
@@ -51,7 +52,7 @@ export default {
       <li class="comments-block__header">
         <div class="comments-block__title-group">
           <h3 class="comments-block__title">Comments</h3>
-          <p class="comments-block__amount">19</p>
+          <p class="comments-block__amount">{{ copyComments.length }}</p>
         </div>
         <button @click="rrr" class="comments-block__add-btn">
           <img src="/add.svg" alt="Icon of adding a comment" />
@@ -61,6 +62,7 @@ export default {
       <li
         v-for="(item, index) in currentComments"
         :key="item.date"
+        :index="index"
         class="comments-block__item"
         :class="{ 'comments-block__item_last': index === currentComments.length - 1 }"
       >
@@ -76,7 +78,7 @@ export default {
             </div>
             <p class="comments-block__text">{{ item.text }}</p>
             <div class="comments-block__btns">
-              <comments type="comments" content="Reply"></comments>
+              <comments @click="reply" type="comments" content="Reply"></comments>
               <comments type="estimate" :content="item.estimate"></comments>
             </div>
           </div>
@@ -87,7 +89,12 @@ export default {
       </li>
       <li class="comments-block__comment">
         <img class="comments-block__comment-avatar" src="/authors/girl-in-hat.png" alt="Avatar" />
-        <form name="comment" id="comment" class="comments-block__comment-form">
+        <form
+          @submit.prevent="sbmt"
+          name="comment"
+          id="comment"
+          class="comments-block__comment-form"
+        >
           <label for="comment-text" class="comments-block__question">What do you think?</label>
           <div class="comments-block__textarea">
             <img src="/shape.png" alt="Textarea border" />
@@ -98,7 +105,7 @@ export default {
               id="comment-text"
             ></textarea>
           </div>
-          <app-button @click="sbmt" class="comments-block__sbmt-btn">
+          <app-button type="sbmt" class="comments-block__sbmt-btn">
             Submit<img src="/arrow.svg" alt="Icon of submit" />
           </app-button>
         </form>
