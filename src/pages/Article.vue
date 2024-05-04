@@ -1,94 +1,47 @@
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import Cover from '@/components/Cover.vue'
 import Card from '@/components/Card.vue'
 import Carousel from '@/components/Carousel.vue'
 import Material from '@/components/Material.vue'
-import Quote from '@/components/Quote.vue'
 import Tags from '@/components/Tags.vue'
 import Support from '@/components/Support.vue'
 import Selection from '@/components/Selection.vue'
 import CommentsBlock from '@/components/CommentsBlock.vue'
-import Paragraph from '@/components/UI/Paragraph.vue'
+import Paragraph from '@/components/Paragraph.vue'
 export default {
   components: {
     Cover,
     Card,
     Carousel,
     Material,
-    Quote,
     Tags,
     Support,
     Selection,
     CommentsBlock,
     Paragraph
   },
-  data() {
-    return {
-      firstPartOfTheText: [],
-      lastPartOfTheText: [],
-      pars: [
-        {
-          isSubtitle: false,
-          text: 'Many geographers are trained in toponymy and cartology, this is not their main preoccupation. Geographers study the space and the temporal database distribution of phenomena, processes, and features as well as the interaction of humans and their environment. Because space and place affect a variety of topics, such as economics, health, climate, plants and animals, geography is highly interdisciplinary. The interdisciplinary nature of the geographical approach depends on an attentiveness to the relationship between physical and human phenomena and its spatial patterns.'
-        },
-        {
-          isSubtitle: true,
-          text: 'Integrated Geography'
-        },
-        {
-          isSubtitle: false,
-          text: 'Geography as a discipline can be split broadly into two main subsidiary fields: human geography and physical geography. The former largely focuses on the built environment and how humans create, view, manage, and influence space. The latter examines the natural environment, and how organisms, climate, soil, water, and landforms produce and interact.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The difference between these approaches led to a third field, environmental geography, which combines physical and human geography and concerns the interactions between the environment and humans.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The accompanying text mentions seven outer regions beyond the encircling ocean. The descriptions of five of them have survived. In contrast to the Imago Mundi, an earlier Babylonian world map dating back to the 9th century BC depicted Babylon as being further north from the center of the world, though it is not certain what that center was supposed to represent.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The oldest known world maps date back to ancient Babylon from the 9th century BC. The best known Babylonian world map, however, is the Imago Mundi of 600 BC. The map as reconstructed by Eckhard Unger shows Babylon on the Euphrates, surrounded by a circular landmass showing Assyria, Urartu and several cities, in turn surrounded by a "bitter river" (Oceanus), with seven islands arranged around it so as to form a seven-pointed star.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The accompanying text mentions seven outer regions beyond the encircling ocean. The descriptions of five of them have survived. In contrast to the Imago Mundi, an earlier Babylonian world map dating back to the 9th century BC depicted Babylon as being further north from the center of the world, though it is not certain what that center was supposed to represent.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The ideas of Anaximander: considered by later Greek writers to be the true founder of geography, come to us through fragments quoted by his successors. Anaximander is credited with the invention of the gnomon, the simple, yet efficient Greek instrument that allowed the early measurement of latitude. Thales is also credited with the prediction of eclipses. The foundations of geography can be traced to the ancient cultures, such as the ancient, medieval, and early modern Chinese.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The Greeks, who were the first to explore geography as both art and science, achieved this through Cartography, Philosophy, and Literature, or through Mathematics. There is some debate about who was the first person to assert that the Earth is spherical in shape, with the credit going either to Parmenides or Pythagoras. Anaxagoras was able to demonstrate that the profile of the Earth was circular by explaining eclipses. However, he still believed that the Earth was a flat disk, as did many of his contemporaries.'
-        },
-        {
-          isSubtitle: false,
-          text: 'The first rigorous system of latitude and longitude lines is credited to Hipparchus. He employed a sexagesimal system that was derived from Babylonian mathematics.'
-        }
-      ]
-    }
-  },
-  methods: {
-    setText() {
-      this.pars.forEach((item, index) => {
-        if (index < Math.floor(this.pars.length / 2)) {
-          this.firstPartOfTheText.push({ ...item, index: index })
-        } else {
-          this.lastPartOfTheText.push({ ...item, index: index })
-        }
-      })
-    }
-  },
   computed: {
+    ...mapState({
+      firstPartOfTheText: (state) => state.content.firstPartOfTheText,
+      lastPartOfTheText: (state) => state.content.lastPartOfTheText,
+      paragraphs: (state) => state.content.paragraphs
+    }),
     ...mapGetters({
       testArticle: 'articles/testArticle'
     })
   },
-  mounted() {
-    this.setText()
+  methods: {
+    ...mapMutations({
+      setParagraphs: 'content/setParagraphs',
+      setText: 'content/setText'
+    })
+  },
+  watch: {
+    testArticle() {
+      this.setParagraphs(this.testArticle.content)
+      this.setText()
+    }
   }
 }
 </script>
@@ -110,11 +63,16 @@ export default {
     <div class="article__part article__part_first">
       <div class="article__paragraphs">
         <paragraph
-          v-for="par in firstPartOfTheText"
-          :key="par.index"
-          :isSubtitle="par.isSubtitle"
-          :index="par.index"
-          >{{ par.text }}</paragraph
+          v-for="paragraph in firstPartOfTheText"
+          :key="paragraph.index"
+          :isSubtitle="paragraph.isSubtitle"
+          :index="paragraph.index"
+          :isQuote="paragraph.isQuote"
+          :quote="paragraph.quote"
+          :avatar="paragraph.avatar"
+          :name="paragraph.name"
+          :profession="paragraph.profession"
+          >{{ paragraph.text }}</paragraph
         >
       </div>
       <card
@@ -131,42 +89,18 @@ export default {
     <carousel :gallery="testArticle.gallery"></carousel>
     <div class="article__part">
       <div class="article__paragraphs">
-        <p class="article__paragraph">
-          The oldest known world maps date back to ancient Babylon from the 9th century BC. The best
-          known Babylonian world map, however, is the Imago Mundi of 600 BC. The map as
-          reconstructed by Eckhard Unger shows Babylon on the Euphrates, surrounded by a circular
-          landmass showing Assyria, Urartu and several cities, in turn surrounded by a "bitter
-          river" (Oceanus), with seven islands arranged around it so as to form a seven-pointed
-          star.
-        </p>
-        <p class="article__paragraph">
-          The accompanying text mentions seven outer regions beyond the encircling ocean. The
-          descriptions of five of them have survived. In contrast to the Imago Mundi, an earlier
-          Babylonian world map dating back to the 9th century BC depicted Babylon as being further
-          north from the center of the world, though it is not certain what that center was supposed
-          to represent.
-        </p>
-        <p class="article__paragraph">
-          The ideas of Anaximander: considered by later Greek writers to be the true founder of
-          geography, come to us through fragments quoted by his successors. Anaximander is credited
-          with the invention of the gnomon, the simple, yet efficient Greek instrument that allowed
-          the early measurement of latitude. Thales is also credited with the prediction of
-          eclipses. The foundations of geography can be traced to the ancient cultures, such as the
-          ancient, medieval, and early modern Chinese.
-        </p>
-        <quote></quote>
-        <p class="article__paragraph">
-          The Greeks, who were the first to explore geography as both art and science, achieved this
-          through Cartography, Philosophy, and Literature, or through Mathematics. There is some
-          debate about who was the first person to assert that the Earth is spherical in shape, with
-          the credit going either to Parmenides or Pythagoras. Anaxagoras was able to demonstrate
-          that the profile of the Earth was circular by explaining eclipses. However, he still
-          believed that the Earth was a flat disk, as did many of his contemporaries.
-        </p>
-        <p class="article__paragraph">
-          The first rigorous system of latitude and longitude lines is credited to Hipparchus. He
-          employed a sexagesimal system that was derived from Babylonian mathematics.
-        </p>
+        <paragraph
+          v-for="paragraph in lastPartOfTheText"
+          :key="paragraph.index"
+          :isSubtitle="paragraph.isSubtitle"
+          :index="paragraph.index"
+          :isQuote="paragraph.isQuote"
+          :quote="paragraph.quote"
+          :avatar="paragraph.avatar"
+          :name="paragraph.name"
+          :profession="paragraph.profession"
+          >{{ paragraph.text }}</paragraph
+        >
         <tags :keys="testArticle.keys"></tags>
         <support
           :likes="testArticle.likes"

@@ -1,17 +1,22 @@
-<script></script>
+<script>
+export default {
+  props: {
+    quote: String,
+    avatar: String,
+    name: String,
+    profession: String
+  }
+}
+</script>
 
 <template>
   <div class="quote">
-    <img class="quote__img" src="/quote.svg" alt="Image of quote" />
-    <p class="quote__text">
-      Names of places... are not geography... know by heart a whole gazetteer full of them would
-      not, in itself, constitute anyone a geographer. Geography has higher aims than this: it seeks
-      to classify phenomena.
-    </p>
+    <img class="quote__img" src="/quote.svg" alt="Image of quotes" />
+    <p class="quote__text">{{ quote }}</p>
     <div class="quote__author">
-      <img class="quote__author-avatar" src="/authors/travel-agent.png" alt="Author's avatar" />
-      <p class="quote__author-name">William Peterson</p>
-      <p class="quote__author-profession">Travel Agent</p>
+      <img class="quote__author-avatar" :src="avatar" :alt="`${name}'s avatar`" />
+      <p class="quote__author-name">{{ name }}</p>
+      <p class="quote__author-profession">{{ profession }}</p>
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script>
 import Comments from '@/components/UI/Comments.vue'
 import AppButton from '@/components/UI/Button.vue'
-import axios from 'axios'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 export default {
   components: {
     Comments,
@@ -11,69 +11,36 @@ export default {
     comments: Array,
     id: Number
   },
-  data() {
-    return {
-      currentCommentsAmount: 4,
-      textOfComment: '',
-      copyComments: this.comments.slice(0)
-    }
-  },
   computed: {
-    currentComments() {
-      return this.copyComments.filter((item, index) => index < this.currentCommentsAmount)
-    },
-    isMoreBtnDisabled() {
-      return this.currentComments.length === this.copyComments.length
-    }
+    ...mapState({
+      currentCommentsAmount: (state) => state.content.currentCommentsAmount,
+      textOfComment: (state) => state.content.textOfComment,
+      copyComments: (state) => state.content.copyComments
+    }),
+    ...mapGetters({
+      currentComments: 'content/currentComments',
+      isMoreBtnDisabled: 'content/isMoreBtnDisabled'
+    })
   },
   methods: {
-    scrollToElement() {
-      document
-        .querySelector('.comments-block__item_last')
-        .scrollIntoView({ behavior: 'smooth', block: 'center' })
-    },
-    showMore() {
-      this.currentCommentsAmount += 2
-    },
-    showEverything() {
-      this.currentCommentsAmount = this.copyComments.length
-    },
-    async sbmt(e) {
-      e.preventDefault()
-      const time = new Date()
-      const newComment = {
-        name: 'Maria Ivanova',
-        avatar: '/authors/girl-in-hat.png',
-        date: `${time.toLocaleString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        })}, ${time
-          .toLocaleString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric'
-          })
-          .toLowerCase()}`,
-        text: this.textOfComment,
-        estimate: '0'
-      }
-      try {
-        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${this.id}`, {
-          comments: [...this.comments, newComment]
-        })
-        this.copyComments.push(newComment)
-        this.textOfComment = ''
-        this.showEverything()
-        setTimeout(() => {
-          this.scrollToElement()
-        }, 0)
-      } catch (error) {
-        console.log(error)
-      }
-    }
+    ...mapMutations({
+      setCopyComments: 'content/setCopyComments',
+      setCurrentCommentsAmount: 'content/setCurrentCommentsAmount',
+      showMore: 'content/showMore',
+      showEverything: 'content/showEverything',
+      setId: 'content/setId',
+      setTextOfComment: 'content/setTextOfComment'
+    }),
+    ...mapActions({
+      sbmt: 'content/sbmt'
+    })
+  },
+  created() {
+    this.setCopyComments(this.comments.slice(0))
+    this.setId(this.id)
   },
   unmounted() {
-    this.currentCommentsAmount = 4
+    this.setCurrentCommentsAmount(4)
   }
 }
 </script>
@@ -124,7 +91,12 @@ export default {
           <label for="comment-text" class="comments-block__question">What do you think?</label>
           <div class="comments-block__textarea">
             <img src="/shape.png" alt="Textarea border" />
-            <textarea v-model="textOfComment" name="comment-text" id="comment-text"></textarea>
+            <textarea
+              :value="textOfComment"
+              @input="setTextOfComment"
+              name="comment-text"
+              id="comment-text"
+            ></textarea>
           </div>
           <app-button @click="sbmt" class="comments-block__sbmt-btn">
             Submit<img src="/arrow.svg" alt="Icon of submit" />
