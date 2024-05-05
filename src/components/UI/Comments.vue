@@ -1,8 +1,104 @@
 <script>
+import axios from 'axios'
+import { mapMutations, mapState } from 'vuex'
 export default {
   props: {
     type: String,
-    content: String
+    content: [String, Number],
+    curentUserEstim: [Object, null],
+    userEstimate: Array
+  },
+  data() {
+    return {
+      arr: []
+    }
+  },
+  computed: {
+    ...mapState({
+      copyComments: (state) => state.content.copyComments,
+      id: (state) => state.user.id
+    }),
+    isLikeBtnPressed() {
+      const estim = this.userEstimate.find((item) => item.user === this.id)
+      if (estim && estim.value > 0) {
+        return true
+      } else {
+        return false
+      }
+    },
+    isDislikeBtnPressed() {
+      const estim = this.userEstimate.find((item) => item.user === this.id)
+      if (estim && estim.value < 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  methods: {
+    ...mapMutations({
+      setCopyComments: 'content/setCopyComments'
+    }),
+    async updateComments() {
+      try {
+        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/42`, {
+          comments: this.copyComments
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    like(e) {
+      const date = e.target.closest('.comments-block__item').getAttribute('id')
+      this.arr.map((item) => {
+        if (item.date === date) {
+          const estim = item.estimate.find((item) => item.user === this.id)
+          const estimIndex = item.estimate.indexOf(estim)
+          if (estim && estim.value > 0) {
+            return { ...item, estimate: item.estimate.splice(estimIndex, 1) }
+          } else if (estim && estim.value < 0) {
+            return {
+              ...item,
+              estimate: item.estimate.splice(estimIndex, 1, { user: this.id, value: 1 })
+            }
+          } else {
+            return { ...item, estimate: item.estimate.push({ user: this.id, value: 1 }) }
+          }
+        } else {
+          return item
+        }
+      })
+      this.setCopyComments(this.arr)
+      this.updateComments()
+    },
+    dislike(e) {
+      const date = e.target.closest('.comments-block__item').getAttribute('id')
+      this.arr.map((item) => {
+        if (item.date === date) {
+          const estim = item.estimate.find((item) => item.user === this.id)
+          const estimIndex = item.estimate.indexOf(estim)
+          if (estim && estim.value < 0) {
+            return { ...item, estimate: item.estimate.splice(estimIndex, 1) }
+          } else if (estim && estim.value > 0) {
+            return {
+              ...item,
+              estimate: item.estimate.splice(estimIndex, 1, { user: this.id, value: -1 })
+            }
+          } else {
+            return { ...item, estimate: item.estimate.push({ user: this.id, value: -1 }) }
+          }
+        } else {
+          return item
+        }
+      })
+      this.setCopyComments(this.arr)
+      this.updateComments()
+    }
+  },
+  mounted() {
+    if (this.type === 'estimate') {
+      this.arr = this.copyComments.slice(0)
+    }
   }
 }
 </script>
@@ -10,6 +106,7 @@ export default {
 <template>
   <div class="comments">
     <img
+      @click="(e) => (type === 'estimate' ? like(e) : '')"
       class="comments__img"
       :src="
         type === 'comments'
@@ -20,14 +117,16 @@ export default {
               ? '/clock.svg'
               : type === 'readers'
                 ? '/eye.svg'
-                : '/class.svg'
+                : isLikeBtnPressed
+                  ? '/class-active.svg'
+                  : '/class.svg'
       "
       :alt="
         type === 'comments'
           ? 'Icon of comments'
           : type === 'likes'
             ? 'Icon of likes'
-            : type === 'likes'
+            : type === 'time'
               ? 'Icon of time'
               : type === 'readers'
                 ? 'Icon of the number of readers'
@@ -37,16 +136,17 @@ export default {
     <p
       class="comments__text"
       :class="{
-        comments__text_positive: type === 'estimate' && Number(content) > 0,
-        comments__text_negative: type === 'estimate' && Number(content) < 0
+        comments__text_positive: type === 'estimate' && content > 0,
+        comments__text_negative: type === 'estimate' && content < 0
       }"
     >
-      {{ content }}
+      {{ type !== 'estimate' ? content : content > 0 ? `+${content}` : content }}
     </p>
     <img
+      @click="(e) => dislike(e)"
       v-if="type === 'estimate'"
       class="comments__img comments__img_dislike"
-      src="/class.svg"
+      :src="isDislikeBtnPressed ? '/class-active.svg' : '/class.svg'"
       alt="'Icon of setting dislike"
     />
   </div>

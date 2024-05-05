@@ -86,7 +86,7 @@ export const contentModule = {
           })
           .toLowerCase()}`,
         text: context.state.textOfComment,
-        estimate: '0',
+        estimate: [],
         reply: context.state.isReply
       }
       try {

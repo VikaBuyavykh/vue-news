@@ -16,7 +16,8 @@ export default {
       currentCommentsAmount: (state) => state.content.currentCommentsAmount,
       textOfComment: (state) => state.content.textOfComment,
       copyComments: (state) => state.content.copyComments,
-      avatar: (state) => state.user.avatar
+      avatar: (state) => state.user.avatar,
+      userId: (state) => state.user.id
     }),
     ...mapGetters({
       currentComments: 'content/currentComments',
@@ -64,6 +65,7 @@ export default {
         v-for="(item, index) in currentComments"
         :key="item.date"
         :index="index"
+        :id="item.date"
         class="comments-block__item"
         :class="{ 'comments-block__item_last': index === currentComments.length - 1 }"
       >
@@ -80,7 +82,12 @@ export default {
             <p class="comments-block__text">{{ item.text }}</p>
             <div class="comments-block__btns">
               <comments @click="reply" type="comments" content="Reply"></comments>
-              <comments type="estimate" :content="item.estimate"></comments>
+              <comments
+                type="estimate"
+                :userEstimate="item.estimate"
+                :curentUserEstim="item.estimate.find((item) => item.user)"
+                :content="item.estimate.map((item) => item.value).reduce((a, b) => a + b, 0)"
+              ></comments>
             </div>
           </div>
         </div>
