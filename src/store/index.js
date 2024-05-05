@@ -4,6 +4,7 @@ import { sliderModule } from '@/store/modules/slider'
 import { headerModule } from '@/store/modules/header'
 import { footerModule } from '@/store/modules/footer'
 import { contentModule } from '@/store/modules/content'
+import { userModule } from '@/store/modules/user'
 
 export default createStore({
   modules: {
@@ -11,6 +12,7 @@ export default createStore({
     slider: sliderModule,
     header: headerModule,
     footer: footerModule,
-    content: contentModule
+    content: contentModule,
+    user: userModule
   }
 })

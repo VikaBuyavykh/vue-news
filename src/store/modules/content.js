@@ -73,8 +73,8 @@ export const contentModule = {
     async sbmt(context) {
       const time = new Date()
       const newComment = {
-        name: 'Maria Ivanova',
-        avatar: '/authors/girl-in-hat.png',
+        name: context.rootState.user.name,
+        avatar: context.rootState.user.avatar,
         date: `${time.toLocaleString('en-US', {
           month: 'long',
           day: 'numeric',

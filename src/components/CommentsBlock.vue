@@ -15,7 +15,8 @@ export default {
     ...mapState({
       currentCommentsAmount: (state) => state.content.currentCommentsAmount,
       textOfComment: (state) => state.content.textOfComment,
-      copyComments: (state) => state.content.copyComments
+      copyComments: (state) => state.content.copyComments,
+      avatar: (state) => state.user.avatar
     }),
     ...mapGetters({
       currentComments: 'content/currentComments',
@@ -48,8 +49,8 @@ export default {
 
 <template>
   <section class="comments-block">
-    <ul class="comments-block__content">
-      <li class="comments-block__header">
+    <TransitionGroup name="list" tag="ul" class="comments-block__content">
+      <li key="header" class="comments-block__header">
         <div class="comments-block__title-group">
           <h3 class="comments-block__title">Comments</h3>
           <p class="comments-block__amount">{{ copyComments.length }}</p>
@@ -84,11 +85,11 @@ export default {
           </div>
         </div>
       </li>
-      <li @click="showMore" v-if="!isMoreBtnDisabled" class="comments-block__more-btn">
+      <li key="button" @click="showMore" v-if="!isMoreBtnDisabled" class="comments-block__more-btn">
         <img src="/loading.svg" alt="Icon of more-button" />Load more
       </li>
-      <li class="comments-block__comment">
-        <img class="comments-block__comment-avatar" src="/authors/girl-in-hat.png" alt="Avatar" />
+      <li key="comment" class="comments-block__comment">
+        <img class="comments-block__comment-avatar" :src="avatar" alt="Avatar" />
         <form
           @submit.prevent="sbmt"
           name="comment"
@@ -110,7 +111,7 @@ export default {
           </app-button>
         </form>
       </li>
-    </ul>
+    </TransitionGroup>
   </section>
 </template>
 
@@ -118,6 +119,16 @@ export default {
 @import '@/assets/fonts/font.scss';
 @import '@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
 
 .comments-block {
   @include size(100%, auto);
