@@ -42,6 +42,12 @@ export default {
       this.setParagraphs(this.testArticle.content)
       this.setText()
     }
+  },
+  mounted() {
+    if (this.testArticle) {
+      this.setParagraphs(this.testArticle.content)
+      this.setText()
+    }
   }
 }
 </script>

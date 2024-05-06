@@ -16,7 +16,8 @@ export default {
   computed: {
     ...mapState({
       copyComments: (state) => state.content.copyComments,
-      id: (state) => state.user.id
+      id: (state) => state.user.id,
+      articleId: (state) => state.content.id
     }),
     isLikeBtnPressed() {
       const estim = this.userEstimate.find((item) => item.user === this.id)
@@ -41,7 +42,7 @@ export default {
     }),
     async updateComments() {
       try {
-        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/42`, {
+        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${this.articleId}`, {
           comments: this.copyComments
         })
       } catch (error) {
@@ -49,9 +50,9 @@ export default {
       }
     },
     like(e) {
-      const date = e.target.closest('.comments-block__item').getAttribute('id')
+      const id = e.target.closest('.comments-block__item').getAttribute('id')
       this.arr.map((item) => {
-        if (item.date === date) {
+        if (item.id === id) {
           const estim = item.estimate.find((item) => item.user === this.id)
           const estimIndex = item.estimate.indexOf(estim)
           if (estim && estim.value > 0) {
@@ -72,9 +73,9 @@ export default {
       this.updateComments()
     },
     dislike(e) {
-      const date = e.target.closest('.comments-block__item').getAttribute('id')
+      const id = e.target.closest('.comments-block__item').getAttribute('id')
       this.arr.map((item) => {
-        if (item.date === date) {
+        if (item.id === id) {
           const estim = item.estimate.find((item) => item.user === this.id)
           const estimIndex = item.estimate.indexOf(estim)
           if (estim && estim.value < 0) {

@@ -63,9 +63,9 @@ export default {
       </li>
       <li
         v-for="(item, index) in currentComments"
-        :key="item.date"
+        :key="item.id"
         :index="index"
-        :id="item.date"
+        :id="item.id"
         class="comments-block__item"
         :class="{ 'comments-block__item_last': index === currentComments.length - 1 }"
       >

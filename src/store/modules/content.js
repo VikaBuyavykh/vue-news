@@ -87,7 +87,8 @@ export const contentModule = {
           .toLowerCase()}`,
         text: context.state.textOfComment,
         estimate: [],
-        reply: context.state.isReply
+        reply: context.state.isReply,
+        id: String(time)
       }
       try {
         if (context.state.isReply) {
