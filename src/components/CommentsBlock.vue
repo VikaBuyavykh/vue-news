@@ -84,7 +84,7 @@ export default {
               <comments @click="reply" type="comments" content="Reply"></comments>
               <comments
                 type="estimate"
-                :userEstimate="item.estimate"
+                :reaction="item.estimate.find((item) => item.user === userId)"
                 :content="item.estimate.map((item) => item.value).reduce((a, b) => a + b, 0)"
               ></comments>
             </div>

@@ -11,8 +11,7 @@ export const contentModule = {
     id: null,
     isReply: false,
     replyIndex: null,
-    anotherCopy: [],
-    userReaction: null
+    anotherCopy: []
   }),
   getters: {
     currentComments(state) {
@@ -23,9 +22,6 @@ export const contentModule = {
     }
   },
   mutations: {
-    setUserReaction(state, payload) {
-      state.userReaction = payload
-    },
     setReplyIndex(state, payload) {
       state.replyIndex = payload
     },

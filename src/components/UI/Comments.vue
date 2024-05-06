@@ -4,53 +4,28 @@ export default {
   props: {
     type: String,
     content: [String, Number],
-    userEstimate: Array
+    reaction: Object
   },
   computed: {
     ...mapState({
       copyComments: (state) => state.content.copyComments,
       id: (state) => state.user.id,
       articleId: (state) => state.content.id,
-      anotherCopy: (state) => state.content.anotherCopy,
-      userReaction: (state) => state.content.userReaction
-    }),
-    isLikeBtnPressed() {
-      const estim = this.userEstimate.find((item) => item.user === this.id)
-      if (estim && estim.value > 0) {
-        return true
-      } else {
-        return false
-      }
-    },
-    isDislikeBtnPressed() {
-      const estim = this.userEstimate.find((item) => item.user === this.id)
-      if (estim && estim.value < 0) {
-        return true
-      } else {
-        return false
-      }
-    }
+      anotherCopy: (state) => state.content.anotherCopy
+    })
   },
   methods: {
     ...mapMutations({
       setCopyComments: 'content/setCopyComments',
-      setAnotherCopy: 'content/setAnotherCopy',
-      setUserReaction: 'content/setUserReaction'
+      setAnotherCopy: 'content/setAnotherCopy'
     }),
     ...mapActions({
       react: 'content/react'
     })
   },
-  // created() {
-  //   if (this.type === 'estimate') {
-  //     this.setUserReaction(this.userEstimate)
-  //     console.log(this.userEstimate === this.userReaction)
-  //   }
-  // },
   mounted() {
     if (this.type === 'estimate') {
       this.setAnotherCopy(this.copyComments.slice(0))
-      this.setUserReaction(this.userEstimate)
     }
   }
 }
@@ -70,7 +45,7 @@ export default {
               ? '/clock.svg'
               : type === 'readers'
                 ? '/eye.svg'
-                : isLikeBtnPressed
+                : reaction && reaction.value > 0
                   ? '/class-active.svg'
                   : '/class.svg'
       "
@@ -99,7 +74,7 @@ export default {
       @click="(e) => react({ e, str: 'dis' })"
       v-if="type === 'estimate'"
       class="comments__img comments__img_dislike"
-      :src="isDislikeBtnPressed ? '/class-active.svg' : '/class.svg'"
+      :src="reaction && reaction.value < 0 ? '/class-active.svg' : '/class.svg'"
       alt="'Icon of setting dislike"
     />
   </div>
