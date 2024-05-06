@@ -85,7 +85,6 @@ export default {
               <comments
                 type="estimate"
                 :userEstimate="item.estimate"
-                :curentUserEstim="item.estimate.find((item) => item.user)"
                 :content="item.estimate.map((item) => item.value).reduce((a, b) => a + b, 0)"
               ></comments>
             </div>

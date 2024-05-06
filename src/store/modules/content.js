@@ -10,7 +10,9 @@ export const contentModule = {
     copyComments: [],
     id: null,
     isReply: false,
-    replyIndex: null
+    replyIndex: null,
+    anotherCopy: [],
+    userReaction: null
   }),
   getters: {
     currentComments(state) {
@@ -21,6 +23,9 @@ export const contentModule = {
     }
   },
   mutations: {
+    setUserReaction(state, payload) {
+      state.userReaction = payload
+    },
     setReplyIndex(state, payload) {
       state.replyIndex = payload
     },
@@ -67,6 +72,44 @@ export const contentModule = {
     },
     showEverything(state) {
       state.currentCommentsAmount = state.copyComments.length
+    },
+    setAnotherCopy(state, payload) {
+      state.anotherCopy = payload
+    },
+    anotherCopyReact(state, { id, str }) {
+      state.anotherCopy.map((item) => {
+        if (item.id === id) {
+          const estim = item.estimate.find((item) => item.user === this.state.user.id)
+          const estimIndex = item.estimate.indexOf(estim)
+          if (estim && estim.value > 0) {
+            str === 'like'
+              ? { ...item, estimate: item.estimate.splice(estimIndex, 1) }
+              : {
+                  ...item,
+                  estimate: item.estimate.splice(estimIndex, 1, {
+                    user: this.state.user.id,
+                    value: -1
+                  })
+                }
+          } else if (estim && estim.value < 0) {
+            str === 'like'
+              ? {
+                  ...item,
+                  estimate: item.estimate.splice(estimIndex, 1, {
+                    user: this.state.user.id,
+                    value: 1
+                  })
+                }
+              : { ...item, estimate: item.estimate.splice(estimIndex, 1) }
+          } else {
+            str === 'like'
+              ? { ...item, estimate: item.estimate.push({ user: this.state.user.id, value: 1 }) }
+              : { ...item, estimate: item.estimate.push({ user: this.state.user.id, value: -1 }) }
+          }
+        } else {
+          return item
+        }
+      })
     }
   },
   actions: {
@@ -124,6 +167,21 @@ export const contentModule = {
       commit('setCurrentCommentsAmount', state.replyIndex)
       document.querySelector('#comment-text').focus()
       commit('setIsReply', true)
+    },
+    async updateComments({ state }) {
+      try {
+        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`, {
+          comments: state.copyComments
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    react(context, { e, str }) {
+      const id = e.target.closest('.comments-block__item').getAttribute('id')
+      context.commit('anotherCopyReact', { id, str })
+      context.commit('setCopyComments', context.state.anotherCopy)
+      context.dispatch('updateComments')
     }
   },
   namespaced: true
