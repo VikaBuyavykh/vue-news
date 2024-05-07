@@ -1,9 +1,25 @@
 <script>
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 export default {
   props: {
-    likes: String,
     shares: String,
     tweets: String
+  },
+  computed: {
+    ...mapState({
+      likes: (state) => state.content.likes
+    }),
+    ...mapGetters({
+      testArticle: 'articles/testArticle'
+    })
+  },
+  methods: {
+    ...mapMutations({
+      setLikes: 'content/setLikes'
+    }),
+    ...mapActions({
+      like: 'content/like'
+    })
   }
 }
 </script>
@@ -12,9 +28,9 @@ export default {
   <div class="support">
     <h3 class="support__title">Show Your Support</h3>
     <ul class="support__btns">
-      <li class="support__btn support__btn_like">
+      <li @click="like" class="support__btn support__btn_like">
         <img src="/like.svg" alt="Icon of like" />
-        Like it <span>{{ likes }}</span>
+        Like it <span>{{ likes.usersIds.length + likes.hardcodeAmount }}</span>
       </li>
       <li class="support__btn support__btn_fb">
         <img src="/fb-icon.svg" alt="Icon of facebook-sharing-button" />

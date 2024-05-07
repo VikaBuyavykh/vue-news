@@ -34,18 +34,27 @@ export default {
   methods: {
     ...mapMutations({
       setParagraphs: 'content/setParagraphs',
-      setText: 'content/setText'
+      setText: 'content/setText',
+      setIsFavorite: 'content/setIsFavorite',
+      setLikes: 'content/setLikes'
     })
   },
   watch: {
-    testArticle() {
-      this.setParagraphs(this.testArticle.content)
-      this.setText()
+    testArticle: {
+      handler() {
+        this.setParagraphs(this.testArticle.content)
+        this.setText()
+        this.setIsFavorite(this.testArticle.isFavorite)
+        this.setLikes(this.testArticle.likes)
+      },
+      deep: true
     }
   },
   mounted() {
     if (this.testArticle) {
       this.setParagraphs(this.testArticle.content)
+      this.setIsFavorite(this.testArticle.isFavorite)
+      this.setLikes(this.testArticle.likes)
       this.setText()
     }
   }
@@ -59,9 +68,7 @@ export default {
       :description="testArticle.description"
       :theme="testArticle.theme"
       :themeColor="testArticle.themeColor"
-      :isFavorite="testArticle.isFavorite"
       :date="testArticle.date"
-      :likes="testArticle.likes"
       :comments="testArticle.comments"
       :shares="testArticle.shares"
       :img="testArticle.img"
@@ -108,11 +115,7 @@ export default {
           >{{ paragraph.text }}</paragraph
         >
         <tags :keys="testArticle.keys"></tags>
-        <support
-          :likes="testArticle.likes"
-          :shares="testArticle.shares"
-          :tweets="testArticle.tweets"
-        ></support>
+        <support :shares="testArticle.shares" :tweets="testArticle.tweets"></support>
       </div>
       <material></material>
     </div>

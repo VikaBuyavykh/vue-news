@@ -11,7 +11,9 @@ export const contentModule = {
     id: null,
     isReply: false,
     replyIndex: null,
-    anotherCopy: []
+    anotherCopy: [],
+    isFavorite: false,
+    likes: null
   }),
   getters: {
     currentComments(state) {
@@ -22,6 +24,12 @@ export const contentModule = {
     }
   },
   mutations: {
+    setLikes(state, payload) {
+      state.likes = payload
+    },
+    setIsFavorite(state) {
+      state.isFavorite = !state.isFavorite
+    },
     setReplyIndex(state, payload) {
       state.replyIndex = payload
     },
@@ -109,50 +117,62 @@ export const contentModule = {
     }
   },
   actions: {
-    async sbmt(context) {
-      const time = new Date()
-      const newComment = {
-        name: context.rootState.user.name,
-        avatar: context.rootState.user.avatar,
-        date: `${time.toLocaleString('en-US', {
-          month: 'long',
-          day: 'numeric',
-          year: 'numeric'
-        })}, ${time
-          .toLocaleString('en-US', {
-            hour: 'numeric',
-            minute: 'numeric'
-          })
-          .toLowerCase()}`,
-        text: context.state.textOfComment,
-        estimate: [],
-        reply: context.state.isReply,
-        id: String(time)
-      }
+    async saveAsFavorite(context) {
       try {
-        if (context.state.isReply) {
-          context.commit('insertCopyComments', newComment)
-        } else {
-          context.commit('pushCopyComments', newComment)
-        }
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${context.state.id}`, {
-          comments: context.state.copyComments
+          isFavorite: !context.state.isFavorite
         })
-        context.commit('resetTextOfComment', '')
-        if (context.state.isReply) {
-          context.commit('setCurrentCommentsAmount', context.state.replyIndex + 1)
-          context.commit('setIsReply', false)
-          context.commit('setReplyIndex', null)
-        } else {
-          context.commit('showEverything')
-          setTimeout(() => {
-            document
-              .querySelector('.comments-block__item_last')
-              .scrollIntoView({ behavior: 'smooth', block: 'center' })
-          }, 0)
-        }
+        context.commit('setIsFavorite')
       } catch (error) {
         console.log(error)
+      }
+    },
+    async sbmt(context) {
+      if (context.state.textOfComment !== '') {
+        const time = new Date()
+        const newComment = {
+          name: context.rootState.user.name,
+          avatar: context.rootState.user.avatar,
+          date: `${time.toLocaleString('en-US', {
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+          })}, ${time
+            .toLocaleString('en-US', {
+              hour: 'numeric',
+              minute: 'numeric'
+            })
+            .toLowerCase()}`,
+          text: context.state.textOfComment,
+          estimate: [],
+          reply: context.state.isReply,
+          id: String(time)
+        }
+        try {
+          if (context.state.isReply) {
+            context.commit('insertCopyComments', newComment)
+          } else {
+            context.commit('pushCopyComments', newComment)
+          }
+          await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${context.state.id}`, {
+            comments: context.state.copyComments
+          })
+          context.commit('resetTextOfComment', '')
+          if (context.state.isReply) {
+            context.commit('setCurrentCommentsAmount', context.state.replyIndex + 1)
+            context.commit('setIsReply', false)
+            context.commit('setReplyIndex', null)
+          } else {
+            context.commit('showEverything')
+            setTimeout(() => {
+              document
+                .querySelector('.comments-block__item_last')
+                .scrollIntoView({ behavior: 'smooth', block: 'center' })
+            }, 0)
+          }
+        } catch (error) {
+          console.log(error)
+        }
       }
     },
     reply({ state, commit }, e) {
@@ -163,6 +183,23 @@ export const contentModule = {
       commit('setCurrentCommentsAmount', state.replyIndex)
       document.querySelector('#comment-text').focus()
       commit('setIsReply', true)
+    },
+    addComment({ commit }) {
+      document
+        .querySelector('.comments-block__textarea')
+        .scrollIntoView({ behavior: 'smooth', block: 'center' })
+      document.querySelector('#comment-text').focus()
+      commit('setIsReply', false)
+      commit('setReplyIndex', null)
+    },
+    like({ state, commit }) {
+      if (state.likes.usersIds.includes(this.state.user.id)) {
+        commit(
+          'setLikes',
+          state.likes.usersIds.splice(state.likes.usersIds.indexOf(this.state.user.id), 1)
+        )
+        console.log(state.likes)
+      }
     },
     async updateComments({ state }) {
       try {

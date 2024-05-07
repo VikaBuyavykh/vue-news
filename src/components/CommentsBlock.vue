@@ -17,7 +17,8 @@ export default {
       textOfComment: (state) => state.content.textOfComment,
       copyComments: (state) => state.content.copyComments,
       avatar: (state) => state.user.avatar,
-      userId: (state) => state.user.id
+      userId: (state) => state.user.id,
+      replyIndex: (state) => state.content.replyIndex
     }),
     ...mapGetters({
       currentComments: 'content/currentComments',
@@ -35,7 +36,8 @@ export default {
     }),
     ...mapActions({
       sbmt: 'content/sbmt',
-      reply: 'content/reply'
+      reply: 'content/reply',
+      addComment: 'content/addComment'
     })
   },
   created() {
@@ -56,7 +58,7 @@ export default {
           <h3 class="comments-block__title">Comments</h3>
           <p class="comments-block__amount">{{ copyComments.length }}</p>
         </div>
-        <button @click="rrr" class="comments-block__add-btn">
+        <button @click="addComment" class="comments-block__add-btn">
           <img src="/add.svg" alt="Icon of adding a comment" />
           Add comment
         </button>
@@ -67,7 +69,10 @@ export default {
         :index="index"
         :id="item.id"
         class="comments-block__item"
-        :class="{ 'comments-block__item_last': index === currentComments.length - 1 }"
+        :class="{
+          'comments-block__item_last': index === currentComments.length - 1,
+          'comments-block__item_reply': index === replyIndex - 1
+        }"
       >
         <div
           class="comments-block__item-content"
@@ -228,6 +233,13 @@ export default {
 
       &_last {
         border: none;
+      }
+
+      &_reply {
+        .comments-block__item-content {
+          background-color: #f5f5f5;
+          border-radius: 20px;
+        }
       }
 
       &-content {

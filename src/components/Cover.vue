@@ -1,5 +1,6 @@
 <script>
 import Comments from '@/components/UI/Comments.vue'
+import { mapActions, mapState } from 'vuex'
 export default {
   components: {
     Comments
@@ -9,12 +10,21 @@ export default {
     description: String,
     theme: String,
     themeColor: String,
-    isFavorite: Boolean,
     date: String,
-    likes: String,
     comments: Array,
     shares: String,
     img: Object
+  },
+  computed: {
+    ...mapState({
+      isFavorite: (state) => state.content.isFavorite,
+      likes: (state) => state.content.likes
+    })
+  },
+  methods: {
+    ...mapActions({
+      saveAsFavorite: 'content/saveAsFavorite'
+    })
   }
 }
 </script>
@@ -48,6 +58,7 @@ export default {
         </div>
       </div>
       <img
+        @click="saveAsFavorite"
         class="cover__bookmark"
         :src="isFavorite ? '/bookmark-active.svg' : '/bookmark.svg'"
         alt="Icon of a bookmark"
@@ -57,7 +68,7 @@ export default {
       <div class="cover__info">
         <div class="cover__main-info">
           <comments type="time" :content="date"></comments>
-          <comments type="likes" :content="likes"></comments>
+          <comments type="likes" :content="likes.usersIds.length + likes.hardcodeAmount"></comments>
           <comments type="comments" :content="String(comments.length)"></comments>
         </div>
         <button class="cover__share-btn">
