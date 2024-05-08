@@ -30,7 +30,7 @@ export default {
 </script>
 
 <template>
-  <section class="cover" :style="{ backgroundImage: `url(${img.src})` }">
+  <section v-if="likes" class="cover" :style="{ backgroundImage: `url(${img.src})` }">
     <div class="cover__content">
       <div class="cover__theme-section">
         <p :style="{ color: themeColor }" class="cover__theme">{{ theme }}</p>

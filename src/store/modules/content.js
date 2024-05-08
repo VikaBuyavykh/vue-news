@@ -27,7 +27,10 @@ export const contentModule = {
     setLikes(state, payload) {
       state.likes = payload
     },
-    setIsFavorite(state) {
+    setIsFavorite(state, payload) {
+      state.isFavorite = payload
+    },
+    clickIsFavorite(state) {
       state.isFavorite = !state.isFavorite
     },
     setReplyIndex(state, payload) {
@@ -122,7 +125,7 @@ export const contentModule = {
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${context.state.id}`, {
           isFavorite: !context.state.isFavorite
         })
-        context.commit('setIsFavorite')
+        context.commit('clickIsFavorite')
       } catch (error) {
         console.log(error)
       }
@@ -192,13 +195,25 @@ export const contentModule = {
       commit('setIsReply', false)
       commit('setReplyIndex', null)
     },
-    like({ state, commit }) {
-      if (state.likes.usersIds.includes(this.state.user.id)) {
-        commit(
-          'setLikes',
-          state.likes.usersIds.splice(state.likes.usersIds.indexOf(this.state.user.id), 1)
+    async like({ state, commit }) {
+      const obj = Object.assign({}, state.likes)
+      obj.usersIds = state.likes.usersIds.slice(0)
+      try {
+        if (obj.usersIds.includes(this.state.user.id)) {
+          obj.usersIds.splice(obj.usersIds.indexOf(this.state.user.id), 1)
+        } else {
+          obj.usersIds.push(this.state.user.id)
+        }
+        const { data } = await axios.patch(
+          `https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`,
+          {
+            likes: obj
+          }
         )
-        console.log(state.likes)
+        commit('setLikes', obj)
+        console.log(data)
+      } catch (error) {
+        console.log(error)
       }
     },
     async updateComments({ state }) {

@@ -25,7 +25,7 @@ export default {
 </script>
 
 <template>
-  <div class="support">
+  <div v-if="likes" class="support">
     <h3 class="support__title">Show Your Support</h3>
     <ul class="support__btns">
       <li @click="like" class="support__btn support__btn_like">
