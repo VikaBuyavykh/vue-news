@@ -7,7 +7,8 @@ export const articlesModule = {
     columns: [],
     news: [],
     mainNews: [],
-    galleryArticles: []
+    galleryArticles: [],
+    testArticles: []
   }),
   getters: {
     articlesContent(state) {
@@ -48,11 +49,14 @@ export const articlesModule = {
     restGalleryArticles(state) {
       return state.galleryArticles.filter((item) => !item.tag).filter((i, index) => index < 2)
     },
-    testArticle(state) {
-      return state.articles.find((item) => item.section === 'article')
+    testArticle(state, getters, rootState) {
+      return state.testArticles.find((item) => item.id === rootState.content.id)
     }
   },
   mutations: {
+    setTestArticles(state, payload) {
+      state.testArticles = payload
+    },
     setArticles(state, payload) {
       state.articles = payload
     },
@@ -115,6 +119,10 @@ export const articlesModule = {
         context.commit(
           'setGalleryArticles',
           data.filter((item) => item.section === 'gallery')
+        )
+        context.commit(
+          'setTestArticles',
+          data.filter((item) => item.section === 'article')
         )
       } catch (error) {
         console.log(error)

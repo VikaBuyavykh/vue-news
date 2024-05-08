@@ -31,6 +31,7 @@ export default {
 
 <template>
   <section v-if="likes" class="cover" :style="{ backgroundImage: `url(${img.src})` }">
+    <div class="cover__overlay"></div>
     <div class="cover__content">
       <div class="cover__theme-section">
         <p :style="{ color: themeColor }" class="cover__theme">{{ theme }}</p>
@@ -91,9 +92,18 @@ export default {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  position: relative;
+  z-index: 1;
 
   @include media_sm {
     padding-block: 30px;
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(#000000, 0.3);
+    z-index: 2;
   }
 
   &__content {
@@ -102,6 +112,7 @@ export default {
     max-width: 946px;
     @include flex(column, start, start, 28px);
     position: relative;
+    z-index: 3;
 
     @include media_lg {
       width: 90%;

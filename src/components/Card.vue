@@ -50,6 +50,7 @@ export default {
   border-radius: 20px;
   transform: translateY(-35%);
   @include flex(column, start, center, 0px);
+  z-index: 3;
 
   @include media_md {
     transform: none;
@@ -64,6 +65,8 @@ export default {
     &-avatar {
       border-radius: 50%;
       @include size(90px, 90px);
+      object-fit: cover;
+      object-position: center;
     }
 
     &-name {

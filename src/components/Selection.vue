@@ -1,8 +1,19 @@
 <script>
+import { mapMutations, mapState } from 'vuex'
 import Comments from '@/components/UI/Comments.vue'
 export default {
   components: {
     Comments
+  },
+  computed: {
+    ...mapState({
+      testArticles: (state) => state.articles.testArticles
+    })
+  },
+  methods: {
+    ...mapMutations({
+      setId: 'content/setId'
+    })
   }
 }
 </script>
@@ -10,38 +21,18 @@ export default {
 <template>
   <section class="selection">
     <ul class="selection__content">
-      <li class="selection__item">
-        <img class="selection__img" src="/article/food.jpg" alt="Image" />
-        <h3 class="selection__title">An Evangelist of Singaporean Food Has a New Pulpit</h3>
+      <li
+        v-for="item in testArticles.filter((item, index) => index !== 0 && index < 5)"
+        :key="item.id"
+        @click="(e) => setId(Number(e.currentTarget.id))"
+        class="selection__item"
+        :id="item.id"
+      >
+        <img class="selection__img" :src="item.img.src" :alt="item.img.alt" />
+        <h3 class="selection__title">{{ item.title }}</h3>
         <div class="selection__info">
-          <comments type="readers" content="1,904"></comments>
-          <comments type="comments" content="82"></comments>
-        </div>
-      </li>
-      <li class="selection__item">
-        <img class="selection__img" src="/article/river.png" alt="Image" />
-        <h3 class="selection__title">
-          At the Mouth of the Mississippi, a Weird and Fragile Beauty
-        </h3>
-        <div class="selection__info">
-          <comments type="readers" content="2,873"></comments>
-          <comments type="comments" content="982"></comments>
-        </div>
-      </li>
-      <li class="selection__item">
-        <img class="selection__img" src="/article/flower.png" alt="Image" />
-        <h3 class="selection__title">Chattanooga Is Changing. But Its Charms Remain.</h3>
-        <div class="selection__info">
-          <comments type="readers" content="821"></comments>
-          <comments type="comments" content="30"></comments>
-        </div>
-      </li>
-      <li class="selection__item">
-        <img class="selection__img" src="/article/girl.png" alt="Image" />
-        <h3 class="selection__title">How to Get by in a Country if You Don’t Know the Language</h3>
-        <div class="selection__info">
-          <comments type="readers" content="5,030"></comments>
-          <comments type="comments" content="495"></comments>
+          <comments type="readers" :content="item.readers"></comments>
+          <comments type="comments" :content="item.comments.length"></comments>
         </div>
       </li>
     </ul>

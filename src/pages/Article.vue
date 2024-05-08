@@ -25,7 +25,8 @@ export default {
     ...mapState({
       firstPartOfTheText: (state) => state.content.firstPartOfTheText,
       lastPartOfTheText: (state) => state.content.lastPartOfTheText,
-      paragraphs: (state) => state.content.paragraphs
+      paragraphs: (state) => state.content.paragraphs,
+      id: (state) => state.content.id
     }),
     ...mapGetters({
       testArticle: 'articles/testArticle'
@@ -99,7 +100,7 @@ export default {
         :local-link="testArticle.author.localLink"
       ></card>
     </div>
-    <carousel :gallery="testArticle.gallery"></carousel>
+    <carousel v-if="testArticle.gallery" :gallery="testArticle.gallery"></carousel>
     <div class="article__part">
       <div class="article__paragraphs">
         <paragraph
@@ -149,7 +150,7 @@ export default {
     }
 
     &_first {
-      padding-block: 45px;
+      padding-top: 45px;
 
       @include media_md {
         padding-block: 15px 30px;

@@ -8,7 +8,7 @@ export const contentModule = {
     currentCommentsAmount: 4,
     textOfComment: '',
     copyComments: [],
-    id: null,
+    id: 42,
     isReply: false,
     replyIndex: null,
     anotherCopy: [],
@@ -61,6 +61,8 @@ export const contentModule = {
       state.paragraphs = payload
     },
     setText(state) {
+      state.firstPartOfTheText = []
+      state.lastPartOfTheText = []
       state.paragraphs.forEach((item, index) => {
         if (index < Math.floor(state.paragraphs.length / 2)) {
           state.firstPartOfTheText.push({ ...item, index: index })
@@ -204,14 +206,10 @@ export const contentModule = {
         } else {
           obj.usersIds.push(this.state.user.id)
         }
-        const { data } = await axios.patch(
-          `https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`,
-          {
-            likes: obj
-          }
-        )
+        await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`, {
+          likes: obj
+        })
         commit('setLikes', obj)
-        console.log(data)
       } catch (error) {
         console.log(error)
       }

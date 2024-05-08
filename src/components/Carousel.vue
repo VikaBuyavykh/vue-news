@@ -78,7 +78,7 @@ export default {
   border: $border;
   overflow: hidden;
   position: relative;
-  margin-bottom: 30px;
+  margin-block: 45px 30px;
 
   @include media_lg {
     width: 90%;

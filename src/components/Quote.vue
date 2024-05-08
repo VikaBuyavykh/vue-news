@@ -67,6 +67,8 @@ export default {
       @include size(60px, 60px);
       border-radius: 50%;
       margin-bottom: 10px;
+      object-fit: cover;
+      object-position: center;
     }
 
     &-name {

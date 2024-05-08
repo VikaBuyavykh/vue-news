@@ -31,7 +31,7 @@ export default {
       setCurrentCommentsAmount: 'content/setCurrentCommentsAmount',
       showMore: 'content/showMore',
       showEverything: 'content/showEverything',
-      setId: 'content/setId',
+      //setId: 'content/setId',
       setTextOfComment: 'content/setTextOfComment'
     }),
     ...mapActions({
@@ -42,7 +42,7 @@ export default {
   },
   created() {
     this.setCopyComments(this.comments.slice(0))
-    this.setId(this.id)
+    //this.setId(this.id)
   },
   unmounted() {
     this.setCurrentCommentsAmount(4)
