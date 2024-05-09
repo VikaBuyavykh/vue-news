@@ -100,6 +100,24 @@ export const articlesModule = {
     }
   },
   actions: {
+    next({ rootState, getters, state, commit }) {
+      let newId = rootState.content.id
+      if (rootState.content.id === getters.lastTestArticleId) {
+        newId = getters.firstTestArticleId
+      } else {
+        newId = state.testArticles.find((item, index) => index === getters.testArticleIndex + 1).id
+      }
+      commit('content/setId', newId, { root: true })
+    },
+    prev({ rootState, getters, state, commit }) {
+      let newId = rootState.content.id
+      if (rootState.content.id === getters.firstTestArticleId) {
+        newId = getters.lastTestArticleId
+      } else {
+        newId = state.testArticles.find((item, index) => index === getters.testArticleIndex - 1).id
+      }
+      commit('content/setId', newId, { root: true })
+    },
     async getArticles(context) {
       try {
         const { data } = await axios.get('https://7b3a9f14b0b4b7d5.mokky.dev/articles')
