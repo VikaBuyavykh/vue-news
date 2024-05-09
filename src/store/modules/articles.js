@@ -51,6 +51,15 @@ export const articlesModule = {
     },
     testArticle(state, getters, rootState) {
       return state.testArticles.find((item) => item.id === rootState.content.id)
+    },
+    firstTestArticleId(state) {
+      return state.testArticles.find((item, index) => index === 0).id
+    },
+    lastTestArticleId(state) {
+      return state.testArticles.find((item, index) => index + 1 === state.testArticles.length).id
+    },
+    testArticleIndex(state, getters) {
+      return state.testArticles.indexOf(getters.testArticle)
     }
   },
   mutations: {

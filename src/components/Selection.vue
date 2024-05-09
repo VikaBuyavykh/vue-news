@@ -22,7 +22,7 @@ export default {
   <section class="selection">
     <ul class="selection__content">
       <li
-        v-for="item in testArticles.filter((item, index) => index !== 0 && index < 5)"
+        v-for="item in testArticles.filter((item, index) => index > 0 && index < 5)"
         :key="item.id"
         @click="(e) => setId(Number(e.currentTarget.id))"
         class="selection__item"

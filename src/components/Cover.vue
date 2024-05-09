@@ -1,6 +1,6 @@
 <script>
 import Comments from '@/components/UI/Comments.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
 export default {
   components: {
     Comments
@@ -18,13 +18,41 @@ export default {
   computed: {
     ...mapState({
       isFavorite: (state) => state.content.isFavorite,
-      likes: (state) => state.content.likes
+      likes: (state) => state.content.likes,
+      id: (state) => state.content.id,
+      testArticles: (state) => state.articles.testArticles
+    }),
+    ...mapGetters({
+      firstTestArticleId: 'articles/firstTestArticleId',
+      lastTestArticleId: 'articles/lastTestArticleId',
+      testArticleIndex: 'articles/testArticleIndex'
     })
   },
   methods: {
     ...mapActions({
       saveAsFavorite: 'content/saveAsFavorite'
-    })
+    }),
+    ...mapMutations({
+      setId: 'content/setId'
+    }),
+    next() {
+      let newId = this.id
+      if (this.id === this.lastTestArticleId) {
+        newId = this.firstTestArticleId
+      } else {
+        newId = this.testArticles.find((item, index) => index === this.testArticleIndex + 1).id
+      }
+      this.setId(newId)
+    },
+    prev() {
+      let newId = this.id
+      if (this.id === this.firstTestArticleId) {
+        newId = this.lastTestArticleId
+      } else {
+        newId = this.testArticles.find((item, index) => index === this.testArticleIndex - 1).id
+      }
+      this.setId(newId)
+    }
   }
 }
 </script>
@@ -40,7 +68,7 @@ export default {
           Back to main
         </router-link>
         <div class="cover__nav">
-          <button class="cover__nav-btn">
+          <button @click="prev" class="cover__nav-btn">
             <img
               class="cover__nav-btn-img cover__nav-btn-img_prev"
               src="/arrow.svg"
@@ -48,7 +76,7 @@ export default {
             />
             Prev
           </button>
-          <button class="cover__nav-btn">
+          <button @click="next" class="cover__nav-btn">
             Next
             <img
               class="cover__nav-btn-img cover__nav-btn-img_next"
