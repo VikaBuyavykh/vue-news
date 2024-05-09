@@ -86,8 +86,8 @@ export const articlesModule = {
     setMainNews(state, payload) {
       state.mainNews = payload
     },
-    setFavorite(state, id) {
-      state.mainNews.map((item) => {
+    setFavorite(state, { id, section }) {
+      section.map((item) => {
         if (item.id === Number(id)) {
           item.isFavorite = !item.isFavorite
         } else {
@@ -161,7 +161,7 @@ export const articlesModule = {
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${element.id}`, {
           isFavorite: element.getAttribute('isFavorite') !== 'true'
         })
-        context.commit('setFavorite', element.id)
+        context.commit('setFavorite', { id: element.id, section: context.state.mainNews })
       } catch (error) {
         console.log(error)
       }

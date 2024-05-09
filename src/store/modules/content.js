@@ -128,6 +128,11 @@ export const contentModule = {
           isFavorite: !context.state.isFavorite
         })
         context.commit('clickIsFavorite')
+        context.commit(
+          'articles/setFavorite',
+          { id: context.state.id, section: context.rootState.articles.testArticles },
+          { root: true }
+        )
       } catch (error) {
         console.log(error)
       }
