@@ -16,7 +16,6 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setCopyComments: 'content/setCopyComments',
       setAnotherCopy: 'content/setAnotherCopy'
     }),
     ...mapActions({

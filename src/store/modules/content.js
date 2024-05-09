@@ -214,7 +214,7 @@ export const contentModule = {
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`, {
           likes: obj
         })
-        commit('setLikes', obj)
+        commit('articles/setReaction', { id: state.id, obj: obj }, { root: true })
       } catch (error) {
         console.log(error)
       }

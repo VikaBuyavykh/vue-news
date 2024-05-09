@@ -97,6 +97,13 @@ export const articlesModule = {
     },
     setGalleryArticles(state, payload) {
       state.galleryArticles = payload
+    },
+    setReaction(state, { id, obj }) {
+      state.testArticles.map((item) => {
+        if (item.id === id) {
+          item.likes = obj
+        }
+      })
     }
   },
   actions: {

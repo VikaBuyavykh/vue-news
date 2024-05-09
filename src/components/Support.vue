@@ -1,5 +1,5 @@
 <script>
-import { mapActions, mapGetters, mapMutations, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 export default {
   props: {
     shares: String,
@@ -8,15 +8,9 @@ export default {
   computed: {
     ...mapState({
       likes: (state) => state.content.likes
-    }),
-    ...mapGetters({
-      testArticle: 'articles/testArticle'
     })
   },
   methods: {
-    ...mapMutations({
-      setLikes: 'content/setLikes'
-    }),
     ...mapActions({
       like: 'content/like'
     })

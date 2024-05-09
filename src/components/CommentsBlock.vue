@@ -8,8 +8,7 @@ export default {
     AppButton
   },
   props: {
-    comments: Array,
-    id: Number
+    comments: Array
   },
   computed: {
     ...mapState({
@@ -22,7 +21,8 @@ export default {
     }),
     ...mapGetters({
       currentComments: 'content/currentComments',
-      isMoreBtnDisabled: 'content/isMoreBtnDisabled'
+      isMoreBtnDisabled: 'content/isMoreBtnDisabled',
+      testArticle: 'articles/testArticle'
     })
   },
   methods: {
@@ -31,7 +31,6 @@ export default {
       setCurrentCommentsAmount: 'content/setCurrentCommentsAmount',
       showMore: 'content/showMore',
       showEverything: 'content/showEverything',
-      //setId: 'content/setId',
       setTextOfComment: 'content/setTextOfComment'
     }),
     ...mapActions({
@@ -42,10 +41,14 @@ export default {
   },
   created() {
     this.setCopyComments(this.comments.slice(0))
-    //this.setId(this.id)
   },
   unmounted() {
     this.setCurrentCommentsAmount(4)
+  },
+  watch: {
+    testArticle() {
+      this.setCopyComments(this.comments.slice(0))
+    }
   }
 }
 </script>
