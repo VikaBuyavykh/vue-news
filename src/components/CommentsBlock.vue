@@ -7,30 +7,24 @@ export default {
     Comments,
     AppButton
   },
-  props: {
-    comments: Array
-  },
   computed: {
     ...mapState({
       currentCommentsAmount: (state) => state.content.currentCommentsAmount,
       textOfComment: (state) => state.content.textOfComment,
-      copyComments: (state) => state.content.copyComments,
       avatar: (state) => state.user.avatar,
       userId: (state) => state.user.id,
       replyIndex: (state) => state.content.replyIndex
     }),
     ...mapGetters({
-      currentComments: 'content/currentComments',
+      comments: 'content/comments',
       isMoreBtnDisabled: 'content/isMoreBtnDisabled',
       testArticle: 'articles/testArticle'
     })
   },
   methods: {
     ...mapMutations({
-      setCopyComments: 'content/setCopyComments',
       setCurrentCommentsAmount: 'content/setCurrentCommentsAmount',
       showMore: 'content/showMore',
-      showEverything: 'content/showEverything',
       setTextOfComment: 'content/setTextOfComment'
     }),
     ...mapActions({
@@ -39,15 +33,9 @@ export default {
       addComment: 'content/addComment'
     })
   },
-  created() {
-    this.setCopyComments(this.comments.slice(0))
-  },
-  unmounted() {
-    this.setCurrentCommentsAmount(4)
-  },
   watch: {
     testArticle() {
-      this.setCopyComments(this.comments.slice(0))
+      this.setCurrentCommentsAmount(4)
     }
   }
 }
@@ -55,54 +43,60 @@ export default {
 
 <template>
   <section class="comments-block">
-    <TransitionGroup name="list" tag="ul" class="comments-block__content">
-      <li key="header" class="comments-block__header">
+    <div class="comments-block__content">
+      <div class="comments-block__header">
         <div class="comments-block__title-group">
           <h3 class="comments-block__title">Comments</h3>
-          <p class="comments-block__amount">{{ copyComments.length }}</p>
+          <p class="comments-block__amount">{{ comments.length }}</p>
         </div>
         <button @click="addComment" class="comments-block__add-btn">
           <img src="/add.svg" alt="Icon of adding a comment" />
           Add comment
         </button>
-      </li>
-      <li
-        v-for="(item, index) in currentComments"
-        :key="item.id"
-        :index="index"
-        :id="item.id"
-        class="comments-block__item"
-        :class="{
-          'comments-block__item_last': index === currentComments.length - 1,
-          'comments-block__item_reply': index === replyIndex - 1
-        }"
-      >
-        <div
-          class="comments-block__item-content"
-          :class="{ 'comments-block__item-content_reply': item.reply }"
+      </div>
+      <TransitionGroup name="list" tag="ul">
+        <li
+          v-for="(item, index) in comments.filter((item, ind) => ind < currentCommentsAmount)"
+          :key="item.id"
+          :index="index"
+          :id="item.id"
+          class="comments-block__item"
+          :class="{
+            'comments-block__item_reply': index === replyIndex - 1
+          }"
         >
-          <img class="comments-block__avatar" :src="item.avatar" alt="Author's avatar" />
-          <div class="comments-block__main">
-            <div class="comments-block__info">
-              <p class="comments-block__name">{{ item.name }}</p>
-              <p class="comments-block__date">{{ item.date }}</p>
-            </div>
-            <p class="comments-block__text">{{ item.text }}</p>
-            <div class="comments-block__btns">
-              <comments @click="reply" type="comments" content="Reply"></comments>
-              <comments
-                type="estimate"
-                :reaction="item.estimate.find((item) => item.user === userId)"
-                :content="item.estimate.map((item) => item.value).reduce((a, b) => a + b, 0)"
-              ></comments>
+          <div
+            class="comments-block__item-content"
+            :class="{ 'comments-block__item-content_reply': item.reply }"
+          >
+            <img class="comments-block__avatar" :src="item.avatar" alt="Author's avatar" />
+            <div class="comments-block__main">
+              <div class="comments-block__info">
+                <p class="comments-block__name">{{ item.name }}</p>
+                <p class="comments-block__date">{{ item.date }}</p>
+              </div>
+              <p class="comments-block__text">{{ item.text }}</p>
+              <div class="comments-block__btns">
+                <comments @click="reply" type="comments" content="Reply"></comments>
+                <comments
+                  type="estimate"
+                  :reaction="item.estimate.find((item) => item.user === userId)"
+                  :content="item.estimate.map((item) => item.value).reduce((a, b) => a + b, 0)"
+                ></comments>
+              </div>
             </div>
           </div>
-        </div>
-      </li>
-      <li key="button" @click="showMore" v-if="!isMoreBtnDisabled" class="comments-block__more-btn">
+        </li>
+      </TransitionGroup>
+      <button
+        @click="showMore"
+        v-if="!isMoreBtnDisabled"
+        type="button"
+        class="comments-block__more-btn"
+      >
         <img src="/loading.svg" alt="Icon of more-button" />Load more
-      </li>
-      <li key="comment" class="comments-block__comment">
+      </button>
+      <div class="comments-block__comment">
         <img class="comments-block__comment-avatar" :src="avatar" alt="Avatar" />
         <form
           @submit.prevent="sbmt"
@@ -124,8 +118,8 @@ export default {
             Submit<img src="/arrow.svg" alt="Icon of submit" />
           </app-button>
         </form>
-      </li>
-    </TransitionGroup>
+      </div>
+    </div>
   </section>
 </template>
 
@@ -158,7 +152,6 @@ export default {
     @include size(79.3%, auto);
     display: grid;
     grid-template-rows: repeat(auto-fill, minmax(min-content, max-content));
-    list-style-type: none;
 
     @include media_lg {
       width: 80%;
@@ -233,8 +226,9 @@ export default {
       @include size(100%, auto);
       padding-block: 20px 30px;
       border-bottom: $border;
+      list-style-type: none;
 
-      &_last {
+      &:last-of-type {
         border: none;
       }
 

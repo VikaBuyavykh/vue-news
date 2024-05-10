@@ -1,31 +1,15 @@
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   props: {
     type: String,
     content: [String, Number],
     reaction: Object
   },
-  computed: {
-    ...mapState({
-      copyComments: (state) => state.content.copyComments,
-      id: (state) => state.user.id,
-      articleId: (state) => state.content.id,
-      anotherCopy: (state) => state.content.anotherCopy
-    })
-  },
   methods: {
-    ...mapMutations({
-      setAnotherCopy: 'content/setAnotherCopy'
-    }),
     ...mapActions({
       react: 'content/react'
     })
-  },
-  mounted() {
-    if (this.type === 'estimate') {
-      this.setAnotherCopy(this.copyComments.slice(0))
-    }
   }
 }
 </script>

@@ -7,20 +7,18 @@ export const contentModule = {
     paragraphs: [],
     currentCommentsAmount: 4,
     textOfComment: '',
-    copyComments: [],
     id: 42,
     isReply: false,
     replyIndex: null,
-    anotherCopy: [],
     isFavorite: false,
     likes: null
   }),
   getters: {
-    currentComments(state) {
-      return state.copyComments.filter((item, index) => index < state.currentCommentsAmount)
+    comments(state, getters, rootState, rootGetters) {
+      return rootGetters['articles/testArticle'].comments
     },
     isMoreBtnDisabled(state, getters) {
-      return getters.currentComments.length === state.copyComments.length
+      return getters.comments.length <= state.currentCommentsAmount
     }
   },
   mutations: {
@@ -45,17 +43,22 @@ export const contentModule = {
     setTextOfComment(state, e) {
       state.textOfComment = e.target.value
     },
-    resetTextOfComment(state, payload) {
-      state.textOfComment = payload
+    resetTextOfComment(state) {
+      state.textOfComment = ''
     },
-    setCopyComments(state, payload) {
-      state.copyComments = payload
+    pushComments(state, payload) {
+      this.state.articles.testArticles.map((item) => {
+        if (item.id === state.id) {
+          item.comments.push(payload)
+        }
+      })
     },
-    pushCopyComments(state, payload) {
-      state.copyComments.push(payload)
-    },
-    insertCopyComments(state, payload) {
-      state.copyComments.splice(state.replyIndex, 0, payload)
+    insertComments(state, payload) {
+      this.state.articles.testArticles.map((item) => {
+        if (item.id === state.id) {
+          item.comments.splice(state.replyIndex, 0, payload)
+        }
+      })
     },
     setParagraphs(state, payload) {
       state.paragraphs = payload
@@ -79,44 +82,48 @@ export const contentModule = {
       state.isReply = false
       state.replyIndex = null
     },
-    showEverything(state) {
-      state.currentCommentsAmount = state.copyComments.length
-    },
-    setAnotherCopy(state, payload) {
-      state.anotherCopy = payload
-    },
-    anotherCopyReact(state, { id, str }) {
-      state.anotherCopy.map((item) => {
-        if (item.id === id) {
-          const estim = item.estimate.find((item) => item.user === this.state.user.id)
-          const estimIndex = item.estimate.indexOf(estim)
-          if (estim && estim.value > 0) {
-            str === 'like'
-              ? { ...item, estimate: item.estimate.splice(estimIndex, 1) }
-              : {
-                  ...item,
-                  estimate: item.estimate.splice(estimIndex, 1, {
-                    user: this.state.user.id,
-                    value: -1
-                  })
-                }
-          } else if (estim && estim.value < 0) {
-            str === 'like'
-              ? {
-                  ...item,
-                  estimate: item.estimate.splice(estimIndex, 1, {
-                    user: this.state.user.id,
-                    value: 1
-                  })
-                }
-              : { ...item, estimate: item.estimate.splice(estimIndex, 1) }
-          } else {
-            str === 'like'
-              ? { ...item, estimate: item.estimate.push({ user: this.state.user.id, value: 1 }) }
-              : { ...item, estimate: item.estimate.push({ user: this.state.user.id, value: -1 }) }
-          }
-        } else {
-          return item
+    commentsReact(state, { id, str }) {
+      this.state.articles.testArticles.map((item) => {
+        if (item.id === state.id) {
+          item.comments.map((item) => {
+            if (item.id === id) {
+              const estim = item.estimate.find((item) => item.user === this.state.user.id)
+              const estimIndex = item.estimate.indexOf(estim)
+              if (estim && estim.value > 0) {
+                str === 'like'
+                  ? { ...item, estimate: item.estimate.splice(estimIndex, 1) }
+                  : {
+                      ...item,
+                      estimate: item.estimate.splice(estimIndex, 1, {
+                        user: this.state.user.id,
+                        value: -1
+                      })
+                    }
+              } else if (estim && estim.value < 0) {
+                str === 'like'
+                  ? {
+                      ...item,
+                      estimate: item.estimate.splice(estimIndex, 1, {
+                        user: this.state.user.id,
+                        value: 1
+                      })
+                    }
+                  : { ...item, estimate: item.estimate.splice(estimIndex, 1) }
+              } else {
+                str === 'like'
+                  ? {
+                      ...item,
+                      estimate: item.estimate.push({ user: this.state.user.id, value: 1 })
+                    }
+                  : {
+                      ...item,
+                      estimate: item.estimate.push({ user: this.state.user.id, value: -1 })
+                    }
+              }
+            } else {
+              return item
+            }
+          })
         }
       })
     }
@@ -137,12 +144,12 @@ export const contentModule = {
         console.log(error)
       }
     },
-    async sbmt(context) {
-      if (context.state.textOfComment !== '') {
+    async sbmt({ state, rootState, commit, getters }) {
+      if (state.textOfComment !== '') {
         const time = new Date()
         const newComment = {
-          name: context.rootState.user.name,
-          avatar: context.rootState.user.avatar,
+          name: rootState.user.name,
+          avatar: rootState.user.avatar,
           date: `${time.toLocaleString('en-US', {
             month: 'long',
             day: 'numeric',
@@ -153,27 +160,27 @@ export const contentModule = {
               minute: 'numeric'
             })
             .toLowerCase()}`,
-          text: context.state.textOfComment,
+          text: state.textOfComment,
           estimate: [],
-          reply: context.state.isReply,
+          reply: state.isReply,
           id: String(time)
         }
         try {
-          if (context.state.isReply) {
-            context.commit('insertCopyComments', newComment)
+          if (state.isReply) {
+            commit('insertComments', newComment)
           } else {
-            context.commit('pushCopyComments', newComment)
+            commit('pushComments', newComment)
           }
-          await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${context.state.id}`, {
-            comments: context.state.copyComments
+          await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`, {
+            comments: getters.comments
           })
-          context.commit('resetTextOfComment', '')
-          if (context.state.isReply) {
-            context.commit('setCurrentCommentsAmount', context.state.replyIndex + 1)
-            context.commit('setIsReply', false)
-            context.commit('setReplyIndex', null)
+          commit('resetTextOfComment')
+          if (state.isReply) {
+            commit('setCurrentCommentsAmount', state.replyIndex + 1)
+            commit('setIsReply', false)
+            commit('setReplyIndex', null)
           } else {
-            context.commit('showEverything')
+            commit('setCurrentCommentsAmount', getters.comments.length)
             setTimeout(() => {
               document
                 .querySelector('.comments-block__item_last')
@@ -219,10 +226,10 @@ export const contentModule = {
         console.log(error)
       }
     },
-    async updateComments({ state }) {
+    async updateComments({ state, getters }) {
       try {
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${state.id}`, {
-          comments: state.copyComments
+          comments: getters.comments
         })
       } catch (error) {
         console.log(error)
@@ -230,8 +237,7 @@ export const contentModule = {
     },
     react(context, { e, str }) {
       const id = e.target.closest('.comments-block__item').getAttribute('id')
-      context.commit('anotherCopyReact', { id, str })
-      context.commit('setCopyComments', context.state.anotherCopy)
+      context.commit('commentsReact', { id, str })
       context.dispatch('updateComments')
     }
   },

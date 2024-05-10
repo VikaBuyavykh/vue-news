@@ -121,7 +121,7 @@ export default {
       <material></material>
     </div>
     <selection></selection>
-    <comments-block :comments="testArticle.comments"></comments-block>
+    <comments-block></comments-block>
   </main>
 </template>
 
