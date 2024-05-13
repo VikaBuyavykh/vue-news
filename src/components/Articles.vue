@@ -14,7 +14,10 @@ export default {
     <ul class="articles__list">
       <li v-for="article in content" :key="article.id" class="articles__list-item">
         <router-link :to="article.link" class="articles__text">{{ article.title }}</router-link>
-        <img :src="article.img.src" :alt="article.img.alt" class="articles__img" />
+        <picture>
+          <source :srcset="article.img.srcBig" media="(min-width: 600px)" />
+          <img :src="article.img.srcSmall" :alt="article.img.alt" class="articles__img" />
+        </picture>
       </li>
     </ul>
   </section>

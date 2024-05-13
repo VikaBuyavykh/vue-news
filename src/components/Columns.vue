@@ -35,11 +35,10 @@ export default {
             <h3 class="columns__main-article-title">{{ main.title }}</h3>
             <p class="columns__main-article-description">{{ main.description }}</p>
           </router-link>
-          <img
-            class="columns__main-article-img"
-            src="/columns/car.png"
-            :alt="`${main.theme}'s image`"
-          />
+          <picture>
+            <source :srcset="main.img.big" media="(min-width: 1000px)" />
+            <img class="columns__main-article-img" :src="main.img.small" :alt="main.img.alt" />
+          </picture>
         </div>
         <div class="columns__main-author">
           <img
@@ -105,11 +104,14 @@ export default {
         </li>
       </app-aside>
       <article class="columns__content-item columns__content-additional">
-        <img
-          class="columns__content-additional-img"
-          :src="additional.img.link"
-          :alt="additional.img.alt"
-        />
+        <picture>
+          <source :srcset="additional.img.big" media="(min-width: 1000px)" />
+          <img
+            class="columns__content-additional-img"
+            :src="additional.img.small"
+            :alt="additional.img.alt"
+          />
+        </picture>
         <router-link class="columns__content-additional-link" :to="additional.link"
           ><h3>{{ additional.title }}</h3></router-link
         >
@@ -225,11 +227,6 @@ export default {
         &-img {
           @include size(100%, auto);
           align-self: center;
-
-          @include media_xs {
-            width: 50%;
-            justify-self: end;
-          }
         }
       }
 
@@ -389,6 +386,7 @@ export default {
       background-color: white;
       @include flex(column, start, start, 0px);
       overflow: hidden;
+      align-items: stretch;
 
       @include media_md {
         grid-area: 2 / 2 / 4 / 3;

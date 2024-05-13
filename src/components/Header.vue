@@ -100,7 +100,14 @@ export default {
         />
       </form>
       <div class="header__subscribe-group">
-        <img src="/subscribe-img.png" alt="Image of editorial page" class="header__subscribe-img" />
+        <picture>
+          <source srcset="/subscribe-img(2).png" media="(min-width: 1000px)" />
+          <img
+            src="/subscribe-img.png"
+            alt="Image of editorial page"
+            class="header__subscribe-img"
+          />
+        </picture>
         <div class="header__subscribe-paragraph">
           <b class="header__subscribe-text">Subscribe Now</b>
           <p class="header__subscribe-price">3 month for $19</p>
@@ -117,13 +124,16 @@ export default {
     </div>
     <div class="header__main-section">
       <div class="header__about-group">
-        <img src="/statue.png" alt="The Statue of Liberty" class="header__main-img" />
+        <picture>
+          <source srcset="/statue(2).png" media="(min-width: 1000px)" />
+          <img src="/statue.png" alt="The Statue of Liberty" class="header__main-img" />
+        </picture>
         <p class="header__about-text">Boston and New York Bear Brunt</p>
       </div>
       <img src="/title.svg" alt="Name of the Media" class="header__title" />
       <div class="header__info-group">
         <p class="header__date">{{ date }}</p>
-        <div class="header__weather-group">
+        <div v-if="weatherIcon && temp" class="header__weather-group">
           <img :src="weatherIcon" alt="Thw weather icon" class="header__weather-icon" />
           <p class="header__weather-text">{{ temp }} °C</p>
         </div>

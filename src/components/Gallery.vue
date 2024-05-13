@@ -79,6 +79,7 @@ export default {
           <slider-buttons></slider-buttons>
         </ul>
       </article>
+
       <article class="gallery__article gallery__main">
         <div class="gallery__main-content">
           <p :style="{ color: main.themeColor }" class="gallery__main-content-theme">
@@ -91,8 +92,12 @@ export default {
           /></app-button>
         </div>
         <div class="gallery__circle"></div>
-        <img class="gallery__img" src="/gallery/girl.png" alt="Illustration" />
+        <picture>
+          <source :srcset="main.img.big" media="(min-width: 1000px)" />
+          <img class="gallery__img" :src="main.img.small" :alt="main.img.alt" />
+        </picture>
       </article>
+
       <ordinary-article
         v-for="article in rest"
         :key="article.id"

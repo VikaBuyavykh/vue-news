@@ -34,11 +34,10 @@ export default {
           :isFavorite="item.isFavorite"
           class="news__list-item"
         >
-          <img
-            class="news__list-item-img"
-            :src="item.img"
-            :alt="`${item.theme}'s article's illustration`"
-          />
+          <picture>
+            <source :srcset="item.img.big" media="(min-width: 1000px)" />
+            <img class="news__list-item-img" :src="item.img.small" :alt="item.img.alt" />
+          </picture>
           <div class="news__list-item-container">
             <img
               class="news__bookmark"
@@ -65,7 +64,10 @@ export default {
         <li v-for="(item, index) in asides" :key="item.id" :id="item.id" class="news__aside-item">
           <router-link :to="item.link" class="news__aside-link">
             <div class="news__aside-imgbox">
-              <img class="news__aside-img" :src="item.img" alt="Illustration" />
+              <picture>
+                <source :srcset="item.img.big" media="(min-width: 1000px)" />
+                <img class="news__aside-img" :src="item.img.small" :alt="item.img.alt" />
+              </picture>
             </div>
             <div class="news__aside-info">
               <i class="news__aside-index">{{ index + 1 }}</i>
