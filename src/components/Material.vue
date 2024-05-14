@@ -10,7 +10,10 @@ export default {
 <template>
   <div class="material">
     <h3 class="material__name">Material on Theme</h3>
-    <img class="material__img" src="/article/giraffe.png" alt="Material's image" />
+    <picture>
+      <source srcset="/article/giraffe.png" media="(min-width: 1000px)" />
+      <img class="material__img" src="/article/giraffe(xs).png" alt="The image of a giraffe" />
+    </picture>
     <h4 class="material__title">Application of Postcolonial Theory in the Middle East</h4>
     <p class="material__description">
       In the essays "Overstating the Arab State", by Nazih Ayubi, and "Is Jordan Palestine?", by

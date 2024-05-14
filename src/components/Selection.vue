@@ -28,7 +28,10 @@ export default {
         class="selection__item"
         :id="item.id"
       >
-        <img class="selection__img" :src="item.img.src" :alt="item.img.alt" />
+        <picture>
+          <source :srcset="item.img.big" media="(min-width: 1000px)" />
+          <img class="selection__img" :src="item.img.small" :alt="item.img.alt" />
+        </picture>
         <h3 class="selection__title">{{ item.title }}</h3>
         <div class="selection__info">
           <comments type="readers" :content="item.readers"></comments>
@@ -77,7 +80,7 @@ export default {
     .selection__item {
       cursor: pointer;
       @include size(100%, auto);
-      @include flex(column, start, start, 15px);
+      @include flex(column, start, stretch, 15px);
 
       .selection__img {
         @include size(100%, 180px);

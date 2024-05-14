@@ -46,7 +46,10 @@ export default {
       :style="{ width: gallery.length * 100 + '%', marginLeft: '-' + 100 * slideIndex + '%' }"
     >
       <li v-for="slide in gallery" :key="slide.id" class="carousel__item">
-        <img class="carousel__image" :src="slide.img" alt="Image" />
+        <picture>
+          <source :srcset="slide.img.big" media="(min-width: 1000px)" />
+          <img class="carousel__image" :src="slide.img.small" :alt="slide.img.alt" />
+        </picture>
         <div class="carousel__info">
           <p class="carousel__description">{{ slide.text }}</p>
           <div class="carousel__author">
