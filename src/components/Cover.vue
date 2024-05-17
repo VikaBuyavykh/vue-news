@@ -32,7 +32,7 @@ export default {
 </script>
 
 <template>
-  <section v-if="likes" class="cover" :style="{ backgroundImage: `url(${img.src})` }">
+  <section v-if="likes" class="cover" :style="{ backgroundImage: `url(${img.big})` }">
     <div class="cover__overlay"></div>
     <div class="cover__content">
       <div class="cover__theme-section">

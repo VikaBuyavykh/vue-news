@@ -1,4 +1,13 @@
 import axios from 'axios'
+import {
+  COLUMNS_ASIDES_NUMBER,
+  COLUMNS_RESTS_NUMBER,
+  NEWS_ASIDES_NUMBER,
+  GALLERY_SLIDES_NUMBER,
+  GALLERY_RESTS_NUMBER,
+  NEWS_MAIN_NUMBER,
+  NEWS_SELECTED_ITEM_SELECTOR
+} from '@/utils/constants'
 
 export const articlesModule = {
   state: () => ({
@@ -24,30 +33,38 @@ export const articlesModule = {
       return state.columns.find((item) => item.tag === 'popular')
     },
     columnsAsideArticles(state) {
-      return state.columns.filter((item) => item.tag === 'aside').filter((i, index) => index < 3)
+      return state.columns
+        .filter((item) => item.tag === 'aside')
+        .filter((i, index) => index < COLUMNS_ASIDES_NUMBER)
     },
     columnsAdditionalArticle(state) {
       return state.columns.find((item) => item.tag === 'additional')
     },
     columnsRestArticles(state) {
-      return state.columns.filter((item) => !item.tag).filter((i, index) => index < 4)
+      return state.columns
+        .filter((item) => !item.tag)
+        .filter((i, index) => index < COLUMNS_RESTS_NUMBER)
     },
     separatorArticle(state) {
       return state.articles.find((article) => article.section === 'separator')
     },
     asideNews(state) {
-      return state.news.filter((item) => item.tag === 'aside').filter((i, index) => index < 7)
+      return state.news
+        .filter((item) => item.tag === 'aside')
+        .filter((i, index) => index < NEWS_ASIDES_NUMBER)
     },
     sliderItems(state) {
       return state.galleryArticles
         .filter((item) => item.tag === 'slider')
-        .filter((i, index) => index < 5)
+        .filter((i, index) => index < GALLERY_SLIDES_NUMBER)
     },
     mainGalleryArticle(state) {
       return state.galleryArticles.find((item) => item.tag === 'main')
     },
     restGalleryArticles(state) {
-      return state.galleryArticles.filter((item) => !item.tag).filter((i, index) => index < 2)
+      return state.galleryArticles
+        .filter((item) => !item.tag)
+        .filter((i, index) => index < GALLERY_RESTS_NUMBER)
     },
     testArticle(state, getters, rootState) {
       return state.testArticles.find((item) => item.id === rootState.content.id)
@@ -148,7 +165,7 @@ export const articlesModule = {
           data
             .filter((item) => item.section === 'news')
             .filter((item) => item.tag === 'main')
-            .filter((i, index) => index < 6)
+            .filter((i, index) => index < NEWS_MAIN_NUMBER)
         )
         context.commit(
           'setGalleryArticles',
@@ -163,7 +180,7 @@ export const articlesModule = {
       }
     },
     async clickFavorite(context, e) {
-      const element = e.target.closest('.news__list-item')
+      const element = e.target.closest(NEWS_SELECTED_ITEM_SELECTOR)
       try {
         await axios.patch(`https://7b3a9f14b0b4b7d5.mokky.dev/articles/${element.id}`, {
           isFavorite: element.getAttribute('isFavorite') !== 'true'

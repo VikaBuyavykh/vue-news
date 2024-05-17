@@ -1,4 +1,5 @@
 <script>
+import { COLOR_DARK } from '@/utils/constants'
 export default {
   props: {
     section: String
@@ -6,7 +7,7 @@ export default {
   data() {
     return {
       title: this.section === 'columns' ? 'Columns' : 'Recommended for you',
-      color: this.section === 'columns' ? 'white' : '#262d33'
+      color: this.section === 'columns' ? 'white' : COLOR_DARK
     }
   }
 }

@@ -1,4 +1,10 @@
 import axios from 'axios'
+import {
+  COMMENTS_INPUT_SELECTOR,
+  SELECTED_COMMENT_SELECTOR,
+  COMMENTS_TEXTAREA_SELECTOR,
+  COMMENTS_LIST_SELECTOR
+} from '@/utils/constants'
 
 export const contentModule = {
   state: () => ({
@@ -183,8 +189,8 @@ export const contentModule = {
             commit('setCurrentCommentsAmount', getters.comments.length)
             setTimeout(() => {
               document
-                .querySelector('.comments-block__item_last')
-                .scrollIntoView({ behavior: 'smooth', block: 'center' })
+                .querySelector(COMMENTS_LIST_SELECTOR)
+                .scrollIntoView({ behavior: 'smooth', block: 'end' })
             }, 0)
           }
         } catch (error) {
@@ -195,17 +201,17 @@ export const contentModule = {
     reply({ state, commit }, e) {
       commit(
         'setReplyIndex',
-        Number(e.currentTarget.closest('.comments-block__item').getAttribute('index')) + 1
+        Number(e.currentTarget.closest(SELECTED_COMMENT_SELECTOR).getAttribute('index')) + 1
       )
       commit('setCurrentCommentsAmount', state.replyIndex)
-      document.querySelector('#comment-text').focus()
+      document.querySelector(COMMENTS_INPUT_SELECTOR).focus()
       commit('setIsReply', true)
     },
     addComment({ commit }) {
       document
-        .querySelector('.comments-block__textarea')
+        .querySelector(COMMENTS_TEXTAREA_SELECTOR)
         .scrollIntoView({ behavior: 'smooth', block: 'center' })
-      document.querySelector('#comment-text').focus()
+      document.querySelector(COMMENTS_INPUT_SELECTOR).focus()
       commit('setIsReply', false)
       commit('setReplyIndex', null)
     },
@@ -236,7 +242,7 @@ export const contentModule = {
       }
     },
     react(context, { e, str }) {
-      const id = e.target.closest('.comments-block__item').getAttribute('id')
+      const id = e.target.closest(SELECTED_COMMENT_SELECTOR).getAttribute('id')
       context.commit('commentsReact', { id, str })
       context.dispatch('updateComments')
     }

@@ -1,28 +1,19 @@
 <script>
+import { mapActions, mapGetters, mapState } from 'vuex'
 export default {
-  props: {
-    gallery: Array
-  },
-  data() {
-    return {
-      slideIndex: 0
-    }
+  computed: {
+    ...mapState({
+      slideIndex: (state) => state.carousel.slideIndex
+    }),
+    ...mapGetters({
+      gallery: 'carousel/gallery'
+    })
   },
   methods: {
-    next() {
-      if (this.slideIndex === this.gallery.length - 1) {
-        this.slideIndex = 0
-      } else {
-        this.slideIndex++
-      }
-    },
-    prev() {
-      if (this.slideIndex === 0) {
-        this.slideIndex = this.gallery.length - 1
-      } else {
-        this.slideIndex--
-      }
-    }
+    ...mapActions({
+      prev: 'carousel/prev',
+      next: 'carousel/next'
+    })
   }
 }
 </script>

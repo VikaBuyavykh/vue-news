@@ -3,6 +3,7 @@ import { mapActions, mapMutations, mapState } from 'vuex'
 import NavBar from '@/components/NavBar.vue'
 import links from '@/utils/links'
 import Popup from '@/components/Popup.vue'
+import { POPUP_VISIBILITY_SCREEN_SIZE } from '@/utils/constants.js'
 export default {
   components: {
     NavBar,
@@ -40,7 +41,9 @@ export default {
       getWeather: 'header/getWeather'
     }),
     onSectionsClick() {
-      window.innerWidth <= 1000 ? this.changePopupVisibility() : this.changeSectionsVisibility()
+      window.innerWidth <= POPUP_VISIBILITY_SCREEN_SIZE
+        ? this.changePopupVisibility()
+        : this.changeSectionsVisibility()
     }
   },
   mounted() {

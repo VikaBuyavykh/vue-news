@@ -100,7 +100,7 @@ export default {
         :local-link="testArticle.author.localLink"
       ></card>
     </div>
-    <carousel v-if="testArticle.gallery" :gallery="testArticle.gallery"></carousel>
+    <carousel v-if="testArticle.gallery"></carousel>
     <div class="article__part">
       <div class="article__paragraphs">
         <paragraph

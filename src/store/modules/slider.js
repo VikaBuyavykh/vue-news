@@ -1,3 +1,5 @@
+import { GALLERY_SLIDER_SELECTOR } from '@/utils/constants'
+
 export const sliderModule = {
   state: () => ({
     currentSlideIndex: 0,
@@ -54,7 +56,7 @@ export const sliderModule = {
       }, 5000)
     },
     start(state, e) {
-      const element = e.currentTarget.closest('.gallery__slider-content')
+      const element = e.currentTarget.closest(GALLERY_SLIDER_SELECTOR)
       if (e.type === 'touchstart') {
         state.posInit = e.touches[0].clientX
       } else {
@@ -65,7 +67,7 @@ export const sliderModule = {
       element.style.transition = 'none'
     },
     move(state, e) {
-      const element = e.currentTarget.closest('.gallery__slider-content')
+      const element = e.currentTarget.closest(GALLERY_SLIDER_SELECTOR)
       if (state.isMousedown) {
         if (e.type === 'touchmove') {
           state.posX = state.posInit - e.touches[0].clientX
@@ -84,7 +86,7 @@ export const sliderModule = {
       }
     },
     end(state, e) {
-      const element = e.currentTarget.closest('.gallery__slider-content')
+      const element = e.currentTarget.closest(GALLERY_SLIDER_SELECTOR)
       if (state.isMousedown) {
         if (e.type === 'touchend') {
           state.posFinal = e.changedTouches[0].clientX

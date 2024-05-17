@@ -54,7 +54,7 @@ export default {
           Add comment
         </button>
       </div>
-      <TransitionGroup name="list" tag="ul">
+      <TransitionGroup name="list" tag="ul" class="comments-block__list">
         <li
           v-for="(item, index) in comments.filter((item, ind) => ind < currentCommentsAmount)"
           :key="item.id"

@@ -1,0 +1,14 @@
+export const POPUP_VISIBILITY_SCREEN_SIZE = 1000
+export const COLOR_DARK = '#262d33'
+export const COLUMNS_ASIDES_NUMBER = 3
+export const COLUMNS_RESTS_NUMBER = 4
+export const NEWS_MAIN_NUMBER = 6
+export const NEWS_ASIDES_NUMBER = 7
+export const NEWS_SELECTED_ITEM_SELECTOR = '.news__list-item'
+export const GALLERY_SLIDES_NUMBER = 5
+export const GALLERY_RESTS_NUMBER = 2
+export const GALLERY_SLIDER_SELECTOR = '.gallery__slider-content'
+export const COMMENTS_LIST_SELECTOR = '.comments-block__list'
+export const COMMENTS_INPUT_SELECTOR = '#comment-text'
+export const COMMENTS_TEXTAREA_SELECTOR = '.comments-block__textarea'
+export const SELECTED_COMMENT_SELECTOR = '.comments-block__item'

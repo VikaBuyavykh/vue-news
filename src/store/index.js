@@ -5,6 +5,7 @@ import { headerModule } from '@/store/modules/header'
 import { footerModule } from '@/store/modules/footer'
 import { contentModule } from '@/store/modules/content'
 import { userModule } from '@/store/modules/user'
+import { carouselModule } from '@/store/modules/carousel'
 
 export default createStore({
   modules: {
@@ -13,6 +14,7 @@ export default createStore({
     header: headerModule,
     footer: footerModule,
     content: contentModule,
-    user: userModule
+    user: userModule,
+    carousel: carouselModule
   }
 })
