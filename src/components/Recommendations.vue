@@ -63,7 +63,7 @@ export default {
               style="margin-top: 0"
               @click="() => router.push(selectedRecommendation.link)"
               class="more-btn"
-              >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
+              >Read more <img src="/arrow.svg" alt="Icon of arrow"
             /></app-button>
             <div v-if="selectedRecommendation.video" class="recommendations__video-btn-group">
               <a

@@ -21,7 +21,7 @@ export default {
       :id="button.id"
       :key="button.id"
       :class="{
-        'btns-list__item_active': button.isSelected,
+        'btns-list__active-item': button.isSelected,
         'btns-list__item': !button.isSelected
       }"
       style="cursor: pointer"
@@ -52,26 +52,26 @@ export default {
     @include size(8px, 8px);
     border-radius: 50%;
     background-color: rgba(white, 0.4);
+  }
 
-    &_active {
-      @include size(20px, 20px);
-      position: relative;
-      @include flex(row, center, center, 0px);
+  &__active-item {
+    @include size(20px, 20px);
+    position: relative;
+    @include flex(row, center, center, 0px);
 
-      &::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border-radius: 50%;
-        background: conic-gradient(white 230deg, rgba(white, 0.4) 230deg);
-        mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff 0);
-      }
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(white 230deg, rgba(white, 0.4) 230deg);
+      mask: radial-gradient(farthest-side, transparent calc(100% - 2px), #fff 0);
+    }
 
-      .btns-list__active-item-inside {
-        @include size(8px, 8px);
-        border-radius: 50%;
-        background-color: white;
-      }
+    &-inside {
+      @include size(8px, 8px);
+      border-radius: 50%;
+      background-color: white;
     }
   }
 }

@@ -30,6 +30,7 @@ export default {
   position: fixed;
   inset: 0;
   z-index: 3;
+  cursor: pointer;
 
   &__content {
     background-color: $bg-color-halfdark;
@@ -37,6 +38,7 @@ export default {
     padding: 50px;
     overflow-y: scroll;
     position: relative;
+    cursor: default;
 
     @include media_lg {
       width: 30%;

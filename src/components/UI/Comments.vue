@@ -72,6 +72,7 @@ export default {
 
   &__img {
     @include size(15px, 15px);
+    cursor: pointer;
 
     &_dislike {
       transform: rotate(180deg);

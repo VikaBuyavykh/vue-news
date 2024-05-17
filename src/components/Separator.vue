@@ -23,7 +23,7 @@ export default {
   <article v-if="separator" class="separator" :style="{ backgroundImage: `url(${separator.img})` }">
     <h2 class="separator__title">{{ separator.title }}</h2>
     <app-button @click="() => router.push(separator.link)" class="more-btn"
-      >Read more <img class="gallery__btn-img" src="/arrow.svg" alt="Icon of arrow"
+      >Read more <img src="/arrow.svg" alt="Icon of arrow"
     /></app-button>
   </article>
 </template>

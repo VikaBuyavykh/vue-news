@@ -142,12 +142,14 @@ export default {
         </div>
       </div>
     </div>
-    <Transition>
+    <Transition name="nav">
       <nav-bar v-if="isSectionsVisible" :links="links" place="header"></nav-bar>
     </Transition>
-    <popup :changePopupVisibility="changePopupVisibility" v-if="isPopupVisible">
-      <nav-bar :links="links" place="header-popup"></nav-bar>
-    </popup>
+    <Transition name="fade">
+      <popup :changePopupVisibility="changePopupVisibility" v-if="isPopupVisible">
+        <nav-bar :links="links" place="header-popup"></nav-bar>
+      </popup>
+    </Transition>
   </header>
 </template>
 
@@ -156,21 +158,43 @@ export default {
 @import '@/assets/styles/variables.scss';
 @import '@/assets/styles/mixins.scss';
 
-.v-enter-active {
+.nav-enter-active {
   transition: all 1s ease-out;
 }
-.v-leave-active {
-  transition: all 0.15s cubic-bezier(1, 0.5, 0.8, 1);
+.nav-leave-active {
+  transition: all 0.2s ease-in;
 }
-.v-enter-from {
+.nav-enter-from {
   height: 0;
   transform: translateX(-50%);
   opacity: 0;
 }
-.v-leave-to {
+.nav-leave-to {
   height: 0;
   transform: translateX(50%);
   opacity: 0;
+}
+
+.fade-enter-active {
+  animation: 0.6s fade forwards ease-in-out;
+}
+
+.fade-leave-active {
+  animation: 0.5s fade reverse ease;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .header {
